@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import { ISite, IListInfo, IColumnInfo, IDocument } from '../models';
 import { ISiteListService } from './ISiteListService';

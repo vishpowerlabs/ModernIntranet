@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import * as React from 'react';
 import { Pivot, PivotItem } from '@fluentui/react/lib/Pivot';
 

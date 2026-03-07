@@ -23,7 +23,7 @@
             "description": {
                 "default": "A filtered document viewer with category navigation and search"
             },
-            "iconImageUrl": "../../assets/document-viewer-icon.png",
+            "iconImageUrl": "../../assets/document-viewer-custom.png",
             "properties": {
                 "pageSize": 10,
                 "webPartTitle": "Documents",

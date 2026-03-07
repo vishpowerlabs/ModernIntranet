@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export interface IModernDocumentViewerProps {

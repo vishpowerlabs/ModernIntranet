@@ -23,7 +23,7 @@
             "description": {
                 "default": "Card grid with banner image, clickable title, and description"
             },
-            "iconImageUrl": "../../assets/highlights-icon.png",
+            "iconImageUrl": "../../assets/highlights-custom.png",
             "properties": {
                 "maxItems": 6,
                 "columns": 3,

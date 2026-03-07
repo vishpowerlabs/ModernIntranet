@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import * as React from 'react';
 import { Icon } from '@fluentui/react/lib/Icon';
 import styles from './EmptyState.module.scss';

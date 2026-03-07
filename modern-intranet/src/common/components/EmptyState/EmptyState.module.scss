@@ -9,8 +9,16 @@
 
     .icon {
         font-size: 48px;
-        margin-bottom: 16px;
-        color: var(--neutralTertiary);
+        margin-bottom: 20px;
+        color: var(--themePrimary);
+        background: var(--themeLighterAlt);
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        opacity: 0.8;
     }
 
     .message {

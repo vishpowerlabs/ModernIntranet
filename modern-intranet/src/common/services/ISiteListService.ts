@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import { ISite, IListInfo, IColumnInfo, IDocument } from '../models';
 
 export interface ISiteListService {

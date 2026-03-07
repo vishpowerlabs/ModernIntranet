@@ -21,7 +21,7 @@
             "description": {
                 "default": "Full-width image carousel with auto-rotate"
             },
-            "iconImageUrl": "../../assets/banner-slider-icon.png",
+            "iconImageUrl": "../../assets/banner-slider-custom.png",
             "properties": {
                 "siteUrl": "",
                 "listId": "",

@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import * as React from 'react';
 import { Card } from '../../../common/components/Card/Card';
 import styles from './Highlights.module.scss';

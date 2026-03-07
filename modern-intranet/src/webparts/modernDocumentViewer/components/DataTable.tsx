@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import * as React from 'react';
 import { DetailsList, DetailsListLayoutMode, SelectionMode, IColumn } from '@fluentui/react/lib/DetailsList';
 import { Icon } from '@fluentui/react/lib/Icon';
@@ -18,7 +23,7 @@ const renderPinned = (item: IDocument): JSX.Element | null => {
                 style={{
                     color: 'var(--themePrimary)',
                     fontSize: 14,
-                    fontWeight: 'bold',
+                    fontWeight: 600,
                     display: 'flex',
                     alignItems: 'center',
                     height: '100%'
@@ -29,7 +34,12 @@ const renderPinned = (item: IDocument): JSX.Element | null => {
     return null;
 };
 
-const renderFileType = (): JSX.Element => <Icon iconName="Document" />;
+const renderFileType = (): JSX.Element => (
+    <Icon
+        iconName="Document"
+        style={{ color: 'var(--themePrimary)', fontSize: 16 }}
+    />
+);
 
 const renderTitle = (item: IDocument): JSX.Element => (
     <a
@@ -195,13 +205,19 @@ export const DataTable: React.FunctionComponent<IDataTableProps> = (props) => {
             {pageCount > 1 && (
                 <div className={styles.pagination}>
                     <IconButton
-                        iconProps={{ iconName: 'ChevronLeft' }}
+                        iconProps={{
+                            iconName: 'ChevronLeft',
+                            style: { color: 'var(--themePrimary)' }
+                        }}
                         disabled={currentPage === 1}
                         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     />
                     <span>Page {currentPage} of {pageCount}</span>
                     <IconButton
-                        iconProps={{ iconName: 'ChevronRight' }}
+                        iconProps={{
+                            iconName: 'ChevronRight',
+                            style: { color: 'var(--themePrimary)' }
+                        }}
                         disabled={currentPage === pageCount}
                         onClick={() => setCurrentPage(prev => Math.min(prev + 1, pageCount))}
                     />

@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import { MSGraphClientV3 } from '@microsoft/sp-http';
 import { IGraphService } from './IGraphService';
 import { WebPartContext } from '@microsoft/sp-webpart-base';

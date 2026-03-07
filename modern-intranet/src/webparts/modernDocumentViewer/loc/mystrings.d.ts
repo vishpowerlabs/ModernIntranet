@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 declare interface IModernDocumentViewerWebPartStrings {
     PropertyPaneDescription: string;
     BasicGroupName: string;

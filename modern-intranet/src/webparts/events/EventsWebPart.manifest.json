@@ -24,7 +24,7 @@
       "description": {
         "default": "Horizontal scrollable strip of upcoming events"
       },
-      "iconImageUrl": "../../assets/events-icon.png",
+      "iconImageUrl": "../../assets/events-custom.png",
       "properties": {
         "maxItems": 4,
         "showViewAll": true,

@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import * as React from 'react';
 import styles from './Events.module.scss';
 import { Icon } from '@fluentui/react/lib/Icon';
@@ -19,8 +24,8 @@ export const EventCard: React.FC<IEventCardProps> = ({ title, date, imageUrl, lo
   const cardStyle = imageUrl ? { backgroundImage: `url('${imageUrl}')` } : {};
 
   return (
-    <a 
-      href={linkUrl || '#'} 
+    <a
+      href={linkUrl || '#'}
       className={styles.eventCard}
       target={linkUrl ? "_blank" : "_self"}
       rel="noopener noreferrer"

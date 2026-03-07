@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import * as React from 'react';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import { IQuickLinksProps } from './IQuickLinksProps';

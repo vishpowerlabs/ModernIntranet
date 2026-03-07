@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 declare interface IBannerSliderWebPartStrings {
     PropertyPaneDescription: string;
     DataSourceGroupName: string;

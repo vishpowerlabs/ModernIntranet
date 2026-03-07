@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 const avatarColors = [
     '#FFB900', '#FF8C00', '#F7630C', '#CA5010', '#DA3B01', '#EF6950', '#D13438', '#FF4343',
     '#E81123', '#EA4300', '#C239B3', '#E3008C', '#BF0077', '#C239B3', '#9A0089', '#0078D7',

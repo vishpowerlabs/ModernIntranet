@@ -21,7 +21,7 @@
             "description": {
                 "default": "Grid of shortcut tiles with icons and labels"
             },
-            "iconImageUrl": "../../assets/quick-links-icon.png",
+            "iconImageUrl": "../../assets/quick-links-custom.png",
             "properties": {
                 "siteUrl": "",
                 "listId": "",

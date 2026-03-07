@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 declare interface IEventsWebPartStrings {
   PropertyPaneDescription: string;
   DataSourceGroupName: string;

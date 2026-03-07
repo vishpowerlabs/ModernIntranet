@@ -1,3 +1,8 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
@@ -72,7 +77,7 @@ export const Events: React.FC<IEventsProps> = (props) => {
       try {
         setLoading(true);
         const today = new Date().toISOString();
-        
+
         // Select logic
         const selectCols = [
           props.titleColumn,
