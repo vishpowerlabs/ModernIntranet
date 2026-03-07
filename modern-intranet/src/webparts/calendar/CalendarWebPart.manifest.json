@@ -1,0 +1,39 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+    "id": "e3e8d1a1-3b4c-4d5e-8f9a-2c1b3d4e5f6a",
+    "version": "*",
+    "manifestVersion": 2,
+    "alias": "ModernCalendarWebPart",
+    "componentType": "WebPart",
+    "supportedHosts": [
+        "SharePointWebPart",
+        "TeamsPersonalApp",
+        "TeamsTab"
+    ],
+    "supportsFullBleed": true,
+    "preconfiguredEntries": [
+        {
+            "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+            "group": {
+                "default": "Modern Intranet"
+            },
+            "title": {
+                "default": "Modern - Calendar"
+            },
+            "description": {
+                "default": "Full-featured calendar with Day, Week, Month, and Year views"
+            },
+            "iconImageUrl": "../../assets/calendar-custom.png",
+            "properties": {
+                "source": "spList",
+                "siteUrl": "",
+                "listId": "",
+                "titleColumn": "Title",
+                "dateColumn": "CalEventDate",
+                "endDateColumn": "CalEndDate",
+                "locationColumn": "CalLocation",
+                "defaultView": "month"
+            }
+        }
+    ]
+}

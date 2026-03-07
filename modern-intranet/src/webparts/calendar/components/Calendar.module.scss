@@ -1,0 +1,570 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
+.calendar {
+    background-color: var(--white);
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    font-family: inherit;
+    color: var(--neutralPrimary);
+
+    .webpartHeader {
+        margin-bottom: 16px;
+        text-align: left;
+
+        .titleContainer {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+
+            h2 {
+                margin: 0;
+                padding: 0;
+                font-size: 18px;
+                font-weight: 700;
+                color: var(--neutralPrimary);
+            }
+
+            .backgroundBar {
+                height: 4px;
+                width: 100%;
+                background: var(--themePrimary);
+                margin-top: 4px;
+                border-radius: 2px;
+            }
+        }
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 12px;
+
+        .headerLeft {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .contextLabel {
+                font-size: 18px;
+                font-weight: 600;
+                margin-left: 8px;
+                color: var(--neutralPrimary);
+            }
+        }
+
+        .headerCenter {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .headerRight {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .viewSegmentedButton {
+            display: flex;
+            background: var(--white);
+            border-radius: 20px;
+            border: 1px solid var(--neutralLight);
+            overflow: hidden;
+
+            .viewBtn {
+                padding: 6px 16px;
+                border: none;
+                background: transparent;
+                cursor: pointer;
+                font-size: 13px;
+                color: var(--neutralSecondary);
+                transition: all 0.2s ease;
+
+                &:not(:last-child) {
+                    border-right: 1px solid var(--neutralLight);
+                }
+
+                &.active {
+                    background-color: var(--themePrimary);
+                    color: var(--white);
+                }
+
+                &:hover:not(.active) {
+                    background-color: var(--neutralLighter);
+                }
+            }
+        }
+    }
+
+    .viewBody {
+        min-height: 400px;
+        position: relative;
+        border: 1px solid var(--neutralLight);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+}
+
+// Month View Styles
+.monthView {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .monthHeader {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        background-color: var(--neutralLighter);
+        border-bottom: 1px solid var(--neutralLight);
+
+        .dayHeader {
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--neutralSecondary);
+        }
+    }
+
+    .monthGrid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-auto-rows: minmax(100px, 1fr);
+
+        .monthCell {
+            border-right: 1px solid var(--neutralLighter);
+            border-bottom: 1px solid var(--neutralLighter);
+            padding: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            &:nth-child(7n) {
+                border-right: none;
+            }
+
+            &.otherMonth {
+                background-color: #fafafa;
+
+                .dayNumber {
+                    color: var(--neutralTertiary);
+                }
+            }
+
+            .cellHeader {
+                display: flex;
+                justify-content: flex-start;
+
+                .dayNumber {
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 13px;
+                    border-radius: 50%;
+
+                    &.today {
+                        background-color: var(--themePrimary);
+                        color: var(--white);
+                        font-weight: 600;
+                    }
+                }
+            }
+
+            .cellEvents {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+
+                .eventPill {
+                    font-size: 11px;
+                    padding: 2px 6px;
+                    background-color: var(--themeLighterAlt);
+                    color: var(--themeDark);
+                    border-radius: 3px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: var(--themeLighter);
+                    }
+                }
+
+                .moreLink {
+                    font-size: 11px;
+                    color: var(--themePrimary);
+                    font-weight: 600;
+                    cursor: pointer;
+                    margin-top: 2px;
+                }
+            }
+        }
+    }
+}
+
+// Week View Styles
+.weekView {
+    height: 100%;
+
+    .weekGrid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        min-height: 500px;
+
+        .weekDayCol {
+            border-right: 1px solid var(--neutralLighter);
+            display: flex;
+            flex-direction: column;
+
+            &:last-child {
+                border-right: none;
+            }
+
+            .dayHeader {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 12px 8px;
+                background-color: var(--neutralLighterAlt);
+                border-bottom: 1px solid var(--neutralLighter);
+
+                &.today {
+                    color: var(--themePrimary);
+
+                    .dayNum {
+                        font-weight: 700;
+                    }
+                }
+
+                .dayName {
+                    font-size: 11px;
+                    text-transform: uppercase;
+                    color: var(--neutralSecondary);
+                    font-weight: 600;
+                }
+
+                .dayNum {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin-top: 2px;
+                }
+            }
+
+            .dayEvents {
+                padding: 8px;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+
+                .eventCard {
+                    background-color: var(--white);
+                    border-left: 3px solid var(--themePrimary);
+                    padding: 6px 8px;
+                    border-radius: 4px;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                    font-size: 11px;
+
+                    .eventTime {
+                        font-weight: 700;
+                        margin-bottom: 2px;
+                    }
+
+                    .eventTitle {
+                        color: var(--neutralPrimary);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Day View Styles
+.dayView {
+    height: 600px;
+    overflow-y: auto;
+    position: relative;
+
+    .timeline {
+        position: relative;
+        padding-left: 60px;
+
+        .timeSlot {
+            height: 60px;
+            border-bottom: 1px solid var(--neutralLighter);
+            display: flex;
+
+            .timeLabel {
+                position: absolute;
+                left: 0;
+                width: 50px;
+                text-align: right;
+                font-size: 11px;
+                color: var(--neutralSecondary);
+                margin-top: -8px;
+            }
+
+            .slotContent {
+                flex: 1;
+            }
+        }
+
+        .eventsOverlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 60px;
+            bottom: 0;
+
+            .absoluteEvent {
+                position: absolute;
+                left: 4px;
+                right: 4px;
+                background-color: var(--themeLighterAlt);
+                border-left: 4px solid var(--themePrimary);
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+
+                .loc {
+                    font-size: 10px;
+                    color: var(--neutralSecondary);
+                    margin-top: 2px;
+                }
+            }
+        }
+    }
+}
+
+// Year View Styles
+.yearView {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 10px;
+
+    .miniMonth {
+        border: 1px solid var(--neutralLighter);
+        border-radius: 4px;
+        padding: 10px;
+
+        .miniMonthName {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--neutralPrimary);
+        }
+
+        .miniMonthGrid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+
+            .miniDayHeader {
+                font-size: 9px;
+                text-align: center;
+                color: var(--neutralSecondary);
+                font-weight: 600;
+                margin-bottom: 4px;
+            }
+
+            .miniDay {
+                font-size: 11px;
+                text-align: center;
+                padding: 4px 0;
+                border-radius: 2px;
+
+                &.miniOtherMonth {
+                    color: var(--neutralTertiary);
+                }
+
+                &.hasEvents {
+                    background-color: var(--themeLighterAlt);
+                    font-weight: 700;
+                    color: var(--themePrimary);
+                }
+
+                &.today {
+                    background-color: var(--themePrimary);
+                    color: var(--white);
+                }
+            }
+        }
+    }
+}
+
+// Popup styles
+.eventPopup {
+    position: absolute;
+    z-index: 1000;
+    background-color: var(--white);
+    border: 1px solid var(--neutralLight);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    min-width: 250px;
+    max-width: 350px;
+
+    .popupHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+
+        .popupTitle {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--neutralPrimary);
+            flex: 1;
+        }
+
+        .closeIcon {
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--neutralSecondary);
+            padding: 4px;
+
+            &:hover {
+                color: var(--neutralPrimary);
+                background-color: var(--neutralLighter);
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .popupTime,
+    .popupLocation {
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        color: var(--neutralSecondary);
+
+        i {
+            color: var(--themePrimary);
+        }
+    }
+}
+
+// Year Timeline (Gantt-like)
+.yearTimelineContainer {
+    padding: 10px;
+    background: var(--white);
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.yearTimeline {
+    min-width: 800px;
+    border: 1px solid var(--neutralLight);
+    border-radius: 4px;
+
+    .timelineHeader {
+        display: flex;
+        background-color: var(--neutralLighter);
+        border-bottom: 1px solid var(--neutralLight);
+        font-weight: 600;
+        font-size: 12px;
+
+        .monthCol {
+            width: 80px;
+            padding: 10px;
+            border-right: 1px solid var(--neutralLight);
+            color: var(--neutralSecondary);
+        }
+
+        .daysContainer {
+            display: grid;
+            grid-template-columns: repeat(31, 1fr);
+            flex: 1;
+
+            .dayHead {
+                padding: 10px 2px;
+                text-align: center;
+                border-right: 1px solid var(--neutralLighter);
+                color: var(--neutralSecondary);
+                font-size: 10px;
+
+                &:last-child {
+                    border-right: none;
+                }
+            }
+        }
+    }
+
+    .monthRow {
+        display: flex;
+        border-bottom: 1px solid var(--neutralLighter);
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        .monthName {
+            width: 80px;
+            padding: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            border-right: 1px solid var(--neutralLight);
+            background-color: #fafafa;
+        }
+
+        .daysContainer {
+            display: grid;
+            grid-template-columns: repeat(31, 1fr);
+            flex: 1;
+
+            .dayCell {
+                height: 40px;
+                border-right: 1px solid var(--neutralLighter);
+                position: relative;
+                transition: background 0.2s;
+
+                &:last-child {
+                    border-right: none;
+                }
+
+                &:hover {
+                    background-color: #f3f2f1;
+                }
+
+                &.invalidDay {
+                    background-color: #f8f8f8;
+                    cursor: not-allowed;
+                }
+
+                &.hasEvents {
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 8px;
+                        height: 8px;
+                        background-color: var(--themePrimary);
+                        border-radius: 50%;
+                        box-shadow: 0 0 4px var(--themeLighter);
+                    }
+                }
+
+                &.today {
+                    background-color: var(--themeLighterAlt);
+                }
+            }
+        }
+    }
+}

@@ -41,6 +41,14 @@
           "manifest": "./src/webparts/modernDocumentViewer/ModernDocumentViewerWebPart.manifest.json"
         }
       ]
+    },
+    "calendar-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/calendar/CalendarWebPart.js",
+          "manifest": "./src/webparts/calendar/CalendarWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -49,6 +57,7 @@
     "QuickLinksWebPartStrings": "lib/webparts/quickLinks/loc/{locale}.js",
     "HighlightsWebPartStrings": "lib/webparts/highlights/loc/{locale}.js",
     "EventsWebPartStrings": "lib/webparts/events/loc/{locale}.js",
-    "ModernDocumentViewerWebPartStrings": "lib/webparts/modernDocumentViewer/loc/{locale}.js"
+    "ModernDocumentViewerWebPartStrings": "lib/webparts/modernDocumentViewer/loc/{locale}.js",
+    "CalendarWebPartStrings": "lib/webparts/calendar/loc/{locale}.js"
   }
 }

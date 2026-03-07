@@ -215,15 +215,16 @@ function Add-LookupField {
 function Create-ListIfNotExists {
     param(
         [string]$ListName,
-        [string]$Description
+        [string]$Description,
+        [string]$Template = "GenericList"
     )
     $existingList = Get-PnPList -Identity $ListName -ErrorAction SilentlyContinue
     if ($existingList) {
         Write-Host "  List '$ListName' already exists. Skipping creation." -ForegroundColor Yellow
         return $false
     }
-    New-PnPList -Title $ListName -Template GenericList -Url "Lists/$($ListName -replace ' ','')" | Out-Null
-    Write-Host "  Created list: $ListName" -ForegroundColor Green
+    New-PnPList -Title $ListName -Template $Template -Url "Lists/$($ListName -replace ' ','')" | Out-Null
+    Write-Host "  Created list: $ListName (Template: $Template)" -ForegroundColor Green
     return $true
 }
 
@@ -327,16 +328,22 @@ function Create-RecentDocumentsLibrary {
 function Create-CalendarList {
     param([string]$ListName)
     Write-Host ""
-    Write-Host "Creating Calendar list..." -ForegroundColor Cyan
-    Write-Host "Note: This creates a regular list. The Calendar web part can also use Graph API for Outlook calendar." -ForegroundColor Yellow
-    $created = Create-ListIfNotExists -ListName $ListName -Description "Calendar events for intranet (SP List mode)"
+    Write-Host "Creating Modern Calendar list (Events Template)..." -ForegroundColor Cyan
+    Write-Host "Note: This creates a standard SharePoint Calendar list (Template 106)." -ForegroundColor Yellow
+    $created = Create-ListIfNotExists -ListName $ListName -Description "Calendar events for intranet" -Template "Events"
     if (-not $created) { return }
 
-    Write-Host "    + Title (Text) — default column (event name)" -ForegroundColor Gray
-    Add-DateTimeField  -ListName $ListName -DisplayName "Event Date"   -InternalName "CalEventDate" -Required
-    Add-TextField      -ListName $ListName -DisplayName "Location"     -InternalName "CalLocation"
+    # Built-in Calendar columns:
+    # Title (Event Name)
+    # EventDate (Start Time)
+    # EndDate (End Time)
+    # Location (Text)
+    Write-Host "    + Title (Text) — built-in" -ForegroundColor Gray
+    Write-Host "    + EventDate (Start Time) — built-in" -ForegroundColor Gray
+    Write-Host "    + EndDate (End Time) — built-in" -ForegroundColor Gray
+    Write-Host "    + Location (Text) — built-in" -ForegroundColor Gray
 
-    Write-Host "  Done! Calendar list created with 3 columns." -ForegroundColor Green
+    Write-Host "  Done! Modern Calendar list created (Standard Template)." -ForegroundColor Green
 }
 
 function Create-EmployeeDirectoryList {
@@ -438,7 +445,7 @@ function Show-Menu {
     Write-Host "   4.  Events                 (1 list: events with date, image, location)" -ForegroundColor White
     Write-Host "   5.  Upcoming Meeting       (1 list: meetings with date, link, organizer)" -ForegroundColor White
     Write-Host "   6.  Recent Documents       (no list needed — uses existing doc library)" -ForegroundColor DarkGray
-    Write-Host "   7.  Calendar               (1 list: calendar events with date, location)" -ForegroundColor White
+    Write-Host "   7.  Modern Calendar        (1 list: events with start/end date, location)" -ForegroundColor White
     Write-Host "   8.  Employee Directory     (1 list: employees with dept, email, phone)" -ForegroundColor White
     Write-Host "   9.  Poll                   (2 lists: polls + votes)" -ForegroundColor White
     Write-Host "  10.  Shoutouts              (2 lists: shoutouts + likes)" -ForegroundColor White
@@ -481,7 +488,7 @@ function Run-Selection {
             Create-RecentDocumentsLibrary -ListName ""
         }
         7 {
-            $name = Read-Host "Enter list name for Calendar (default: CalendarEvents)"
+            $name = Read-Host "Enter list name for Modern Calendar (default: CalendarEvents)"
             if ([string]::IsNullOrWhiteSpace($name)) { $name = "CalendarEvents" }
             Create-CalendarList -ListName $name
         }
@@ -532,7 +539,7 @@ function Run-Selection {
 
             Create-RecentDocumentsLibrary -ListName ""
 
-            $n7 = Read-Host "Calendar list name (default: CalendarEvents)"
+            $n7 = Read-Host "Modern Calendar list name (default: CalendarEvents)"
             if ([string]::IsNullOrWhiteSpace($n7)) { $n7 = "CalendarEvents" }
             Create-CalendarList -ListName $n7
 

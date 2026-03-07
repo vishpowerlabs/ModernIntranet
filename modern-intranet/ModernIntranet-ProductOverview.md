@@ -115,6 +115,20 @@ The Modern Intranet Kit is fully compatible with **SharePoint Content Security P
 - **Zero External Dependencies**: By keeping all assets within the SharePoint trusted zone, the solution inherently adheres to strict CSP policies without requiring additional domain whitelisting.
 - **Data Privacy**: All data fetching is performed via the native `spHttpClient`, ensuring that authentication and data transit remain securely within the user's SharePoint context.
 
+### 6. Modern - Calendar
+*A unified hub for managing your organizational schedule.*
+- **Description**: A feature-rich calendar with support for Day, Week, Month, and Year views. Optimized for standard SharePoint Calendar lists.
+- **Key Features**:
+    - **Multi-View Navigation**: Seamlessly switch between micro-level daily timelines and high-level yearly overviews.
+    - **Native List Integration**: Built-in support for standard SharePoint Events (Template 106).
+    - **Live Timeline**: Real-time "current time" indicator in Day and Week views.
+    - **Contextual Headers**: Smart date labels (e.g., "March 2026", "Week of Mar 3") based on active view.
+    - **Smart Popups**: Clean, theme-aware popups for viewing event details without leaving the page.
+- **Configuration Properties**:
+    - **Data Source**: `siteUrl` & `listId`.
+    - **Schema Mapping**: `titleColumn`, `dateColumn` (Start), `endDateColumn`, and `locationColumn`.
+    - **Display & Branding**: `defaultView`, `showTitle`, `title` (Web Part Title), and `showBackgroundBar`.
+
 ---
 
 > [!NOTE]
