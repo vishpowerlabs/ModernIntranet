@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "banner-slider-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/bannerSlider/BannerSliderWebPart.js",
+          "manifest": "./src/webparts/bannerSlider/BannerSliderWebPart.manifest.json"
+        }
+      ]
+    },
+    "quick-links-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/quickLinks/QuickLinksWebPart.js",
+          "manifest": "./src/webparts/quickLinks/QuickLinksWebPart.manifest.json"
+        }
+      ]
+    },
+    "highlights-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/highlights/HighlightsWebPart.js",
+          "manifest": "./src/webparts/highlights/HighlightsWebPart.manifest.json"
+        }
+      ]
+    },
+    "events-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/events/EventsWebPart.js",
+          "manifest": "./src/webparts/events/EventsWebPart.manifest.json"
+        }
+      ]
+    },
+    "modern-document-viewer-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/modernDocumentViewer/ModernDocumentViewerWebPart.js",
+          "manifest": "./src/webparts/modernDocumentViewer/ModernDocumentViewerWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "BannerSliderWebPartStrings": "lib/webparts/bannerSlider/loc/{locale}.js",
+    "QuickLinksWebPartStrings": "lib/webparts/quickLinks/loc/{locale}.js",
+    "HighlightsWebPartStrings": "lib/webparts/highlights/loc/{locale}.js",
+    "EventsWebPartStrings": "lib/webparts/events/loc/{locale}.js",
+    "ModernDocumentViewerWebPartStrings": "lib/webparts/modernDocumentViewer/loc/{locale}.js"
+  }
+}

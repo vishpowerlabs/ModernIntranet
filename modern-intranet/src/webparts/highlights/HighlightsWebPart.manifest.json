@@ -1,0 +1,35 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+    "version": "*",
+    "manifestVersion": 2,
+    "id": "7d9b9e3a-8b2c-4f1a-9a3d-2e1b8c7d6e5f",
+    "alias": "HighlightsWebPart",
+    "componentType": "WebPart",
+    "supportedHosts": [
+        "SharePointWebPart",
+        "TeamsPersonalApp",
+        "TeamsTab"
+    ],
+    "supportsFullBleed": true,
+    "preconfiguredEntries": [
+        {
+            "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+            "group": {
+                "default": "Modern Intranet"
+            },
+            "title": {
+                "default": "Modern - Highlights"
+            },
+            "description": {
+                "default": "Card grid with banner image, clickable title, and description"
+            },
+            "iconImageUrl": "../../assets/highlights-icon.png",
+            "properties": {
+                "maxItems": 6,
+                "columns": 3,
+                "showTitle": true,
+                "title": "Highlights"
+            }
+        }
+    ]
+}

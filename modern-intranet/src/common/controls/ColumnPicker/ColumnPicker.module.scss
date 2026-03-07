@@ -1,0 +1,9 @@
+.columnPicker {
+    margin-bottom: 16px;
+
+    :global(.ms-Dropdown-title),
+    :global(.ms-Dropdown-caretDownWrapper) {
+        color: var(--neutralPrimary);
+        background-color: var(--white);
+    }
+}

@@ -1,0 +1,22 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "whichFolder": "subdir",
+    "solutionName": "modern-intranet",
+    "environment": "spo",
+    "packageManager": "npm",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "useGulp": false,
+    "componentType": "webpart",
+    "template": "react",
+    "componentName": "Dummy",
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "20.12.2",
+    "sdksVersions": {},
+    "version": "1.22.0",
+    "libraryName": "modern-intranet",
+    "libraryId": "8b2133b1-8e36-4b51-888d-c4db0053776f",
+    "solutionShortDescription": "modern-intranet description"
+  }
+}

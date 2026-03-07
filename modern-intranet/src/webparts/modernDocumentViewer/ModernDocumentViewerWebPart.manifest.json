@@ -1,0 +1,35 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+    "version": "*",
+    "manifestVersion": 2,
+    "id": "a9d7c4e5-8f2e-4b1a-9c2d-3f1b8c7d6e5a",
+    "alias": "ModernDocumentViewerWebPart",
+    "componentType": "WebPart",
+    "supportedHosts": [
+        "SharePointWebPart",
+        "TeamsPersonalApp",
+        "TeamsTab"
+    ],
+    "supportsFullBleed": true,
+    "preconfiguredEntries": [
+        {
+            "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+            "group": {
+                "default": "Modern Intranet"
+            },
+            "title": {
+                "default": "Modern - Document Viewer"
+            },
+            "description": {
+                "default": "A filtered document viewer with category navigation and search"
+            },
+            "iconImageUrl": "../../assets/document-viewer-icon.png",
+            "properties": {
+                "pageSize": 10,
+                "webPartTitle": "Documents",
+                "webPartTitleFontSize": "18px",
+                "headerOpacity": 1
+            }
+        }
+    ]
+}

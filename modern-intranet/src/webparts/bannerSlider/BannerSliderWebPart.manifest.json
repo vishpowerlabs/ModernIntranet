@@ -1,0 +1,39 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+    "id": "e96f1311-bba2-4a7b-aafa-8f6df7187123",
+    "alias": "BannerSliderWebPart",
+    "componentType": "WebPart",
+    "version": "*",
+    "manifestVersion": 2,
+    "requiresCustomScript": false,
+    "supportedHosts": [
+        "SharePointWebPart"
+    ],
+    "preconfiguredEntries": [
+        {
+            "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+            "group": {
+                "default": "Modern Intranet"
+            },
+            "title": {
+                "default": "Modern - BannerSlider"
+            },
+            "description": {
+                "default": "Full-width image carousel with auto-rotate"
+            },
+            "iconImageUrl": "../../assets/banner-slider-icon.png",
+            "properties": {
+                "siteUrl": "",
+                "listId": "",
+                "titleColumn": "",
+                "descriptionColumn": "",
+                "imageColumn": "",
+                "activeColumn": "",
+                "buttonTextColumn": "",
+                "pageLinkColumn": "",
+                "autoRotateInterval": 5,
+                "showCta": true
+            }
+        }
+    ]
+}

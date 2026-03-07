@@ -1,0 +1,116 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+
+.highlightsContainer {
+    .webpartHeader {
+        margin-bottom: 24px;
+
+        .titleContainer {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+
+            h2 {
+                margin: 0;
+                padding: 0;
+                font-size: 18px; // Matching other web parts
+                font-weight: 700;
+                color: var(--neutralPrimary);
+            }
+
+            .backgroundBar {
+                height: 4px;
+                width: 100%;
+                background: var(--themePrimary);
+                margin-top: 4px;
+                border-radius: 2px;
+            }
+        }
+    }
+
+    .highlightsGrid {
+        display: grid;
+        gap: 18px;
+
+        &.cols2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        &.cols3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+}
+
+// Reuse card styles from mock or shared components
+.highlightCard {
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    transition: all 0.25s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        transform: translateY(-3px);
+    }
+
+    .bannerImage {
+        width: 100%;
+        height: 160px;
+        background-size: cover;
+        background-position: center;
+        flex-shrink: 0;
+    }
+
+    .contentBody {
+        padding: 16px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        .title {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--themePrimary);
+            text-decoration: none;
+            margin-bottom: 8px;
+            line-height: 1.3;
+
+            &:hover {
+                color: var(--themeDark);
+                text-decoration: underline;
+            }
+        }
+
+        .description {
+            font-size: 14px;
+            color: var(--neutralSecondary);
+            line-height: 1.5;
+            margin: 0;
+
+            // Line clamping
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    }
+}
+
+@media (max-width: 1024px) {
+    .highlightsContainer .highlightsGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .highlightsContainer .highlightsGrid {
+        grid-template-columns: 1fr !important;
+    }
+}

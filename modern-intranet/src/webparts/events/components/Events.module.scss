@@ -1,0 +1,156 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+
+.eventsContainer {
+  .webpartHeader {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .titleContainer {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+
+      h2 {
+        margin: 0;
+        padding: 0;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--neutralPrimary);
+      }
+
+      .backgroundBar {
+        height: 4px;
+        width: 100%;
+        background: var(--themePrimary);
+        margin-top: 4px;
+        border-radius: 2px;
+      }
+    }
+
+    .viewAll {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--themePrimary);
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .eventsGrid {
+    display: grid;
+    gap: 20px;
+    padding-bottom: 16px;
+
+    &.cols2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    &.cols3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    &.cols4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr !important;
+    }
+  }
+}
+
+.eventCard {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border: 1px solid var(--neutralLighter);
+
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+  }
+
+  .imageArea {
+    position: relative;
+    width: 100%;
+    height: 140px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--neutralLighter);
+
+    .dateBadge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--themePrimary);
+      color: var(--white);
+      padding: 6px 10px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.1;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+      .day {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .month {
+        font-size: 10px;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .contentArea {
+    padding: 14px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--neutralPrimary);
+      margin-bottom: 8px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .metaInfo {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .infoItem {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--neutralSecondary);
+
+        .icon {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
