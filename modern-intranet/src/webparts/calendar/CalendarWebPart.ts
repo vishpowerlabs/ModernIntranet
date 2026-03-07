@@ -124,54 +124,10 @@ export default class CalendarWebPart extends BaseClientSideWebPart<ICalendarWebP
                         {
                             groupName: strings.ColumnsGroupName,
                             groupFields: [
-                                PropertyFieldColumnPicker('titleColumn', {
-                                    label: strings.TitleColumnFieldLabel,
-                                    siteUrl: this.properties.siteUrl,
-                                    listId: this.properties.listId,
-                                    typeFilter: 'Text',
-                                    siteListService: this._siteListService,
-                                    onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
-                                    properties: this.properties,
-                                    wpContext: this.context,
-                                    key: 'calendarTitleColumnPicker',
-                                    disabled: !this.properties.listId
-                                }),
-                                PropertyFieldColumnPicker('dateColumn', {
-                                    label: strings.DateColumnFieldLabel,
-                                    siteUrl: this.properties.siteUrl,
-                                    listId: this.properties.listId,
-                                    typeFilter: 'DateTime',
-                                    siteListService: this._siteListService,
-                                    onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
-                                    properties: this.properties,
-                                    wpContext: this.context,
-                                    key: 'calendarDateColumnPicker',
-                                    disabled: !this.properties.listId
-                                }),
-                                PropertyFieldColumnPicker('endDateColumn', {
-                                    label: strings.EndDateColumnFieldLabel,
-                                    siteUrl: this.properties.siteUrl,
-                                    listId: this.properties.listId,
-                                    typeFilter: 'DateTime',
-                                    siteListService: this._siteListService,
-                                    onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
-                                    properties: this.properties,
-                                    wpContext: this.context,
-                                    key: 'calendarEndDateColumnPicker',
-                                    disabled: !this.properties.listId
-                                }),
-                                PropertyFieldColumnPicker('locationColumn', {
-                                    label: strings.LocationColumnFieldLabel,
-                                    siteUrl: this.properties.siteUrl,
-                                    listId: this.properties.listId,
-                                    typeFilter: 'Text',
-                                    siteListService: this._siteListService,
-                                    onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
-                                    properties: this.properties,
-                                    wpContext: this.context,
-                                    key: 'calendarLocationColumnPicker',
-                                    disabled: !this.properties.listId
-                                })
+                                this._getColumnPicker('titleColumn', strings.TitleColumnFieldLabel, 'Text', 'calendarTitleColumnPicker'),
+                                this._getColumnPicker('dateColumn', strings.DateColumnFieldLabel, 'DateTime', 'calendarDateColumnPicker'),
+                                this._getColumnPicker('endDateColumn', strings.EndDateColumnFieldLabel, 'DateTime', 'calendarEndDateColumnPicker'),
+                                this._getColumnPicker('locationColumn', strings.LocationColumnFieldLabel, 'Text', 'calendarLocationColumnPicker')
                             ]
                         },
                         {
@@ -211,5 +167,20 @@ export default class CalendarWebPart extends BaseClientSideWebPart<ICalendarWebP
                 }
             ]
         };
+    }
+
+    private _getColumnPicker(propertyPath: string, label: string, typeFilter: string, key: string): any {
+        return PropertyFieldColumnPicker(propertyPath, {
+            label,
+            siteUrl: this.properties.siteUrl,
+            listId: this.properties.listId,
+            typeFilter: typeFilter as any,
+            siteListService: this._siteListService,
+            onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+            properties: this.properties,
+            wpContext: this.context,
+            key,
+            disabled: !this.properties.listId
+        });
     }
 }
