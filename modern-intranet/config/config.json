@@ -49,6 +49,38 @@
           "manifest": "./src/webparts/calendar/CalendarWebPart.manifest.json"
         }
       ]
+    },
+    "employee-directory-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/employeeDirectory/EmployeeDirectoryWebPart.js",
+          "manifest": "./src/webparts/employeeDirectory/EmployeeDirectoryWebPart.manifest.json"
+        }
+      ]
+    },
+    "employee-spotlight-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/employeeSpotlight/EmployeeSpotlightWebPart.js",
+          "manifest": "./src/webparts/employeeSpotlight/EmployeeSpotlightWebPart.manifest.json"
+        }
+      ]
+    },
+    "new-joiners-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/newJoiners/NewJoinersWebPart.js",
+          "manifest": "./src/webparts/newJoiners/NewJoinersWebPart.manifest.json"
+        }
+      ]
+    },
+    "faq-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/faq/FaqWebPart.js",
+          "manifest": "./src/webparts/faq/FaqWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -58,6 +90,10 @@
     "HighlightsWebPartStrings": "lib/webparts/highlights/loc/{locale}.js",
     "EventsWebPartStrings": "lib/webparts/events/loc/{locale}.js",
     "ModernDocumentViewerWebPartStrings": "lib/webparts/modernDocumentViewer/loc/{locale}.js",
-    "CalendarWebPartStrings": "lib/webparts/calendar/loc/{locale}.js"
+    "CalendarWebPartStrings": "lib/webparts/calendar/loc/{locale}.js",
+    "EmployeeDirectoryWebPartStrings": "lib/webparts/employeeDirectory/loc/{locale}.js",
+    "EmployeeSpotlightWebPartStrings": "lib/webparts/employeeSpotlight/loc/{locale}.js",
+    "NewJoinersWebPartStrings": "lib/webparts/newJoiners/loc/{locale}.js",
+    "FaqWebPartStrings": "lib/webparts/faq/loc/{locale}.js"
   }
 }

@@ -15,6 +15,9 @@ define([], function () {
         "ColumnsFieldLabel": "Columns",
         "ShowTitleFieldLabel": "Show Web Part Title",
         "TitleFieldLabel": "Web Part Title",
-        "ShowBackgroundBarFieldLabel": "Show Background Bar"
+        "ShowBackgroundBarFieldLabel": "Show Background Bar",
+        "TitleBarStyleFieldLabel": "Accent Bar Style",
+        "TitleBarStyleSolidOption": "Solid Background",
+        "TitleBarStyleUnderlineOption": "Underline"
     }
 });

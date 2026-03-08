@@ -17,6 +17,9 @@ define([], function () {
         "OpenInNewTabFieldLabel": "Open links in new tab",
         "ShowTitleFieldLabel": "Webpart Title show",
         "TitleFieldLabel": "Webpart Tile Text",
-        "ShowBackgroundBarFieldLabel": "Webpart title bar"
+        "ShowBackgroundBarFieldLabel": "Webpart title bar",
+        "TitleBarStyleFieldLabel": "Accent Bar Style",
+        "TitleBarStyleSolidOption": "Solid Background",
+        "TitleBarStyleUnderlineOption": "Underline"
     }
 });

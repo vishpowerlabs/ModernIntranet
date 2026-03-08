@@ -21,5 +21,6 @@ export interface IBannerSliderProps {
     showTitle?: boolean;
     title?: string;
     showBackgroundBar?: boolean;
+    titleBarStyle?: 'solid' | 'underline';
     context: WebPartContext;
 }

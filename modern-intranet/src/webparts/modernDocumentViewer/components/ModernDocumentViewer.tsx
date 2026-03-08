@@ -9,8 +9,6 @@ import styles from './ModernDocumentViewer.module.scss';
 import { IModernDocumentViewerProps } from './IModernDocumentViewerProps';
 import {
     SearchBox,
-    MessageBar,
-    MessageBarType,
     Spinner,
     SpinnerSize,
     Stack
@@ -117,22 +115,31 @@ export const ModernDocumentViewer: React.FunctionComponent<IModernDocumentViewer
     if (!listId) {
         return (
             <section className={styles.documentListingV2}>
-                <EmptyState icon="Document" message="Please configure a source library in the property pane." />
+                <EmptyState
+                    icon="Document"
+                    title="Document Viewer - Configuration Required"
+                    message="Please complete the web part configuration to display documents."
+                    description="You need to select a source library (List ID) in the property pane."
+                />
             </section>
         );
     }
 
+    const getHeaderClass = (): string => {
+        if (!props.showBackgroundBar) return '';
+        return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
+    };
+
     return (
         <div className={styles.documentListingV2}>
             {(webPartTitle || webPartDescription) && (
-                <div className={styles.webpartHeader}>
+                <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
                     <div className={styles.titleContainer}>
                         {webPartTitle && (
                             <h2 style={{ fontSize: webPartTitleFontSize }}>
                                 {webPartTitle}
                             </h2>
                         )}
-                        <div className={styles.backgroundBar} />
                     </div>
                     {webPartDescription && (
                         <div className={styles.headerDescription} style={{ fontSize: webPartDescriptionFontSize }}>
@@ -142,7 +149,11 @@ export const ModernDocumentViewer: React.FunctionComponent<IModernDocumentViewer
                 </div>
             )}
 
-            {loading && <Spinner size={SpinnerSize.large} label="Loading documents..." />}
+            {loading && (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
+                    <Spinner size={SpinnerSize.large} label="Loading documents..." />
+                </div>
+            )}
 
             {!loading && !error && (
                 <Stack horizontal wrap tokens={{ childrenGap: 20 }} styles={{ root: { paddingTop: 20, width: '100%' } }}>
@@ -191,7 +202,16 @@ export const ModernDocumentViewer: React.FunctionComponent<IModernDocumentViewer
                 </Stack>
             )}
 
-            {error && <MessageBar messageBarType={MessageBarType.error}>{error}</MessageBar>}
+            {error && (
+                <div className={styles.documentListingV2}>
+                    <EmptyState
+                        icon="Error"
+                        title="Error Loading Documents"
+                        message={error}
+                        description="Please verify the selected library and your permissions."
+                    />
+                </div>
+            )}
         </div>
     );
 };

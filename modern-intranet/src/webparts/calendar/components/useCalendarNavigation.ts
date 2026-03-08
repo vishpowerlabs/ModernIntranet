@@ -21,7 +21,17 @@ import {
 
 export type CalendarViewType = 'day' | 'week' | 'month' | 'year';
 
-export const useCalendarNavigation = (defaultView: CalendarViewType) => {
+export interface ICalendarNavigation {
+    currentDate: Date;
+    view: CalendarViewType;
+    navigate: (direction: 'next' | 'prev') => void;
+    snapToToday: () => void;
+    changeView: (newView: CalendarViewType) => void;
+    setSpecificDate: (date: Date, newView?: CalendarViewType) => void;
+    getViewRange: () => { start: Date; end: Date; } | undefined;
+}
+
+export const useCalendarNavigation = (defaultView: CalendarViewType): ICalendarNavigation => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [view, setView] = useState<CalendarViewType>(defaultView);
 

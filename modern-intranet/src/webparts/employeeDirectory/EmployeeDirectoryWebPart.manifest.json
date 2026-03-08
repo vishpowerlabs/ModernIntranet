@@ -1,0 +1,54 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+    "id": "27fc0a0d-392b-4b25-8755-3e11921d2ebc",
+    "alias": "EmployeeDirectoryWebPart",
+    "componentType": "WebPart",
+    "version": "*",
+    "manifestVersion": 2,
+    "requiresCustomScript": false,
+    "supportedHosts": [
+        "SharePointWebPart",
+        "TeamsPersonalApp",
+        "TeamsTab"
+    ],
+    "preconfiguredEntries": [
+        {
+            "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+            "group": {
+                "default": "Modern Intranet"
+            },
+            "title": {
+                "default": "Modern Intranet - Employee Directory"
+            },
+            "description": {
+                "default": "Modern Intranet - Employee Directory - Searchable, filterable, paginated employee directory with list and grid views"
+            },
+            "iconImageUrl": "../../assets/employee-directory-custom.png",
+            "properties": {
+                "showTitle": true,
+                "title": "Employee Directory",
+                "showBackgroundBar": false,
+                "titleBarStyle": "solid",
+                "source": "graph",
+                "siteUrl": "",
+                "listId": "",
+                "nameColumn": "",
+                "photoColumn": "",
+                "jobTitleColumn": "",
+                "departmentColumn": "",
+                "locationColumn": "",
+                "emailColumn": "",
+                "phoneColumn": "",
+                "managerColumn": "",
+                "projectsColumn": "",
+                "aboutMeColumn": "",
+                "interestsColumn": "",
+                "skillsColumn": "",
+                "viewMode": "list",
+                "pageSize": 10,
+                "showFilters": true,
+                "showPagination": true
+            }
+        }
+    ]
+}

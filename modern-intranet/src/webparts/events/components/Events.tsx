@@ -6,6 +6,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
+import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 import styles from './Events.module.scss';
 import { IEventsProps } from './IEventsProps';
 import { EventCard } from './EventCard';
@@ -78,7 +79,6 @@ export const Events: React.FC<IEventsProps> = (props) => {
         setLoading(true);
         const today = new Date().toISOString();
 
-        // Select logic
         const selectCols = [
           props.titleColumn,
           props.dateColumn,
@@ -144,44 +144,100 @@ export const Events: React.FC<IEventsProps> = (props) => {
   }, [props.siteUrl, props.listId, props.titleColumn, props.dateColumn, props.activeColumn, props.pinnedColumn, props.imageColumn, props.linkColumn, props.locationColumn, props.maxItems, props.siteId, props.webId]);
 
   if (loading) {
-    return null;
+    return (
+      <section className={styles.eventsContainer}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+          <Spinner size={SpinnerSize.large} label="Loading events..." />
+        </div>
+      </section>
+    );
   }
+
+  const isConfigured = props.siteUrl && props.listId && props.titleColumn && props.dateColumn;
+
+  if (!isConfigured) {
+    return (
+      <section className={styles.eventsContainer}>
+        <EmptyState
+          icon="Calendar"
+          title="Events - Configuration Required"
+          message="Please complete the web part configuration to display events."
+          description="You need to specify the Site URL, List ID, and map the required columns (Title and Date) in the property pane."
+        />
+      </section>
+    );
+  }
+
+  const getHeaderClass = (): string => {
+    if (!props.showBackgroundBar) return '';
+    return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
+  };
+
+  const renderHeader = (): JSX.Element | null => {
+    if (!props.title && !props.viewAllUrl) return null;
+
+    return (
+      <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
+        {props.showTitle && props.title && (
+          <div className={styles.titleContainer}>
+            <h2>{props.title}</h2>
+          </div>
+        )}
+        {props.showViewAll && props.viewAllUrl && (
+          <a href={props.viewAllUrl} className={styles.viewAll} target="_blank" rel="noopener noreferrer">
+            View All
+          </a>
+        )}
+      </div>
+    );
+  };
+
+  const renderEvents = (): JSX.Element => {
+    if (items.length === 0) {
+      return (
+        <EmptyState
+          icon="Calendar"
+          title="No Upcoming Events"
+          message="There are no upcoming events to display."
+          description="Check your SharePoint list for future events or verify your filter settings."
+        />
+      );
+    }
+
+    const itemsPerRow = props.itemsPerRow || 3;
+    const columnsClass = styles[`cols${itemsPerRow}` as keyof typeof styles] || '';
+
+    return (
+      <div className={`${styles.eventsGrid} ${columnsClass}`}>
+        {items.map(item => {
+          let colSize = 3;
+          if (itemsPerRow === 2) {
+            colSize = 6;
+          } else if (itemsPerRow === 3) {
+            colSize = 4;
+          }
+
+          const colClass = `ms-sm12 ms-md${colSize} ms-lg${colSize}`;
+          return (
+            <div key={item.id} className={`${styles.wpEventsCol} ${colClass}`}>
+              <EventCard
+                title={item.title}
+                date={item.date}
+                imageUrl={item.imageUrl}
+                location={item.location}
+                linkUrl={item.linkUrl}
+              />
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
 
   return (
     <section className={styles.eventsContainer}>
-      {(props.showTitle && props.title) || (props.showViewAll && props.viewAllUrl) ? (
-        <div className={styles.webpartHeader}>
-          {props.showTitle && props.title && (
-            <div className={styles.titleContainer}>
-              <h2>{props.title}</h2>
-              {props.showBackgroundBar && <div className={styles.backgroundBar} />}
-            </div>
-          )}
-          {props.showViewAll && props.viewAllUrl && (
-            <a href={props.viewAllUrl} className={styles.viewAll}>View All</a>
-          )}
-        </div>
-      ) : null}
-
-      {items.length === 0 ? (
-        <EmptyState
-          icon="Calendar"
-          message="No upcoming events found."
-        />
-      ) : (
-        <div className={`${styles.eventsGrid} ${(styles as any)[`cols${props.itemsPerRow}`]}`}>
-          {items.map(item => (
-            <EventCard
-              key={item.id}
-              title={item.title}
-              date={item.date}
-              imageUrl={item.imageUrl}
-              location={item.location}
-              linkUrl={item.linkUrl}
-            />
-          ))}
-        </div>
-      )}
+      {renderHeader()}
+      {renderEvents()}
     </section>
   );
 };

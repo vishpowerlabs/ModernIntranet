@@ -16,6 +16,9 @@ define([], function () {
         "YearViewTypeTimeline": "Timeline (Gantt-like)",
         "ShowTitleFieldLabel": "Show Web Part Title",
         "TitleFieldLabel": "Web Part Title",
-        "ShowBackgroundBarFieldLabel": "Show Accent Bar"
+        "ShowBackgroundBarFieldLabel": "Show Accent Bar",
+        "TitleBarStyleFieldLabel": "Accent Bar Style",
+        "TitleBarStyleSolidOption": "Solid Background",
+        "TitleBarStyleUnderlineOption": "Underline"
     }
 });

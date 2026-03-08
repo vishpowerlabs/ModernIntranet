@@ -9,6 +9,7 @@ import styles from './Calendar.module.scss';
 import CalendarHeader from './CalendarHeader';
 import { useCalendarNavigation } from './useCalendarNavigation';
 import { CalendarService } from './CalendarService';
+import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
 
 import CalendarMonthView from './CalendarMonthView';
@@ -21,7 +22,7 @@ const Calendar: React.FC<ICalendarProps> = (props) => {
         siteUrl, listId,
         titleColumn, dateColumn, endDateColumn, locationColumn,
         defaultView, context,
-        showTitle, title, showBackgroundBar,
+        showTitle, title, showBackgroundBar, titleBarStyle,
         yearViewType
     } = props;
 
@@ -67,27 +68,41 @@ const Calendar: React.FC<ICalendarProps> = (props) => {
     }, [siteUrl, listId, titleColumn, dateColumn, endDateColumn, locationColumn, getViewRange, calendarService]);
 
     React.useEffect(() => {
-        void fetchEvents();
+        fetchEvents().catch(console.error);
     }, [fetchEvents]);
 
     if (!siteUrl || !listId || !titleColumn || !dateColumn) {
         return (
-            <EmptyState
-                message="Please configure the calendar data source and column mappings in the property pane."
-                icon="Calendar"
-            />
+            <div className={styles.calendar}>
+                <EmptyState
+                    icon="Calendar"
+                    title="Calendar - Configuration Required"
+                    message="Please complete the web part configuration to display events."
+                    description="You need to specify the Site URL, List ID, and map the required columns (Title and Start Date) in the property pane."
+                />
+            </div>
+        );
+    }
+
+    if (loading) {
+        return (
+            <div className={styles.calendar}>
+                {showTitle && title && (
+                    <div className={`${styles.webpartHeader} ${showBackgroundBar ? (titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground) : ''}`}>
+                        <div className={styles.titleContainer}>
+                            <h2>{title}</h2>
+                        </div>
+                    </div>
+                )}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
+                    <Spinner size={SpinnerSize.large} label="Loading calendar events..." />
+                </div>
+            </div>
         );
     }
 
     const renderView = (): JSX.Element => {
         const viewProps = { currentDate, events, loading, yearViewType };
-        if (loading) {
-            return (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                    Loading...
-                </div>
-            );
-        }
         switch (view) {
             case 'day': return <CalendarDayView {...viewProps} />;
             case 'week': return <CalendarWeekView {...viewProps} />;
@@ -96,13 +111,17 @@ const Calendar: React.FC<ICalendarProps> = (props) => {
         }
     };
 
+    const getHeaderClass = (): string => {
+        if (!showBackgroundBar) return '';
+        return titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
+    };
+
     return (
         <div className={styles.calendar}>
             {showTitle && title && (
-                <div className={styles.webpartHeader}>
+                <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
                     <div className={styles.titleContainer}>
                         <h2>{title}</h2>
-                        {showBackgroundBar && <div className={styles.backgroundBar} />}
                     </div>
                 </div>
             )}

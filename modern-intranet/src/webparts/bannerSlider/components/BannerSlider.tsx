@@ -5,6 +5,7 @@
 
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
+import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 import styles from './BannerSlider.module.scss';
 import { IBannerSliderProps } from './IBannerSliderProps';
 import { Slide, ISlideProps } from './Slide';
@@ -70,7 +71,7 @@ const getImageUrl = (rowItem: ISharePointRow, imageColumn: string, siteUrl: stri
 export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
     const [slides, setSlides] = useState<ISlideProps[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isLoading, setIsLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const timerRef = useRef<any>(null);
 
@@ -105,12 +106,12 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
     const fetchData = React.useCallback(async () => {
         if (!props.siteUrl || !props.listId || !props.titleColumn || !props.imageColumn) {
             setSlides([]);
-            setIsLoading(false);
+            setLoading(false);
             return;
         }
 
         try {
-            setIsLoading(true);
+            setLoading(true);
             setError(null);
 
             const apiUrl = `${props.siteUrl}/_api/web/lists(guid'${props.listId}')/renderListDataAsStream`;
@@ -155,7 +156,7 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
         } catch (err) {
             setError((err as Error).message || 'Error loading slides');
         } finally {
-            setIsLoading(false);
+            setLoading(false);
         }
     }, [props]);
 
@@ -168,27 +169,79 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
         return () => stopTimer();
     }, [currentIndex, slides.length, props.autoRotateInterval, startTimer, stopTimer]);
 
-    if (isLoading) {
-        return <div className={styles.bannerSlider}><EmptyState message="Loading slides..." /></div>;
-    }
-
-    if (error) {
-        return <div className={styles.bannerSlider}><EmptyState message={`Error: ${error}`} /></div>;
-    }
-
-    if (!slides || slides.length === 0) {
+    const getHeader = (): JSX.Element | null => {
+        if (!props.showTitle || !props.title) return null;
+        let headerClass = '';
+        if (props.showBackgroundBar) {
+            headerClass = props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
+        }
         return (
-            <section
-                className={styles.bannerSlider}
-                aria-label="Banner Slider"
-            >
+            <div className={`${styles.webpartHeader} ${headerClass}`}>
+                <div className={styles.titleContainer}>
+                    <h2>{props.title}</h2>
+                </div>
+            </div>
+        );
+    };
+
+    const isConfigured = props.siteUrl && props.listId && props.titleColumn && props.imageColumn;
+
+    if (!isConfigured) {
+        return (
+            <section className={styles.bannerSliderContainer}>
                 <EmptyState
                     icon="PhotoCollection"
-                    message="No slides to display. Please configure the data source and column mappings in the web part properties."
+                    title="Banner Slider Web Part - Configuration Required"
+                    message="Please complete the web part configuration to display content."
+                    description="You need to specify the Site URL, List ID, and map the required columns (Title and Image) in the property pane."
                 />
             </section>
         );
     }
+
+    if (loading) {
+        return (
+            <div className={styles.bannerSliderContainer}>
+                {getHeader()}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
+                    <Spinner size={SpinnerSize.large} label="Loading promotional banners..." />
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className={styles.bannerSliderContainer}>
+                {getHeader()}
+                <EmptyState
+                    icon="Error"
+                    title="Error Loading Banners"
+                    message={error}
+                    description="Please verify your Site URL and List ID in the property pane."
+                />
+            </div>
+        );
+    }
+
+    if (!slides || slides.length === 0) {
+        return (
+            <section className={styles.bannerSliderContainer}>
+                {getHeader()}
+                <EmptyState
+                    icon="PhotoCollection"
+                    title="No Slides Found"
+                    message="There are no active slides to display from the selected list."
+                    description="Add items to your SharePoint list or check your filter settings if applicable."
+                />
+            </section>
+        );
+    }
+
+    const getHeaderClass = (): string => {
+        if (!props.showBackgroundBar) return '';
+        return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
+    };
 
     return (
         <section
@@ -197,20 +250,21 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
             aria-label="Promotional Banners"
         >
             {props.showTitle && props.title && (
-                <div className={styles.webpartHeader}>
+                <div
+                    className={`${styles.webpartHeader} ${getHeaderClass()}`}
+                >
                     <div className={styles.titleContainer}>
                         <h2>{props.title}</h2>
-                        {props.showBackgroundBar && <div className={styles.backgroundBar} />}
                     </div>
                 </div>
             )}
-            <div
+            <section
                 className={styles.bannerSlider}
                 onMouseEnter={stopTimer}
                 onMouseLeave={startTimer}
                 onFocus={stopTimer}
                 onBlur={startTimer}
-                tabIndex={0}
+                aria-label="Promotional Banners Carousel"
             >
                 <div
                     className={styles.sliderContent}
@@ -277,7 +331,7 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
                         </div>
                     </>
                 )}
-            </div>
+            </section>
         </section>
     );
 };

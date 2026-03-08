@@ -21,8 +21,30 @@
         opacity: 0.8;
     }
 
+    .title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--neutralPrimary);
+    }
+
     .message {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 500;
+        max-width: 400px;
+        line-height: 1.5;
+        margin-bottom: 12px;
+    }
+
+    .descriptionText {
+        font-size: 13px;
+        color: var(--neutralSecondary);
+        max-width: 450px;
+        line-height: 1.6;
+        background: var(--neutralLighter);
+        padding: 16px;
+        border-radius: 4px;
+        border-left: 4px solid var(--themePrimary);
+        text-align: left;
     }
 }

@@ -18,6 +18,7 @@ export interface IHighlightsProps {
     showTitle: boolean;
     title: string;
     showBackgroundBar: boolean;
+    titleBarStyle: 'solid' | 'underline';
     siteId: string;
     webId: string;
     context: WebPartContext;

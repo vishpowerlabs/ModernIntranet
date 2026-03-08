@@ -27,4 +27,5 @@ export interface ICalendarProps {
     showTitle: boolean;
     title: string;
     showBackgroundBar: boolean;
+    titleBarStyle: 'solid' | 'underline';
 }

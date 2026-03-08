@@ -6,6 +6,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
+import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 import styles from './Highlights.module.scss';
 import { IHighlightsProps } from './IHighlightsProps';
 import { HighlightCard } from './HighlightCard';
@@ -31,6 +32,7 @@ interface IHighlightItem {
     imageUrl: string;
     linkUrl: string;
     pinned: boolean;
+    created: Date;
 }
 
 const getPreviewUrl = (fileName: string, siteUrl: string, siteId: string, webId: string): string => {
@@ -79,14 +81,13 @@ export const Highlights: React.FC<IHighlightsProps> = (props) => {
 
     useEffect(() => {
         const fetchItems = async (): Promise<void> => {
-            if (!props.listId || !props.titleColumn || !props.bannerImageColumn || !props.linkColumn) {
+            if (!props.siteUrl || !props.listId || !props.titleColumn || !props.bannerImageColumn || !props.linkColumn) {
                 setLoading(false);
                 return;
             }
 
             try {
                 setLoading(true);
-                // Added FileDirRef to select for attachment support
                 const selectCols = [
                     props.titleColumn,
                     props.descriptionColumn,
@@ -94,7 +95,8 @@ export const Highlights: React.FC<IHighlightsProps> = (props) => {
                     props.linkColumn,
                     props.pinnedColumn,
                     'Id',
-                    'FileDirRef'
+                    'FileDirRef',
+                    'Created'
                 ].filter(v => !!v).join(',');
 
                 const listUrl = `${props.siteUrl}/_api/web/lists(guid'${props.listId}')/items?$select=${selectCols}&$orderby=Created desc&$top=${props.maxItems}`;
@@ -124,7 +126,7 @@ export const Highlights: React.FC<IHighlightsProps> = (props) => {
                             pinned: props.pinnedColumn ? !!row[props.pinnedColumn] : false,
                             created: new Date(String(row.Created))
                         };
-                    }).sort((a: any, b: any) => {
+                    }).sort((a: IHighlightItem, b: IHighlightItem) => {
                         if (a.pinned !== b.pinned) {
                             return a.pinned ? -1 : 1;
                         }
@@ -145,7 +147,28 @@ export const Highlights: React.FC<IHighlightsProps> = (props) => {
     }, [props.siteUrl, props.listId, props.titleColumn, props.descriptionColumn, props.bannerImageColumn, props.linkColumn, props.pinnedColumn, props.maxItems, props.siteId, props.webId]);
 
     if (loading) {
-        return null;
+        return (
+            <section className={styles.highlightsContainer}>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                    <Spinner size={SpinnerSize.large} label="Loading highlights..." />
+                </div>
+            </section>
+        );
+    }
+
+    const isConfigured = props.siteUrl && props.listId && props.titleColumn && props.bannerImageColumn && props.linkColumn;
+
+    if (!isConfigured) {
+        return (
+            <section className={styles.highlightsContainer}>
+                <EmptyState
+                    icon="Highlight"
+                    title="Highlights - Configuration Required"
+                    message="Please complete the web part configuration to display content."
+                    description="You need to specify the Site URL, List ID, and map the required columns (Title, Banner Image, and Link) in the property pane."
+                />
+            </section>
+        );
     }
 
     if (items.length === 0) {
@@ -153,34 +176,43 @@ export const Highlights: React.FC<IHighlightsProps> = (props) => {
             <section className={styles.highlightsContainer}>
                 <EmptyState
                     icon="Highlight"
-                    message="No highlights found. Please check your configuration."
+                    title="No Highlights Found"
+                    message="There are no items to display from the selected list."
+                    description="Add items to your SharePoint list or check your filter settings if applicable."
                 />
             </section>
         );
     }
 
-    const gridClass = `${styles.highlightsGrid} ${props.columns === 2 ? styles.cols2 : styles.cols3}`;
+    const getHeaderClass = (): string => {
+        if (!props.showBackgroundBar) return '';
+        return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
+    };
 
     return (
         <section className={styles.highlightsContainer}>
             {props.showTitle && props.title && (
-                <div className={styles.webpartHeader}>
+                <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
                     <div className={styles.titleContainer}>
                         <h2>{props.title}</h2>
-                        {props.showBackgroundBar && <div className={styles.backgroundBar} />}
                     </div>
                 </div>
             )}
-            <div className={gridClass}>
-                {items.map(item => (
-                    <HighlightCard
-                        key={item.id}
-                        title={item.title}
-                        description={item.description}
-                        imageUrl={item.imageUrl}
-                        linkUrl={item.linkUrl}
-                    />
-                ))}
+            <div className={`${styles.highlightsGrid} ${props.columns === 2 ? styles.cols2 : styles.cols3}`}>
+                {items.map(item => {
+                    const colSize = props.columns === 2 ? 6 : 4;
+                    const colClass = `ms-sm12 ms-md${colSize} ms-lg${colSize}`;
+                    return (
+                        <div key={item.id} className={`${styles.highlightsCol} ${colClass}`}>
+                            <HighlightCard
+                                title={item.title}
+                                description={item.description}
+                                imageUrl={item.imageUrl}
+                                linkUrl={item.linkUrl}
+                            />
+                        </div>
+                    );
+                })}
             </div>
         </section>
     );

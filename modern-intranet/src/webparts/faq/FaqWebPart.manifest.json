@@ -1,0 +1,40 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+    "id": "e98e268a-cf8e-4a6f-b25c-89a3f2963390",
+    "alias": "FaqWebPart",
+    "componentType": "WebPart",
+    "version": "*",
+    "manifestVersion": 2,
+    "supportedHosts": [
+        "SharePointWebPart",
+        "TeamsPersonalApp",
+        "TeamsTab"
+    ],
+    "preconfiguredEntries": [
+        {
+            "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+            "group": {
+                "default": "Modern Intranet"
+            },
+            "title": {
+                "default": "Modern Intranet - Faq"
+            },
+            "description": {
+                "default": "Modern Intranet - Faq - Accordion-style FAQ with search and category filter pills"
+            },
+            "iconImageUrl": "../../assets/faq-custom.png",
+            "properties": {
+                "showTitle": true,
+                "title": "Frequently Asked Questions",
+                "showBackgroundBar": true,
+                "titleBarStyle": "solid",
+                "showSearch": true,
+                "showCategoryFilter": true,
+                "allowMultipleOpen": false,
+                "expandFirstItem": false,
+                "maxItems": 500,
+                "source": "spList"
+            }
+        }
+    ]
+}

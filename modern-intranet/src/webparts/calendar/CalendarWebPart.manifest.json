@@ -18,14 +18,16 @@
                 "default": "Modern Intranet"
             },
             "title": {
-                "default": "Modern - Calendar"
+                "default": "Modern Intranet - Calendar"
             },
             "description": {
-                "default": "Full-featured calendar with Day, Week, Month, and Year views"
+                "default": "Modern Intranet - Calendar - Full-featured calendar with Day, Week, Month, and Year views"
             },
             "iconImageUrl": "../../assets/calendar-custom.png",
             "properties": {
                 "source": "spList",
+                "showBackgroundBar": false,
+                "titleBarStyle": "underline",
                 "siteUrl": "",
                 "listId": "",
                 "titleColumn": "Title",

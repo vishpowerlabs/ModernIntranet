@@ -16,6 +16,9 @@ define([], function () {
         "ShowCtaFieldLabel": "Show CTA Button",
         "ShowTitleFieldLabel": "Webpart Title show",
         "TitleFieldLabel": "Webpart Tile Text",
-        "ShowBackgroundBarFieldLabel": "Webpart title bar"
+        "ShowBackgroundBarFieldLabel": "Webpart title bar",
+        "TitleBarStyleFieldLabel": "Accent Bar Style",
+        "TitleBarStyleSolidOption": "Solid Background",
+        "TitleBarStyleUnderlineOption": "Underline"
     }
 });

@@ -16,6 +16,9 @@ declare interface ICalendarWebPartStrings {
     ShowTitleFieldLabel: string;
     TitleFieldLabel: string;
     ShowBackgroundBarFieldLabel: string;
+    TitleBarStyleFieldLabel: string;
+    TitleBarStyleSolidOption: string;
+    TitleBarStyleUnderlineOption: string;
 }
 
 declare module 'CalendarWebPartStrings' {

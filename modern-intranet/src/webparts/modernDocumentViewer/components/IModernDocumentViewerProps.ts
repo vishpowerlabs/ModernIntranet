@@ -20,5 +20,7 @@ export interface IModernDocumentViewerProps {
     webPartDescription: string;
     webPartDescriptionFontSize: string;
     headerOpacity: number;
+    showBackgroundBar: boolean;
+    titleBarStyle: 'solid' | 'underline';
     context: WebPartContext;
 }

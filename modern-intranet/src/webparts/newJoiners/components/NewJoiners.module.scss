@@ -1,0 +1,342 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+
+.newJoiners {
+    margin-bottom: 24px;
+    position: relative;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    .webpartHeader {
+        margin-bottom: 16px;
+        position: relative;
+        padding: 12px 20px;
+        border-radius: 4px;
+
+        &.solidBackground {
+            background: var(--themePrimary);
+            color: var(--white);
+
+            h2 {
+                color: var(--white);
+            }
+        }
+
+        &.underlineBackground {
+            padding: 0 0 8px 0;
+            border-bottom: 2px solid var(--themePrimary);
+            background: transparent;
+            border-radius: 0;
+
+            h2 {
+                color: var(--neutralPrimary);
+            }
+        }
+
+        /* Fallback/default when no style or showBackgroundBar is false */
+        &:not(.solidBackground):not(.underlineBackground) {
+            padding: 0;
+            background: transparent;
+
+            h2 {
+                color: var(--neutralPrimary);
+            }
+        }
+
+        .titleContainer {
+            display: flex;
+            align-items: center;
+
+            h2 {
+                margin: 0;
+                padding: 0;
+                font-weight: 700;
+            }
+        }
+    }
+
+    .content {
+        position: relative;
+    }
+
+    /* Grid Layout - Standard Cards */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    /* List Layout */
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            background: var(--white);
+            border-bottom: 1px solid var(--neutralLight);
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .info {
+                flex: 1;
+
+                .name {
+                    font-weight: 700;
+                    font-size: 15px;
+                    color: var(--neutralPrimary);
+                }
+
+                .subText {
+                    font-size: 13px;
+                    color: var(--neutralSecondary);
+                }
+            }
+        }
+    }
+
+    /* Slider (Carousel) Layout - Horizontal Cards like Spotlight */
+    .strip {
+        position: relative;
+        overflow: hidden;
+
+        .sliderTrack {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sliderItem {
+            min-width: 100%;
+            padding: 4px;
+            box-sizing: border-box;
+        }
+
+        .sliderArrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 38px;
+            height: 38px;
+            background: rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--neutralLight);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 3;
+            transition: all 0.2s;
+
+            &:hover {
+                background: rgba(0, 0, 0, 0.1);
+            }
+
+            svg {
+                width: 18px;
+                height: 18px;
+                fill: var(--neutralPrimary);
+            }
+
+            &.left {
+                left: 10px;
+            }
+
+            &.right {
+                right: 10px;
+            }
+        }
+
+        .sliderDots {
+            display: flex;
+            justify-content: center;
+            gap: 7px;
+            padding: 12px 0 0;
+
+            .sliderDot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--neutralLight);
+                cursor: pointer;
+                border: none;
+                transition: all 0.2s;
+
+                &.active {
+                    background: var(--themePrimary);
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+
+    /* Card Styling */
+    .card {
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s;
+        border: 1px solid var(--neutralLighter);
+        height: 100%;
+
+        &:hover {
+            transform: translateY(-4px);
+        }
+
+        &.vertical {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+
+            .photoArea {
+                width: 100%;
+                height: 140px;
+            }
+
+            .cardBody {
+                padding: 16px;
+
+                .badge {
+                    margin: 0 auto 10px;
+                }
+            }
+        }
+
+        &.horizontal {
+            display: flex;
+            text-align: left;
+            padding: 24px;
+            gap: 24px;
+            border-left: 4px solid var(--themePrimary);
+
+            .photoArea {
+                width: 140px;
+                height: 140px;
+                border-radius: 50%;
+                flex-shrink: 0;
+                border: 3px solid var(--themeLighter);
+            }
+
+            .cardBody {
+                flex: 1;
+                padding: 0;
+
+                .badge {
+                    margin-bottom: 10px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 20px;
+
+                .photoArea {
+                    width: 100px;
+                    height: 100px;
+                }
+            }
+        }
+
+        .photoArea {
+            background: var(--neutralLighterAlt);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .avatarPlaceholder {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 32px;
+                font-weight: 600;
+                color: var(--white);
+            }
+        }
+
+        .cardBody {
+            display: flex;
+            flex-direction: column;
+
+            .name {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--neutralPrimary);
+                margin-bottom: 2px;
+            }
+
+            .role {
+                font-size: 13px;
+                color: var(--neutralSecondary);
+                margin-bottom: 8px;
+            }
+
+            .intro {
+                font-size: 14px;
+                color: var(--neutralPrimary);
+                line-height: 1.6;
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                line-clamp: 4;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+        }
+    }
+
+    /* Badge Pill */
+    .badge {
+        display: inline-block;
+        padding: 3px 10px;
+        background: var(--themeLighterAlt);
+        color: var(--themeDark);
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 12px;
+    }
+
+    /* Compact Mode overrides */
+    &.compact {
+        .card.horizontal {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 16px;
+            gap: 16px;
+
+            .photoArea {
+                width: 80px;
+                height: 80px;
+            }
+
+            .cardBody .intro {
+                -webkit-line-clamp: 3;
+                line-clamp: 3;
+            }
+        }
+    }
+}
+
+.emptyState {
+    padding: 32px;
+    background: var(--neutralLighterAlt);
+    border-radius: 8px;
+    text-align: center;
+    color: var(--neutralSecondary);
+    border: 1px dashed var(--neutralTertiaryAlt);
+}

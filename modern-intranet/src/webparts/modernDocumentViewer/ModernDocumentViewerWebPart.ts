@@ -11,7 +11,8 @@ import {
     PropertyPaneSlider,
     PropertyPaneDropdown,
     PropertyPaneTextField,
-    PropertyPaneToggle
+    PropertyPaneToggle,
+    PropertyPaneChoiceGroup
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'ModernDocumentViewerWebPartStrings';
@@ -40,6 +41,8 @@ export interface IModernDocumentViewerWebPartProps {
     webPartDescription: string;
     webPartDescriptionFontSize: string;
     headerOpacity: number;
+    showBackgroundBar: boolean;
+    titleBarStyle: 'solid' | 'underline';
 }
 
 export default class ModernDocumentViewerWebPart extends BaseClientSideWebPart<IModernDocumentViewerWebPartProps> {
@@ -74,6 +77,8 @@ export default class ModernDocumentViewerWebPart extends BaseClientSideWebPart<I
                 webPartDescription: this.properties.webPartDescription,
                 webPartDescriptionFontSize: this.properties.webPartDescriptionFontSize || '14px',
                 headerOpacity: this.properties.headerOpacity ?? 1,
+                showBackgroundBar: this.properties.showBackgroundBar ?? true,
+                titleBarStyle: this.properties.titleBarStyle || 'solid',
                 context: this.context
             }
         );
@@ -206,6 +211,18 @@ export default class ModernDocumentViewerWebPart extends BaseClientSideWebPart<I
                                 PropertyPaneTextField('webPartDescription', {
                                     label: 'Web Part Description',
                                     multiline: true
+                                }),
+                                PropertyPaneToggle('showBackgroundBar', {
+                                    label: 'Show Accent Bar',
+                                    onText: 'Show',
+                                    offText: 'Hide'
+                                }),
+                                PropertyPaneChoiceGroup('titleBarStyle', {
+                                    label: 'Accent Bar Style',
+                                    options: [
+                                        { key: 'solid', text: 'Solid Background' },
+                                        { key: 'underline', text: 'Underline' }
+                                    ]
                                 }),
                                 PropertyPaneDropdown('webPartDescriptionFontSize', {
                                     label: 'Description Font Size',

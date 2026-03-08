@@ -362,8 +362,12 @@ function Create-EmployeeDirectoryList {
     Add-TextField      -ListName $ListName -DisplayName "Email"        -InternalName "EmpEmail" -Required
     Add-TextField      -ListName $ListName -DisplayName "Phone"        -InternalName "EmpPhone"
     Add-PersonField    -ListName $ListName -DisplayName "Manager"      -InternalName "EmpManager"
+    Add-NoteField      -ListName $ListName -DisplayName "Projects"     -InternalName "EmpProjects"
+    Add-NoteField      -ListName $ListName -DisplayName "About Me"     -InternalName "EmpAboutMe"
+    Add-NoteField      -ListName $ListName -DisplayName "Interests"    -InternalName "EmpInterests"
+    Add-NoteField      -ListName $ListName -DisplayName "Skills"       -InternalName "EmpSkills"
 
-    Write-Host "  Done! Employee Directory list created with 7 columns." -ForegroundColor Green
+    Write-Host "  Done! Employee Directory list created with 11 columns." -ForegroundColor Green
 }
 
 function Create-PollLists {
@@ -430,6 +434,23 @@ function Create-ShoutoutLists {
     }
 }
 
+function Create-FaqList {
+    param([string]$ListName)
+    Write-Host ""
+    Write-Host "Creating FAQ list..." -ForegroundColor Cyan
+    $created = Create-ListIfNotExists -ListName $ListName -Description "Frequently asked questions for intranet"
+    if (-not $created) { return }
+
+    # Title column will be used for Question if preferred, but we'll add explicit ones
+    Write-Host "    + Title (Text) — default column" -ForegroundColor Gray
+    Add-TextField      -ListName $ListName -DisplayName "Question"     -InternalName "FaqQuestion" -Required
+    Add-NoteField      -ListName $ListName -DisplayName "Answer"       -InternalName "FaqAnswer" -Required
+    Add-TextField      -ListName $ListName -DisplayName "Category"     -InternalName "FaqCategory"
+    Add-NumberField    -ListName $ListName -DisplayName "Sort Order"   -InternalName "SortOrder"
+
+    Write-Host "  Done! FAQ list created with 5 columns." -ForegroundColor Green
+}
+
 # ============================================================
 # MAIN MENU
 # ============================================================
@@ -447,10 +468,10 @@ function Show-Menu {
     Write-Host "   6.  Recent Documents       (no list needed — uses existing doc library)" -ForegroundColor DarkGray
     Write-Host "   7.  Modern Calendar        (1 list: events with start/end date, location)" -ForegroundColor White
     Write-Host "   8.  Employee Directory     (1 list: employees with dept, email, phone)" -ForegroundColor White
-    Write-Host "   9.  Poll                   (2 lists: polls + votes)" -ForegroundColor White
     Write-Host "  10.  Shoutouts              (2 lists: shoutouts + likes)" -ForegroundColor White
+    Write-Host "  11.  FAQ                    (1 list: questions + answers)" -ForegroundColor White
     Write-Host ""
-    Write-Host "  11.  Create ALL lists       (creates all of the above at once)" -ForegroundColor Yellow
+    Write-Host "  12.  Create ALL lists       (creates all of the above at once)" -ForegroundColor Yellow
     Write-Host "   0.  Exit" -ForegroundColor Red
     Write-Host ""
 }
@@ -512,6 +533,11 @@ function Run-Selection {
             Create-ShoutoutLists -ShoutoutsListName $shoutoutsName -LikesListName $likesName
         }
         11 {
+            $name = Read-Host "Enter list name for FAQ (default: FAQ)"
+            if ([string]::IsNullOrWhiteSpace($name)) { $name = "FAQ" }
+            Create-FaqList -ListName $name
+        }
+        12 {
             Write-Host ""
             Write-Host "Creating ALL lists with default names..." -ForegroundColor Yellow
             Write-Host "(Press Enter to accept defaults or type a custom name)" -ForegroundColor DarkGray
@@ -559,6 +585,10 @@ function Run-Selection {
             if ([string]::IsNullOrWhiteSpace($n10b)) { $n10b = "ShoutoutLikes" }
             Create-ShoutoutLists -ShoutoutsListName $n10a -LikesListName $n10b
 
+            $n11 = Read-Host "FAQ list name (default: FAQ)"
+            if ([string]::IsNullOrWhiteSpace($n11)) { $n11 = "FAQ" }
+            Create-FaqList -ListName $n11
+
             Write-Host ""
             Write-Host "=============================================" -ForegroundColor Green
             Write-Host "  All lists created successfully!" -ForegroundColor Green
@@ -584,7 +614,7 @@ function Run-Selection {
 $continue = $true
 while ($continue) {
     Show-Menu
-    $input = Read-Host "Enter your choice (0-11)"
+    $input = Read-Host "Enter your choice (0-12)"
 
     if ($input -match '^\d+$') {
         $choice = [int]$input

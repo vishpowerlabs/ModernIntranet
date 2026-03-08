@@ -1,0 +1,39 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+    "id": "eec7b58c-8426-444a-93a0-3fbce446b3f7",
+    "alias": "EmployeeSpotlightWebPart",
+    "componentType": "WebPart",
+    "version": "*",
+    "manifestVersion": 2,
+    "requiresCustomScript": false,
+    "supportedHosts": [
+        "SharePointWebPart"
+    ],
+    "preconfiguredEntries": [
+        {
+            "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+            "group": {
+                "default": "Modern Intranet"
+            },
+            "title": {
+                "default": "Modern Intranet - Employee Spotlight"
+            },
+            "description": {
+                "default": "Modern Intranet - Employee Spotlight - Showcases spotlighted employees via card or carousel"
+            },
+            "iconImageUrl": "../../assets/employee-spotlight-custom.png",
+            "properties": {
+                "webPartTitle": "",
+                "webPartTitleFontSize": "24px",
+                "showBackgroundBar": true,
+                "titleBarStyle": "solid",
+                "maxItems": 3,
+                "autoRotateInterval": 5,
+                "source": "spList",
+                "selectedUsers": [],
+                "commonDescription": "",
+                "layoutMode": "standard"
+            }
+        }
+    ]
+}

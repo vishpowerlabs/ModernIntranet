@@ -22,6 +22,9 @@ declare interface IQuickLinksWebPartStrings {
     ShowTitleFieldLabel: string;
     TitleFieldLabel: string;
     ShowBackgroundBarFieldLabel: string;
+    TitleBarStyleFieldLabel: string;
+    TitleBarStyleSolidOption: string;
+    TitleBarStyleUnderlineOption: string;
 }
 
 declare module 'QuickLinksWebPartStrings' {

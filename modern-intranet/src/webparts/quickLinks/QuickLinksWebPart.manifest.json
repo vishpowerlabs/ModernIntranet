@@ -16,10 +16,10 @@
                 "default": "Modern Intranet"
             },
             "title": {
-                "default": "Modern - QuickLinks"
+                "default": "Modern Intranet - Quick Links"
             },
             "description": {
-                "default": "Grid of shortcut tiles with icons and labels"
+                "default": "Modern Intranet - Quick Links - Grid of shortcut tiles with icons and labels"
             },
             "iconImageUrl": "../../assets/quick-links-custom.png",
             "properties": {
@@ -29,7 +29,8 @@
                 "linkColumn": "",
                 "iconColumn": "",
                 "columnsPerRow": 6,
-                "openInNewTab": false
+                "openInNewTab": false,
+                "titleBarStyle": "underline"
             }
         }
     ]

@@ -11,7 +11,8 @@ import {
     PropertyPaneSlider,
     PropertyPaneDropdown,
     PropertyPaneToggle,
-    PropertyPaneTextField
+    PropertyPaneTextField,
+    PropertyPaneChoiceGroup
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'HighlightsWebPartStrings';
@@ -19,11 +20,9 @@ import { Highlights } from './components/Highlights';
 import { IHighlightsProps } from './components/IHighlightsProps';
 import { SiteListService } from '../../common/services/SiteListService';
 import { ThemeService } from '../../common/services/ThemeService';
-import {
-    PropertyFieldSitePicker,
-    PropertyFieldListPicker,
-    PropertyFieldColumnPicker
-} from '../../common/propertyPaneControls';
+import { PropertyFieldSitePicker } from '../../common/propertyPaneControls/PropertyFieldSitePicker';
+import { PropertyFieldListPicker } from '../../common/propertyPaneControls/PropertyFieldListPicker';
+import { PropertyFieldColumnPicker } from '../../common/propertyPaneControls/PropertyFieldColumnPicker';
 
 export interface IHighlightsWebPartProps {
     siteUrl: string;
@@ -38,6 +37,7 @@ export interface IHighlightsWebPartProps {
     showTitle: boolean;
     title: string;
     showBackgroundBar: boolean;
+    titleBarStyle: 'solid' | 'underline';
 }
 
 export default class HighlightsWebPart extends BaseClientSideWebPart<IHighlightsWebPartProps> {
@@ -66,10 +66,11 @@ export default class HighlightsWebPart extends BaseClientSideWebPart<IHighlights
                 linkColumn: this.properties.linkColumn,
                 pinnedColumn: this.properties.pinnedColumn,
                 maxItems: this.properties.maxItems,
-                columns: this.properties.columns,
+                columns: this.properties.columns || 3,
                 showTitle: this.properties.showTitle,
                 title: this.properties.title,
                 showBackgroundBar: this.properties.showBackgroundBar,
+                titleBarStyle: this.properties.titleBarStyle || 'underline',
                 siteId: this.context.pageContext.site.id.toString(),
                 webId: this.context.pageContext.web.id.toString(),
                 context: this.context
@@ -151,7 +152,7 @@ export default class HighlightsWebPart extends BaseClientSideWebPart<IHighlights
                                     label: strings.BannerImageColumnFieldLabel,
                                     siteUrl: this.properties.siteUrl,
                                     listId: this.properties.listId,
-                                    typeFilter: 'Thumbnail',
+                                    typeFilter: 'Thumbnail,URL,Image',
                                     siteListService: this._siteListService,
                                     onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
                                     properties: this.properties,
@@ -210,7 +211,16 @@ export default class HighlightsWebPart extends BaseClientSideWebPart<IHighlights
                                 }),
                                 PropertyPaneToggle('showBackgroundBar', {
                                     label: strings.ShowBackgroundBarFieldLabel
-                                })
+                                }),
+                                ...(this.properties.showBackgroundBar ? [
+                                    PropertyPaneChoiceGroup('titleBarStyle', {
+                                        label: strings.TitleBarStyleFieldLabel,
+                                        options: [
+                                            { key: 'solid', text: strings.TitleBarStyleSolidOption, iconProps: { officeFabricIconFontName: 'ChromeBack' } },
+                                            { key: 'underline', text: strings.TitleBarStyleUnderlineOption, iconProps: { officeFabricIconFontName: 'ChromeMinimize' } }
+                                        ]
+                                    })
+                                ] : [])
                             ]
                         }
                     ]

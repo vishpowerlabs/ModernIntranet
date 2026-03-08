@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "alias": "CustomFaqWebPart",
+  "componentType": "WebPart",
+
+  "version": "*",
+  "manifestVersion": 2,
+
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab",
+    "SharePointFullPage"
+  ],
+  
+  "supportsThemeVariants": true,
+
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": {
+        "default": "Advanced"
+      },
+      "title": {
+        "default": "Custom FAQ"
+      },
+      "description": {
+        "default": "Display SharePoint list items as an interactive FAQ accordion with theme support"
+      },
+      "officeFabricIconFontName": "Help",
+      "properties": {
+        "webpartTitle": "",
+        "webpartDescription": "",
+        "selectedList": "",
+        "titleColumn": "",
+        "descriptionColumn": "",
+        "categoryColumn": "",
+        "topFaqColumn": "",
+        "topFaqColor": "",
+        "allowMultipleExpanded": false,
+        "webpartTitleFontSize": "24",
+        "webpartDescriptionFontSize": "14",
+        "faqTitleFontSize": "16",
+        "faqDescriptionFontSize": "14",
+        "enableSearch": true,
+        "searchInHeader": false,
+        "highlightSearchMatches": true,
+        "searchInAnswers": true,
+        "showResultsCount": true,
+        "searchPlaceholder": "Search FAQs..."
+      }
+    }
+  ]
+}

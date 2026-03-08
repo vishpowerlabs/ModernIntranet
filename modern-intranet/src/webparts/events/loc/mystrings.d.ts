@@ -24,6 +24,9 @@ declare interface IEventsWebPartStrings {
   TitleFieldLabel: string;
   ShowTitleFieldLabel: string;
   ShowBackgroundBarFieldLabel: string;
+  TitleBarStyleFieldLabel: string;
+  TitleBarStyleSolidOption: string;
+  TitleBarStyleUnderlineOption: string;
 }
 
 declare module 'EventsWebPartStrings' {

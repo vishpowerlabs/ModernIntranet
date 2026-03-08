@@ -10,7 +10,8 @@ import {
     IPropertyPaneConfiguration,
     PropertyPaneDropdown,
     PropertyPaneToggle,
-    PropertyPaneTextField
+    PropertyPaneTextField,
+    PropertyPaneChoiceGroup
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
@@ -37,6 +38,7 @@ export interface ICalendarWebPartProps {
     showTitle: boolean;
     title: string;
     showBackgroundBar: boolean;
+    titleBarStyle: 'solid' | 'underline';
     yearViewType: 'grid' | 'timeline';
 }
 
@@ -74,6 +76,7 @@ export default class CalendarWebPart extends BaseClientSideWebPart<ICalendarWebP
                 showTitle: this.properties.showTitle,
                 title: this.properties.title,
                 showBackgroundBar: this.properties.showBackgroundBar,
+                titleBarStyle: this.properties.titleBarStyle,
                 yearViewType: this.properties.yearViewType || 'grid'
             }
         );
@@ -160,7 +163,16 @@ export default class CalendarWebPart extends BaseClientSideWebPart<ICalendarWebP
                                 }),
                                 PropertyPaneToggle('showBackgroundBar', {
                                     label: strings.ShowBackgroundBarFieldLabel
-                                })
+                                }),
+                                ...(this.properties.showBackgroundBar ? [
+                                    PropertyPaneChoiceGroup('titleBarStyle', {
+                                        label: strings.TitleBarStyleFieldLabel,
+                                        options: [
+                                            { key: 'solid', text: strings.TitleBarStyleSolidOption, iconProps: { officeFabricIconFontName: 'ChromeBack' } },
+                                            { key: 'underline', text: strings.TitleBarStyleUnderlineOption, iconProps: { officeFabricIconFontName: 'ChromeMinimize' } }
+                                        ]
+                                    })
+                                ] : [])
                             ]
                         }
                     ]

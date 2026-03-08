@@ -10,7 +10,8 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneSlider,
   PropertyPaneToggle,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  PropertyPaneChoiceGroup
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'EventsWebPartStrings';
@@ -18,11 +19,9 @@ import { Events } from './components/Events';
 import { IEventsProps } from './components/IEventsProps';
 import { SiteListService } from '../../common/services/SiteListService';
 import { ThemeService } from '../../common/services/ThemeService';
-import {
-  PropertyFieldSitePicker,
-  PropertyFieldListPicker,
-  PropertyFieldColumnPicker
-} from '../../common/propertyPaneControls';
+import { PropertyFieldSitePicker } from '../../common/propertyPaneControls/PropertyFieldSitePicker';
+import { PropertyFieldListPicker } from '../../common/propertyPaneControls/PropertyFieldListPicker';
+import { PropertyFieldColumnPicker } from '../../common/propertyPaneControls/PropertyFieldColumnPicker';
 
 export interface IEventsWebPartProps {
   siteUrl: string;
@@ -41,6 +40,7 @@ export interface IEventsWebPartProps {
   showTitle: boolean;
   title: string;
   showBackgroundBar: boolean;
+  titleBarStyle: 'solid' | 'underline';
 }
 
 export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartProps> {
@@ -77,6 +77,7 @@ export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartP
         showTitle: this.properties.showTitle,
         title: this.properties.title,
         showBackgroundBar: this.properties.showBackgroundBar,
+        titleBarStyle: this.properties.titleBarStyle || 'underline',
         siteId: this.context.pageContext.site.id.toString(),
         webId: this.context.pageContext.web.id.toString(),
         context: this.context
@@ -240,6 +241,15 @@ export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartP
                 PropertyPaneToggle('showBackgroundBar', {
                   label: strings.ShowBackgroundBarFieldLabel
                 }),
+                ...(this.properties.showBackgroundBar ? [
+                  PropertyPaneChoiceGroup('titleBarStyle', {
+                    label: strings.TitleBarStyleFieldLabel,
+                    options: [
+                      { key: 'solid', text: strings.TitleBarStyleSolidOption, iconProps: { officeFabricIconFontName: 'ChromeBack' } },
+                      { key: 'underline', text: strings.TitleBarStyleUnderlineOption, iconProps: { officeFabricIconFontName: 'ChromeMinimize' } }
+                    ]
+                  })
+                ] : []),
                 PropertyPaneToggle('showViewAll', {
                   label: strings.ShowViewAllFieldLabel
                 }),

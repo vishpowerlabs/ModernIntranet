@@ -20,7 +20,7 @@ interface ICalendarHeaderProps {
 const CalendarHeader: React.FC<ICalendarHeaderProps> = (props) => {
     const { currentDate, view, onNavigate, onToday, onViewChange } = props;
 
-    const getContextLabel = () => {
+    const getContextLabel = (): string => {
         switch (view) {
             case 'day': return format(currentDate, 'MMMM d, yyyy');
             case 'week': {

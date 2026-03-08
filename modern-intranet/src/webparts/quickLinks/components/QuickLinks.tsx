@@ -75,10 +75,10 @@ export const QuickLinks: React.FC<IQuickLinksProps> = (props) => {
                 let urlValue = '';
                 const rawLink = item[props.linkColumn];
 
-                if (rawLink && typeof rawLink === 'object' && (rawLink as ISharePointLinkValue).Url) {
+                if (rawLink && typeof rawLink === 'object' && 'Url' in rawLink) {
                     urlValue = (rawLink as ISharePointLinkValue).Url || '';
-                } else {
-                    urlValue = (rawLink as string) || '';
+                } else if (typeof rawLink === 'string') {
+                    urlValue = rawLink;
                 }
 
                 return {
@@ -108,20 +108,55 @@ export const QuickLinks: React.FC<IQuickLinksProps> = (props) => {
         loadData().catch(err => console.error('Error in QuickLinks useEffect:', err));
     }, [props.siteUrl, props.listId, props.titleColumn, props.linkColumn, props.iconColumn, props.pinnedColumn]);
 
-    if (!props.siteUrl || !props.listId) {
-        return <EmptyState icon="Link" message="Please configure the web part to select a data source." />;
+    const isConfigured = props.siteUrl && props.listId && props.titleColumn && props.linkColumn;
+
+    if (!isConfigured) {
+        return (
+            <div className={styles.quickLinks}>
+                <EmptyState
+                    icon="Link"
+                    title="Quick Links - Configuration Required"
+                    message="Please complete the web part configuration to display tiles."
+                    description="You need to specify the Site URL, List ID, and map the required columns (Title and Link) in the property pane."
+                />
+            </div>
+        );
     }
 
     if (error) {
-        return <EmptyState icon="Error" message={error} />;
+        return (
+            <div className={styles.quickLinks}>
+                <EmptyState icon="Error" message={error} />
+            </div>
+        );
     }
 
+    const getHeaderClass = (): string => {
+        if (!props.showBackgroundBar) return '';
+        return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
+    };
+
     if (loading) {
-        return <Spinner size={SpinnerSize.large} label="Loading links..." />;
+        return (
+            <div className={styles.quickLinks}>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                    <Spinner size={SpinnerSize.large} label="Loading links..." />
+                </div>
+            </div>
+        );
     }
 
     if (items.length === 0) {
-        return <EmptyState icon="SearchIssue" message="No visible links found in the selected list." />;
+        return (
+            <div className={styles.quickLinks}>
+                <EmptyState
+                    icon="SearchIssue"
+                    title="No Quick Links Found"
+                    message="There are no links to display from the selected list."
+                    description="Add items to your SharePoint list or check your filter settings if applicable."
+                />
+            </div>
+        );
     }
 
     let columnsClass = styles.cols6;
@@ -136,10 +171,9 @@ export const QuickLinks: React.FC<IQuickLinksProps> = (props) => {
     return (
         <div className={styles.quickLinks}>
             {props.showTitle && props.title && (
-                <div className={styles.webpartHeader}>
+                <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
                     <div className={styles.titleContainer}>
                         <h2>{props.title}</h2>
-                        {props.showBackgroundBar && <div className={styles.backgroundBar} />}
                     </div>
                 </div>
             )}

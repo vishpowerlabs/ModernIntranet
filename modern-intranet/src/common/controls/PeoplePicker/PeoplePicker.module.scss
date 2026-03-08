@@ -1,0 +1,24 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
+.peoplePickerContainer {
+    margin-bottom: 12px;
+
+    .label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #323130;
+    }
+
+    .picker {
+        :global(.ms-BasePicker-text) {
+            border: 1px solid #8a8886;
+            border-radius: 2px;
+            min-height: 32px;
+        }
+    }
+}

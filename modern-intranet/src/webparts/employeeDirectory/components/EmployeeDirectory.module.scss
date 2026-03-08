@@ -1,0 +1,592 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+.employeeDirectory {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: "[theme: neutralPrimary, default: #323130]";
+
+    .webpartHeader {
+        margin-bottom: 16px;
+        text-align: left;
+        position: relative;
+        padding: 12px 20px;
+        border-radius: 4px;
+
+        &.solidBackground {
+            background: "[theme: themePrimary, default: #0078d4]";
+            color: "[theme: white, default: #ffffff]";
+
+            h2 {
+                color: "[theme: white, default: #ffffff]";
+            }
+        }
+
+        &.underlineBackground {
+            padding: 0 0 8px 0;
+            border-bottom: 2px solid "[theme: themePrimary, default: #0078d4]";
+            background: transparent;
+            border-radius: 0;
+
+            h2 {
+                color: "[theme: neutralPrimary, default: #323130]";
+            }
+        }
+
+        &:not(.solidBackground):not(.underlineBackground) {
+            padding: 0;
+            background: transparent;
+
+            h2 {
+                color: "[theme: neutralPrimary, default: #323130]";
+            }
+        }
+
+        .titleContainer {
+            display: flex;
+            align-items: center;
+
+            h2 {
+                margin: 0;
+                padding: 0;
+                font-size: 24px;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+
+        .search {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: "[theme: white, default: #ffffff]";
+            border: 1px solid "[theme: neutralLight, default: #edebe9]";
+            border-radius: 4px;
+            padding: 0 12px;
+            min-width: 250px;
+
+            &:focus-within {
+                border-color: "[theme: themePrimary, default: #0078d4]";
+                box-shadow: 0 0 0 1px "[theme: themePrimary, default: #0078d4]";
+            }
+
+            svg {
+                width: 15px;
+                height: 15px;
+                fill: "[theme: neutralTertiary, default: #a19f9d]";
+            }
+
+            input {
+                border: none;
+                outline: none;
+                flex: 1;
+                padding: 10px 8px;
+                font-size: 13px;
+                font-family: inherit;
+                color: "[theme: neutralPrimary, default: #323130]";
+                background: transparent;
+
+                &::placeholder {
+                    color: "[theme: neutralTertiary, default: #a19f9d]";
+                }
+            }
+        }
+
+        .viewToggle {
+            display: flex;
+            gap: 2px;
+            border: 1px solid "[theme: neutralLight, default: #edebe9]";
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+
+            .viewBtn {
+                width: 34px;
+                height: 34px;
+                border: none;
+                background: "[theme: white, default: #ffffff]";
+                cursor: pointer;
+                font-size: 16px;
+                color: "[theme: neutralSecondary, default: #605e5c]";
+                transition: all 0.15s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: inherit;
+
+                &.active {
+                    background: "[theme: themePrimary, default: #0078d4]";
+                    color: "[theme: white, default: #ffffff]";
+                }
+
+                &:hover:not(.active) {
+                    background: "[theme: neutralLighter, default: #f3f2f1]";
+                }
+            }
+        }
+    }
+
+    .filters {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+
+        select {
+            padding: 7px 10px;
+            border: 1px solid "[theme: neutralLight, default: #edebe9]";
+            border-radius: 4px;
+            font-size: 12px;
+            color: "[theme: neutralSecondary, default: #605e5c]";
+            background: "[theme: white, default: #ffffff]";
+            font-family: inherit;
+            min-width: 150px;
+            flex: 1;
+
+            @media (min-width: 768px) {
+                flex: none;
+            }
+        }
+    }
+
+    .emptyState {
+        text-align: center;
+        padding: 40px 20px;
+        background: "[theme: white, default: #ffffff]";
+        border-radius: 8px;
+        border: 1px dashed "[theme: neutralTertiary, default: #a19f9d]";
+        color: "[theme: neutralSecondary, default: #605e5c]";
+
+        svg {
+            width: 48px;
+            height: 48px;
+            fill: "[theme: neutralTertiaryAlt, default: #c8c6c4]";
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 18px;
+            margin: 0 0 10px 0;
+            color: "[theme: neutralPrimary, default: #323130]";
+        }
+
+        p {
+            margin: 0;
+            font-size: 14px;
+        }
+    }
+}
+
+// Global utility for avatar colors
+.avatarBase {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: "[theme: white, default: #ffffff]";
+    font-weight: 600;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+// List View Styles
+.listView {
+    background: "[theme: white, default: #ffffff]";
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+    .listRow {
+        display: flex;
+        align-items: center;
+        padding: 12px 18px;
+        gap: 12px;
+        border-bottom: 1px solid "[theme: neutralLight, default: #edebe9]";
+        cursor: pointer;
+        transition: background 0.1s;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover {
+            background: "[theme: neutralLighterAlt, default: #faf9f8]";
+        }
+
+        .info {
+            flex: 1;
+
+            .name {
+                font-size: 13px;
+                font-weight: 600;
+                color: "[theme: neutralPrimary, default: #323130]";
+            }
+
+            .role {
+                font-size: 11px;
+                color: "[theme: neutralSecondary, default: #605e5c]";
+            }
+
+            .emailContainer {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                margin-top: 4px;
+
+                .emailText {
+                    font-size: 11px;
+                    color: "[theme: themePrimary, default: #0078d4]";
+                }
+
+                .copyBtn {
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 12px;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                    color: "[theme: neutralSecondary, default: #605e5c]";
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    &:hover {
+                        background: "[theme: neutralLighter, default: #f3f2f1]";
+                        color: "[theme: themePrimary, default: #0078d4]";
+                    }
+                }
+            }
+        }
+    }
+
+    .expandedView {
+        background: "[theme: neutralLighter, default: #f3f2f1]";
+        padding: 12px 18px 12px 68px;
+        font-size: 12px;
+        color: "[theme: neutralSecondary, default: #605e5c]";
+        line-height: 1.7;
+        border-bottom: 1px solid "[theme: neutralLight, default: #edebe9]";
+
+        .expandedContent {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+
+            .details {
+                strong {
+                    color: "[theme: neutralPrimary, default: #323130]";
+                }
+
+                a {
+                    color: "[theme: themePrimary, default: #0078d4]";
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Action Buttons
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.cardActions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.actionBtn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: "[theme: neutralLighterAlt, default: #faf9f8]";
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: background 0.15s;
+
+    &:hover {
+        background: "[theme: themeLighter, default: #deecf9]";
+    }
+}
+
+// Shared Photo
+.photo {
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+// Grid View Styles
+.gridView {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+    }
+
+    .gridCard {
+        background: "[theme: white, default: #ffffff]";
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        transition: all 0.2s;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cardPhotoArea {
+            width: 100%;
+            height: 120px;
+            background: "[theme: neutralLighterAlt, default: #faf9f8]";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .cardBody {
+            padding: 14px;
+
+            .cardName {
+                font-size: 14px;
+                font-weight: 600;
+                color: "[theme: neutralPrimary, default: #323130]";
+                margin-bottom: 2px;
+            }
+
+            .cardRole {
+                font-size: 11px;
+                color: "[theme: neutralSecondary, default: #605e5c]";
+                margin-bottom: 10px;
+            }
+
+            .emailContainerCentered {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                margin-bottom: 10px;
+
+                .emailText {
+                    font-size: 11px;
+                    color: "[theme: themePrimary, default: #0078d4]";
+                }
+
+                .copyBtn {
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 12px;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                    color: "[theme: neutralSecondary, default: #605e5c]";
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    &:hover {
+                        background: "[theme: neutralLighter, default: #f3f2f1]";
+                        color: "[theme: themePrimary, default: #0078d4]";
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Pagination Bar
+.paginationBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0 0;
+    margin-top: 14px;
+    border-top: 1px solid "[theme: neutralLight, default: #edebe9]";
+
+    .pageInfo {
+        font-size: 12px;
+        color: "[theme: neutralSecondary, default: #605e5c]";
+    }
+
+    .pageBtns {
+        display: flex;
+        gap: 6px;
+
+        .pageBtn {
+            padding: 6px 14px;
+            border: 1px solid "[theme: neutralLight, default: #edebe9]";
+            border-radius: 4px;
+            background: "[theme: white, default: #ffffff]";
+            color: "[theme: themePrimary, default: #0078d4]";
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.15s;
+
+            &:hover:not(:disabled) {
+                background: "[theme: themeLighterAlt, default: #eff6fc]";
+            }
+
+            &:disabled {
+                color: "[theme: neutralTertiary, default: #a19f9d]";
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+// Profile Panel Styles
+.profilePanel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-top: 10px;
+
+    h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 12px 0;
+        color: "[theme: themePrimary, default: #0078d4]";
+        border-bottom: 1px solid "[theme: neutralLight, default: #edebe9]";
+        padding-bottom: 8px;
+    }
+
+    .profileHeader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+
+        .profilePhoto,
+        .profileInitials {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid "[theme: neutralLighterAlt, default: #faf9f8]";
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .profileInitials {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: "[theme: themePrimary, default: #0078d4]";
+            color: white;
+            font-size: 42px;
+            font-weight: 600;
+        }
+
+        .profileTitles {
+            h2 {
+                margin: 0 0 4px 0;
+                font-size: 24px;
+                color: "[theme: neutralPrimary, default: #323130]";
+            }
+
+            .jobTitle {
+                margin: 0 0 2px 0;
+                font-size: 16px;
+                font-weight: 600;
+                color: "[theme: neutralSecondary, default: #605e5c]";
+            }
+
+            .department {
+                margin: 0;
+                font-size: 14px;
+                color: "[theme: neutralTertiary, default: #a19f9d]";
+            }
+        }
+    }
+
+    .profileContact,
+    .profileOrganization {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .contactRow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: "[theme: neutralPrimary, default: #323130]";
+
+            .icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                background: "[theme: themeLighterAlt, default: #eff6fc]";
+                color: "[theme: themePrimary, default: #0078d4]";
+                border-radius: 50%;
+                font-size: 14px;
+            }
+
+            a {
+                color: "[theme: themePrimary, default: #0078d4]";
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            strong {
+                color: "[theme: neutralSecondary, default: #605e5c]";
+                margin-right: 4px;
+            }
+        }
+    }
+
+    .detailSection {
+        margin-bottom: 12px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: "[theme:bodyText, default: #323130]";
+
+        strong {
+            display: block;
+            margin-bottom: 4px;
+            color: "[theme:neutralPrimary, default: #323130]";
+        }
+    }
+}

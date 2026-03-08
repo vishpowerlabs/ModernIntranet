@@ -4,7 +4,7 @@ The **Modern Intranet Kit** is a comprehensive, professional-grade solution comp
 
 ---
 
-## 🚀 The Solution: A Modular Branding Kit
+## 🚀 The Solution: A Modular branding Kit
 
 The Modern Intranet Kit provides organizations with the flexibility to design their own unique layouts. By deploying a single solution, all web parts are simultaneously added to the SharePoint App Catalog, making them immediately available in the web part picker for use on any modern SPO page.
 
@@ -23,113 +23,166 @@ The Modern Intranet Kit provides organizations with the flexibility to design th
 *High-impact visual communication for the top of your homepage.*
 - **Description**: A full-width, auto-rotating image carousel for featured news and strategic announcements.
 - **Key Features**:
-    - Auto-rotate with configurable timing.
-    - Dynamic CTA (Call to Action) buttons.
-    - Glassmorphism overlays for readability on any background image.
+    - **Auto-Rotation**: Configurable timing (3-10s) with hover-to-pause logic.
+    - **Glassmorphism Overlays**: Semi-transparent content cards ensure readability regardless of the background image.
+    - **Dynamic Call-to-Action**: Integrated buttons for direct navigation to news articles or landing pages.
+    - **Status Filtering**: Built-in logic to show only "Active" banners.
 - **Configuration Properties**:
-    - `siteUrl` & `listId`: Data source location.
-    - `titleColumn` & `descriptionColumn`: Content mapping.
-    - `imageColumn`: Choice of Banner Image.
-    - `activeColumn`: Filter for current vs. expired banners.
-    - `autoRotateInterval`: Seconds between slides.
-    - `showCta`: Toggle for the action button.
+    - **Data Source**: `siteUrl` & `listId`.
+    - **Mapping**: `titleColumn`, `descriptionColumn`, `imageColumn`, `activeColumn`, `buttonTextColumn`, `pageLinkColumn`.
+    - **Settings**: `autoRotateInterval` (Seconds), `showCta` (Toggle), `showTitle` (Branding).
+    - **Styling**: `titleBarStyle` (Solid/Underline).
 
 ### 2. Modern - Events
 *A clean, organized way to display what's happening in your organization.*
-- **Description**: A multi-column grid layout for upcoming engagement opportunities.
+- **Description**: A multi-column grid layout for upcoming engagement opportunities and corporate events.
 - **Key Features**:
-    - **Dynamic Grid**: Switch between 2, 3, or 4 columns per row.
-    - **Smart Filtering**: Automatically hides past events; supports "Active" status filtering.
-    - **Pinned Logic**: High-priority events float to the top regardless of chronological order.
-    - **Branding**: Includes a custom title bar with theme-aware background accents.
+    - **Flexible Grid density**: Choose between 2, 3, or 4 columns per row to fit your layout.
+    - **Chronological Intelligence**: Events are sorted by date, and past events can be automatically hidden.
+    - **Pinned Priority**: Specific events can be "pinned" to stay at the beginning of the list.
+    - **View All Integration**: Optional button to redirect users to a full calendar or event library.
 - **Configuration Properties**:
-    - `maxItems`: Limits total display (supports up to 12).
-    - `itemsPerRow`: Layout density (2, 3, or 4).
-    - `dateColumn`: Mapping for the event date/time.
-    - `activeColumn`: Mapping for "Active" status.
-    - `pinnedColumn`: Mapping for prioritization.
-    - `showViewAll`: Optional link to a full calendar page.
+    - **Data Source**: `siteUrl` & `listId`.
+    - **Mapping**: `titleColumn`, `dateColumn`, `imageColumn`, `linkColumn`, `locationColumn`, `activeColumn`, `pinnedColumn`.
+    - **Layout**: `maxItems` (Total count), `itemsPerRow` (2/3/4).
+    - **Action**: `showViewAll` (Toggle), `viewAllUrl` (Link).
 
 ### 3. Modern - Highlights
 *Modular content cards for news, initiatives, or spotlights.*
 - **Description**: A card-based grid featuring rich imagery, clear titles, and descriptive text snippets.
 - **Key Features**:
-    - **Thumbnail Support**: Optimized for the SharePoint Image column type.
-    - **Flexible Layout**: Configurable 2 or 3 column density.
+    - **Thumbnail Optimization**: Specifically designed to pull high-quality thumbnails from SharePoint Image columns.
     - **Priority Order**: Supports "Pinned" items for administrative control over sorting.
+    - **Branded Headers**: Synchronized styling with the rest of the kit via the header accent bar.
 - **Configuration Properties**:
-    - `maxItems`: Control the "footprint" on the page.
-    - `columns`: Columns per row (2 or 3).
-    - `bannerImageColumn`: The card's hero image.
-    - `pinnedColumn`: Ensures specific highlights stay at the top.
-    - `showTitle` & `showBackgroundBar`: Branding controls.
+    - **Data Source**: `siteUrl` & `listId`.
+    - **Mapping**: `titleColumn`, `descriptionColumn`, `bannerImageColumn`, `linkColumn`, `pinnedColumn`.
+    - **Display**: `maxItems` (3-12), `columns` (2 or 3 per row).
+    - **Branding**: `showTitle`, `showBackgroundBar`, `titleBarStyle`.
 
-### 4. Modern - QuickLinks
+### 4. Modern - Quick Links
 *Streamlined navigation tiles for your most-used resources.*
 - **Description**: A minimalist grid of shortcut tiles with icons and labels for efficient information access.
 - **Key Features**:
-    - **High-Density**: Supports up to 6 columns per row for compact navigation.
-    - **Icon Integration**: Supports standard Fluent UI/Office UI Fabric icons.
-    - **New Tab Control**: Choice to open internal links in-place or external links in a new window.
+    - **High-Density Layout**: Supports up to 6 tiles per row, making it perfect for "Toolbox" sections.
+    - **Icon Integration**: Full support for Fluent UI (Office UI Fabric) icon sets.
+    - **Smart Navigation**: Choice to open internal links in-place or launch external resources in new tabs.
 - **Configuration Properties**:
-    - `columnsPerRow`: Choose between 2, 3, 4, or 6 columns.
-    - `iconColumn`: Map a Choice or Text field to Fluent UI icon names.
-    - `pinnedColumn`: Prioritize critical tools/links at the front of the list.
-    - `openInNewTab`: Global behavior for navigation.
+    - **Data Source**: `siteUrl` & `listId`.
+    - **Mapping**: `titleColumn`, `linkColumn`, `iconColumn`, `pinnedColumn`.
+    - **Layout**: `columnsPerRow` (2, 3, 4, or 6).
+    - **UX**: `openInNewTab` (Toggle).
 
 ### 5. Modern - Document Viewer
 *A centralized hub for navigating organizational files and resources.*
 - **Description**: A multi-level document explorer featuring category-based navigation, sub-category filtering, and integrated search.
 - **Key Features**:
-    - **Adaptive Navigation**: Supports dual-level filtering. Navigate by main Category and further refine by Sub-Category.
-    - **Flexible Layouts**: Choose whether to display Categories in a professional **Side Navigation** panel or as **Top Tabs**.
-    - **Sub-Category Control**: Toggle sub-categories on or off depending on the organizational depth of your library.
-    - **Web Viewer Integration**: Documents open instantly in a new tab using the SharePoint Web Viewer (`?web=1`), ensuring users can view Office documents and PDFs without downloading.
-    - **Integrated Search**: Real-time keyword filtering across document titles and descriptions.
-    - **Prioritization Logic**: Highlights essential policies or forms by pinning them to the top of the list with a visual indicator.
-    - **Premium UI**: Housed in a theme-aware card container with 18px titles and a dynamic accent bar matching other kit components.
+    - **Dual-Level Navigation**: Navigate by main Category and further refine by Sub-Category.
+    - **UI Layout Selection**: Display Categories in a professional **Side Navigation** panel or as **Top Tabs**.
+    - **Web Viewer Integration**: Documents open instantly using SharePoint Web Viewer (`?web=1`) for seamless Office/PDF viewing.
+    - **Instant Search**: Real-time keyword filtering across document titles and descriptions.
 - **Configuration Properties**:
-    - **Data Source**: `siteUrl` & `listId` (Connect to any library in the tenant).
-    - **Column Mapping**: `categoryField`, `subCategoryField`, `descriptionField`, and `pinnedField`.
-    - **Navigation Logic**: `enableSubCategory` (Toggle) and `categoryDisplayType` (Side Nav vs. Top Tabs).
-    - **Display Controls**: `pageSize` (Items per page), `webPartTitle`, and `webPartDescription`.
+    - **Data Source**: `siteUrl` & `listId`.
+    - **Mapping**: `categoryField`, `subCategoryField`, `descriptionField`, `pinnedField`.
+    - **Logic**: `enableSubCategory` (Toggle), `categoryDisplayType` (Side Nav vs Top Tabs).
+    - **Styling**: `pageSize`, `webPartTitleFontSize`, `webPartDescriptionFontSize`, `headerOpacity`.
+
+### 6. Modern - Calendar
+*A unified hub for managing your organizational schedule.*
+- **Description**: A feature-rich calendar with support for Day, Week, Month, and Year views.
+- **Key Features**:
+    - **Native SharePoint Integration**: Built-in support for standard SharePoint Events (Template 106) lists.
+    - **Yearly View Modes**: Choose between a high-level **Grid** overview or a chronological **Timeline**.
+    - **Micro-Timelines**: Live "current time" indicator in Day and Week views.
+    - **Contextual Overlays**: Clean, theme-aware popups for viewing event details without site navigation.
+- **Configuration Properties**:
+    - **Data Source**: `siteUrl` & `listId`.
+    - **Mapping**: `titleColumn`, `dateColumn` (Start), `endDateColumn`, `locationColumn`.
+    - **Settings**: `defaultView` (Day/Week/Month/Year), `yearViewType` (Grid/Timeline).
+    - **Branding**: `showTitle`, `showBackgroundBar`, `titleBarStyle`.
+
+### 7. Modern - Employee Directory
+*A dynamic, searchable directory for finding and connecting with colleagues.*
+- **Description**: A comprehensive employee catalog supporting both Azure AD (Graph) and custom SharePoint Lists.
+- **Key Features**:
+    - **Dual Data Sources**: Seamlessly switch between the entire organization's Azure AD or a curated SharePoint List.
+    - **Rich Profiles**: Extend employee cards with custom data like "About Me", "Projects", "Skills", and "Interests".
+    - **View Switching**: Instantly toggle between a dense 'List View' and a visually rich 'Grid View' (profile cards).
+    - **Smart Filtering**: Global search plus dynamic dropdown filters for Department and Location.
+- **Configuration Properties**:
+    - **Source**: `source` (Graph vs. SP List).
+    - **Mapping**: Full mapping for Name, Photo, Job Title, Department, Email, Location, Manager, and Profile Enrichment fields.
+    - **UI**: `viewMode` (List/Grid), `pageSize`, `showFilters`, `showPagination`.
+
+### 8. Modern - Employee Spotlight
+*Recognize and highlight exceptional team members.*
+- **Description**: A dynamic showcase for spotlighting specific employees via rich cards or an auto-rotating carousel.
+- **Key Features**:
+    - **People Picker Integration**: Manually select employees via the Microsoft Graph People Picker for instant recognition.
+    - **Layout Modes**: **Standard (Wide)** for main content areas or **Compact** for sidebars and secondary columns.
+    - **Custom Write-ups**: Supports unique spotlight descriptions or a common global recognition message.
+- **Configuration Properties**:
+    - **Source**: `source` (SP List vs Manual Graph Selection).
+    - **Manual**: `selectedUsers` (People Picker), `commonDescription`.
+    - **Automation**: `autoRotateInterval` (3-15s), `maxItems`.
+    - **Styling**: `layoutMode` (Standard/Compact), `webPartTitleFontSize`, `titleBarStyle`.
+
+### 9. Modern - New Joiners
+*A warm welcome for your organization's newest members.*
+- **Description**: A visually engaging slider or grid that highlights recent hires, featuring photos and welcome messages.
+- **Key Features**:
+    - **Horizontal "Strip" Mode**: A premium, auto-rotating horizontal slider specifically designed for sidebar placements.
+    - **Manual Curation**: Support for manually adding newcomers via Graph picker when lists aren't desired.
+    - **Welcome Intro**: Supports individual tailored greetings or a global fallback message.
+- **Configuration Properties**:
+    - **Source**: `source` (SP List vs Manual).
+    - **Mapping**: `nameColumn`, `photoColumn`, `jobTitleColumn`, `departmentColumn`, `newJoinerTextColumn`.
+    - **UI**: `layout` (List/Grid/Strip), `layoutMode` (Standard/Compact), `maxItems`.
+
+### 10. Modern - FAQ
+*Accordion-style information hub with search and filtering.*
+- **Description**: A performance-optimized FAQ web part featuring category filtering and real-time search.
+- **Key Features**:
+    - **Client-Side Search**: Instant keyword filtering with visual highlighting.
+    - **Category Pills**: Dynamic filtering by topic to quickly find relevant answers.
+    - **Interaction Logic**: Choose between "Single Expand" or "Multi Expand" accordion behaviors.
+    - **Ordered Content**: Supports numerical order mapping to ensure critical questions appear first.
+- **Configuration Properties**:
+    - **Mapping**: `questionColumn`, `answerColumn`, `categoryColumn`, `orderColumn`.
+    - **Settings**: `showSearch`, `showCategoryFilter`, `allowMultipleOpen`, `expandFirstItem`.
+    - **Branding**: `showTitle`, `showBackgroundBar`, `titleBarStyle`.
+
+---
+
+## 💎 UI Excellence & Standardization
+
+The Modern Intranet Kit is built for professional consistency. Every web part in the suite shares a harmonized user experience:
+
+- **Standardized Loading States**: Uses centered, branded Fluent UI Spinners during all data fetching operations.
+- **Professional Empty States**: Clear, actionable guidance with custom iconography when configuration is required.
+- **Theming & Branding**: Every web part includes a customizable title container with 'Solid' or 'Underline' accent bars that automatically sync with the site's primary theme color.
+- **Responsive Layout Modes**: Components support 'Standard' and 'Compact' modes, ensuring they look perfect in any page section.
 
 ---
 
 ## 🛠 Technical Foundation
 
-- **Framework**: SPFx 1.22.0
+- **Platform**: SPFx 1.22.0
 - **Language**: TypeScript / React
-- **API**: SharePoint REST API (spHttpClient)
-- **Styling**: Vanilla CSS with SPFx CSS Modules
-- **Theming**: CSS Custom Properties (`--bodyText`, `--themePrimary`, etc.)
-- **Service Layer**: Dedicated `SiteListService` for robust data fetching across hierarchies.
+- **Engine**: SharePoint REST API (spHttpClient) & Microsoft Graph
+- **Styling**: Vanilla CSS with localized CSS Modules
+- **Theming**: Full CSS Custom Property integration for theme inheritance
+- **Architecture**: Shared `SiteListService` and `ThemeService` for unified data and visual logic.
 
 ---
 
 ## 🔒 Security & CSP Compliance
 
-The Modern Intranet Kit is fully compatible with **SharePoint Content Security Policy (CSP)**. 
-
-- **Trusted Assets**: All solution assets (JavaScript, CSS, and manifests) are hosted directly within your SharePoint environment (tenant-hosted or site-level). 
-- **Zero External Dependencies**: By keeping all assets within the SharePoint trusted zone, the solution inherently adheres to strict CSP policies without requiring additional domain whitelisting.
-- **Data Privacy**: All data fetching is performed via the native `spHttpClient`, ensuring that authentication and data transit remain securely within the user's SharePoint context.
-
-### 6. Modern - Calendar
-*A unified hub for managing your organizational schedule.*
-- **Description**: A feature-rich calendar with support for Day, Week, Month, and Year views. Optimized for standard SharePoint Calendar lists.
-- **Key Features**:
-    - **Multi-View Navigation**: Seamlessly switch between micro-level daily timelines and high-level yearly overviews.
-    - **Native List Integration**: Built-in support for standard SharePoint Events (Template 106).
-    - **Live Timeline**: Real-time "current time" indicator in Day and Week views.
-    - **Contextual Headers**: Smart date labels (e.g., "March 2026", "Week of Mar 3") based on active view.
-    - **Smart Popups**: Clean, theme-aware popups for viewing event details without leaving the page.
-- **Configuration Properties**:
-    - **Data Source**: `siteUrl` & `listId`.
-    - **Schema Mapping**: `titleColumn`, `dateColumn` (Start), `endDateColumn`, and `locationColumn`.
-    - **Display & Branding**: `defaultView`, `showTitle`, `title` (Web Part Title), and `showBackgroundBar`.
+- **Trusted Execution**: All assets strictly hosted within the SharePoint tenant, ensuring 100% CSP compliance.
+- **Zero External Dependencies**: No external CDNs or third-party scripts required.
+- **Secure Data Access**: Uses native SharePoint and Graph authentication contexts for all data operations.
 
 ---
 
 > [!NOTE]
-> This document is intended as a foundation for product marketing pages, technical documentation, and user guides.
+> This document serves as the master source for technical specifications, product documentation, and deployment guides.

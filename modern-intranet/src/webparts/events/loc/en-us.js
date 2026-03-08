@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
   return {
     "PropertyPaneDescription": "Configure the events source and display settings.",
     "DataSourceGroupName": "Data Source",
@@ -19,6 +19,9 @@ define([], function() {
     "ViewAllUrlFieldLabel": "View All URL",
     "TitleFieldLabel": "Web Part Title",
     "ShowTitleFieldLabel": "Show Web Part Title",
-    "ShowBackgroundBarFieldLabel": "Show Background Bar"
+    "ShowBackgroundBarFieldLabel": "Show Background Bar",
+    "TitleBarStyleFieldLabel": "Accent Bar Style",
+    "TitleBarStyleSolidOption": "Solid Background",
+    "TitleBarStyleUnderlineOption": "Underline"
   }
 });

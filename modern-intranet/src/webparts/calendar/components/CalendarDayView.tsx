@@ -23,7 +23,7 @@ const CalendarDayView: React.FC<ICalendarDayViewProps> = ({ currentDate, events 
                 {hours.map(h => (
                     <div key={h} className={styles.timeSlot}>
                         <div className={styles.timeLabel}>{format(new Date().setHours(h, 0), 'h a')}</div>
-                        <div className={styles.slotContent}></div>
+                        <div className={styles.slotContent} />
                     </div>
                 ))}
                 <div className={styles.eventsOverlay}>

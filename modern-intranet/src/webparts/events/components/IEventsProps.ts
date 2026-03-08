@@ -22,6 +22,7 @@ export interface IEventsProps {
   title: string;
   showTitle: boolean;
   showBackgroundBar: boolean;
+  titleBarStyle: 'solid' | 'underline';
   siteId: string;
   webId: string;
   context: WebPartContext;

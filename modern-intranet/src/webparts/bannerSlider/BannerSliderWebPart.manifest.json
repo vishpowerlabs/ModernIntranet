@@ -16,10 +16,10 @@
                 "default": "Modern Intranet"
             },
             "title": {
-                "default": "Modern - BannerSlider"
+                "default": "Modern Intranet - Banner Slider"
             },
             "description": {
-                "default": "Full-width image carousel with auto-rotate"
+                "default": "Modern Intranet - Banner Slider - Full-width image carousel with auto-rotate"
             },
             "iconImageUrl": "../../assets/banner-slider-custom.png",
             "properties": {
@@ -32,7 +32,8 @@
                 "buttonTextColumn": "",
                 "pageLinkColumn": "",
                 "autoRotateInterval": 5,
-                "showCta": true
+                "showCta": true,
+                "titleBarStyle": "underline"
             }
         }
     ]

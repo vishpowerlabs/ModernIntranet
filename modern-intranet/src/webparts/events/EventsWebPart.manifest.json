@@ -19,17 +19,18 @@
         "default": "Modern Intranet"
       },
       "title": {
-        "default": "Modern - Events"
+        "default": "Modern Intranet - Events"
       },
       "description": {
-        "default": "Horizontal scrollable strip of upcoming events"
+        "default": "Modern Intranet - Events - Horizontal scrollable strip of upcoming events"
       },
       "iconImageUrl": "../../assets/events-custom.png",
       "properties": {
         "maxItems": 4,
         "showViewAll": true,
         "title": "Upcoming Events",
-        "showBackgroundBar": true
+        "showBackgroundBar": true,
+        "titleBarStyle": "underline"
       }
     }
   ]

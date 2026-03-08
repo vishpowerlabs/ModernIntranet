@@ -17,5 +17,6 @@ export interface IQuickLinksProps {
     showTitle?: boolean;
     title?: string;
     showBackgroundBar?: boolean;
+    titleBarStyle?: 'solid' | 'underline';
     context: WebPartContext;
 }

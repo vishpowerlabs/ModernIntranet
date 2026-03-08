@@ -10,7 +10,8 @@ import {
     IPropertyPaneConfiguration,
     PropertyPaneDropdown,
     PropertyPaneToggle,
-    PropertyPaneTextField
+    PropertyPaneTextField,
+    PropertyPaneChoiceGroup
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'QuickLinksWebPartStrings';
@@ -20,11 +21,9 @@ import { IQuickLinksProps } from './components/IQuickLinksProps';
 
 import { SiteListService } from '../../common/services/SiteListService';
 import { ThemeService } from '../../common/services/ThemeService';
-import {
-    PropertyFieldSitePicker,
-    PropertyFieldListPicker,
-    PropertyFieldColumnPicker
-} from '../../common/propertyPaneControls';
+import { PropertyFieldSitePicker } from '../../common/propertyPaneControls/PropertyFieldSitePicker';
+import { PropertyFieldListPicker } from '../../common/propertyPaneControls/PropertyFieldListPicker';
+import { PropertyFieldColumnPicker } from '../../common/propertyPaneControls/PropertyFieldColumnPicker';
 
 export interface IQuickLinksWebPartProps {
     siteUrl: string;
@@ -38,6 +37,7 @@ export interface IQuickLinksWebPartProps {
     showTitle: boolean;
     title: string;
     showBackgroundBar: boolean;
+    titleBarStyle: 'solid' | 'underline';
 }
 
 export default class QuickLinksWebPart extends BaseClientSideWebPart<IQuickLinksWebPartProps> {
@@ -69,6 +69,7 @@ export default class QuickLinksWebPart extends BaseClientSideWebPart<IQuickLinks
                 showTitle: this.properties.showTitle,
                 title: this.properties.title,
                 showBackgroundBar: this.properties.showBackgroundBar,
+                titleBarStyle: this.properties.titleBarStyle || 'underline',
                 context: this.context
             }
         );
@@ -193,7 +194,16 @@ export default class QuickLinksWebPart extends BaseClientSideWebPart<IQuickLinks
                                 }),
                                 PropertyPaneToggle('showBackgroundBar', {
                                     label: strings.ShowBackgroundBarFieldLabel
-                                })
+                                }),
+                                ...(this.properties.showBackgroundBar ? [
+                                    PropertyPaneChoiceGroup('titleBarStyle', {
+                                        label: strings.TitleBarStyleFieldLabel,
+                                        options: [
+                                            { key: 'solid', text: strings.TitleBarStyleSolidOption, iconProps: { officeFabricIconFontName: 'ChromeBack' } },
+                                            { key: 'underline', text: strings.TitleBarStyleUnderlineOption, iconProps: { officeFabricIconFontName: 'ChromeMinimize' } }
+                                        ]
+                                    })
+                                ] : [])
                             ]
                         }
                     ]

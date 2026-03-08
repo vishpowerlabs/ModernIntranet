@@ -18,12 +18,12 @@
                 "default": "Modern Intranet"
             },
             "title": {
-                "default": "Modern - Document Viewer"
+                "default": "Modern Intranet - Document Viewer"
             },
             "description": {
-                "default": "A filtered document viewer with category navigation and search"
+                "default": "Modern Intranet - Document Viewer - A filtered document viewer with category navigation and search"
             },
-            "iconImageUrl": "../../assets/document-viewer-custom.png",
+            "iconImageUrl": "../../assets/modern-document-viewer-custom.png",
             "properties": {
                 "pageSize": 10,
                 "webPartTitle": "Documents",

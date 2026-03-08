@@ -18,17 +18,19 @@
                 "default": "Modern Intranet"
             },
             "title": {
-                "default": "Modern - Highlights"
+                "default": "Modern Intranet - Highlights"
             },
             "description": {
-                "default": "Card grid with banner image, clickable title, and description"
+                "default": "Modern Intranet - Highlights - Card grid with banner image, clickable title, and description"
             },
             "iconImageUrl": "../../assets/highlights-custom.png",
             "properties": {
                 "maxItems": 6,
                 "columns": 3,
                 "showTitle": true,
-                "title": "Highlights"
+                "title": "Highlights",
+                "showBackgroundBar": false,
+                "titleBarStyle": "underline"
             }
         }
     ]
