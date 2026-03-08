@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import styles from './NewJoiners.module.scss';
+
+const TITLE_STYLE_SOLID = 'solid';
+const TITLE_STYLE_UNDERLINE = 'underline';
 import { INewJoinersProps } from './INewJoinersProps';
 import { NewJoinerCard, INewJoiner } from './NewJoinerCard';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
@@ -37,7 +40,7 @@ export const NewJoiners: React.FC<INewJoinersProps> = (props) => {
             name: mj.user?.fullName || mj.user?.text || 'Unknown',
             jobTitle: mj.user?.jobTitle || mj.user?.secondaryText || '',
             department: mj.user?.department || '',
-            photoUrl: mj.user?.imageUrl || `/_layouts/15/userphoto.aspx?size=L&accountname=${mj.user?.loginName || mj.user?.secondaryText}`,
+            photoUrl: mj.user?.imageUrl || `/ _layouts / 15 / userphoto.aspx ? size = L & accountname=${mj.user?.loginName || mj.user?.secondaryText} `,
             introText: mj.introText || props.commonIntro,
             email: mj.user?.loginName || mj.user?.secondaryText
         }));
@@ -62,14 +65,14 @@ export const NewJoiners: React.FC<INewJoinersProps> = (props) => {
         ].filter(f => !!f);
 
         if (props.emailColumn) {
-            selectFields.push(`${props.emailColumn}/Title`, `${props.emailColumn}/EMail`);
+            selectFields.push(`${props.emailColumn} /Title`, `${props.emailColumn}/EMail`);
         }
 
-        const expand = props.emailColumn ? `&$expand=${props.emailColumn}` : '';
+        const expand = props.emailColumn ? `& $expand=${props.emailColumn} ` : '';
         const filter = `${props.newJoinerColumn} eq 1`;
         const top = props.maxItems || 5;
 
-        const endpoint = `${props.siteUrl}/_api/web/lists(guid'${props.listId}')/items?$select=${selectFields.join(',')}${expand}&$filter=${filter}&$orderby=Created desc&$top=${top}`;
+        const endpoint = `${props.siteUrl} /_api/web / lists(guid'${props.listId}') / items ? $select = ${selectFields.join(',')}${expand}& $filter=${filter}& $orderby=Created desc & $top=${top} `;
 
         const response: SPHttpClientResponse = await props.context.spHttpClient.get(
             endpoint,
@@ -77,7 +80,7 @@ export const NewJoiners: React.FC<INewJoinersProps> = (props) => {
         );
 
         if (!response.ok) {
-            throw new Error(`Error fetching New Joiners: ${response.statusText}`);
+            throw new Error(`Error fetching New Joiners: ${response.statusText} `);
         }
 
         const data = await response.json();
@@ -99,7 +102,7 @@ export const NewJoiners: React.FC<INewJoinersProps> = (props) => {
                 }
 
                 if (photoUrl && !photoUrl.startsWith('http')) {
-                    photoUrl = `${new URL(props.siteUrl).origin}${photoUrl}`;
+                    photoUrl = `${new URL(props.siteUrl).origin}${photoUrl} `;
                 }
             }
 
@@ -180,18 +183,19 @@ export const NewJoiners: React.FC<INewJoinersProps> = (props) => {
         );
     }
 
-    const containerClass = `${styles.newJoiners} ${props.layoutMode === 'compact' ? styles.compact : ''}`;
+    const containerClass = `${styles.newJoiners} ${props.layoutMode === 'compact' ? styles.compact : ''} `;
 
     function renderHeader(): JSX.Element | null {
         if (!props.webPartTitle) return null;
 
-        const isSolid = props.titleBarStyle === 'solid';
-        const headerClass = props.showBackgroundBar
-            ? (isSolid ? styles.solidBackground : styles.underlineBackground)
-            : '';
+        const isSolid = props.titleBarStyle === TITLE_STYLE_SOLID;
+        let headerClass = '';
+        if (props.showBackgroundBar) {
+            headerClass = isSolid ? styles.solidBackground : styles.underlineBackground;
+        }
 
         return (
-            <div className={`${styles.webpartHeader} ${headerClass}`}>
+            <div className={`${styles.webpartHeader} ${headerClass} `}>
                 <div className={styles.titleContainer}>
                     <h2>{props.webPartTitle}</h2>
                 </div>
@@ -200,19 +204,18 @@ export const NewJoiners: React.FC<INewJoinersProps> = (props) => {
     }
 
     const renderSlider = (): JSX.Element => (
-        <div
+        <section
             className={styles.strip}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
-            role="region"
             aria-label="New Joiners Carousel"
         >
             <div
                 className={styles.sliderTrack}
-                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                style={{ transform: `translateX(-${currentSlide * 100} %)` }}
             >
                 {joiners.map((joiner, index) => (
-                    <div key={`${joiner.email || joiner.name}-${index}`} className={styles.sliderItem}>
+                    <div key={`${joiner.email || joiner.name} -${index} `} className={styles.sliderItem}>
                         <NewJoinerCard
                             joiner={joiner}
                             layout="strip"
@@ -225,7 +228,7 @@ export const NewJoiners: React.FC<INewJoinersProps> = (props) => {
                 <>
                     <button
                         type="button"
-                        className={`${styles.sliderArrow} ${styles.left}`}
+                        className={`${styles.sliderArrow} ${styles.left} `}
                         onClick={() => handleSlide(-1)}
                         aria-label="Previous Joiner"
                     >
@@ -233,7 +236,7 @@ export const NewJoiners: React.FC<INewJoinersProps> = (props) => {
                     </button>
                     <button
                         type="button"
-                        className={`${styles.sliderArrow} ${styles.right}`}
+                        className={`${styles.sliderArrow} ${styles.right} `}
                         onClick={() => handleSlide(1)}
                         aria-label="Next Joiner"
                     >
@@ -242,17 +245,17 @@ export const NewJoiners: React.FC<INewJoinersProps> = (props) => {
                     <div className={styles.sliderDots}>
                         {joiners.map((joiner, index) => (
                             <button
-                                key={`${joiner.email || joiner.name}-${index}`}
+                                key={`${joiner.email || joiner.name} -${index} `}
                                 type="button"
-                                className={`${styles.sliderDot} ${index === currentSlide ? styles.active : ''}`}
+                                className={`${styles.sliderDot} ${index === currentSlide ? styles.active : ''} `}
                                 onClick={() => goToSlide(index)}
-                                aria-label={`Go to joiner ${index + 1}`}
+                                aria-label={`Go to joiner ${index + 1} `}
                             />
                         ))}
                     </div>
                 </>
             )}
-        </div>
+        </section>
     );
 
     const renderContent = (): JSX.Element => {
@@ -280,10 +283,10 @@ export const NewJoiners: React.FC<INewJoinersProps> = (props) => {
         }
 
         return (
-            <div className={`${styles.grid} ${props.layout === 'list' ? styles.list : styles.grid}`}>
+            <div className={`${styles.grid} ${props.layout === 'list' ? styles.list : styles.grid} `}>
                 {joiners.map((joiner, index) => (
                     <NewJoinerCard
-                        key={`${joiner.email || joiner.name}-${index}`}
+                        key={`${joiner.email || joiner.name} -${index} `}
                         joiner={joiner}
                         layout={props.layout}
                     />

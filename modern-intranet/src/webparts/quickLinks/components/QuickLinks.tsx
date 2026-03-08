@@ -76,7 +76,7 @@ export const QuickLinks: React.FC<IQuickLinksProps> = (props) => {
                 const rawLink = item[props.linkColumn];
 
                 if (rawLink && typeof rawLink === 'object' && 'Url' in rawLink) {
-                    urlValue = (rawLink as ISharePointLinkValue).Url || '';
+                    urlValue = rawLink.Url || '';
                 } else if (typeof rawLink === 'string') {
                     urlValue = rawLink;
                 }

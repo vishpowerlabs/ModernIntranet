@@ -12,6 +12,9 @@ import { Slide, ISlideProps } from './Slide';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
 import { SPHttpClient } from '@microsoft/sp-http';
 
+const TITLE_STYLE_SOLID = 'solid';
+const TITLE_STYLE_UNDERLINE = 'underline';
+
 interface ISharePointImageMetadata {
     fileName?: string;
     serverRelativeUrl?: string;
@@ -173,7 +176,7 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
         if (!props.showTitle || !props.title) return null;
         let headerClass = '';
         if (props.showBackgroundBar) {
-            headerClass = props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
+            headerClass = props.titleBarStyle === TITLE_STYLE_SOLID ? styles.solidBackground : styles.underlineBackground;
         }
         return (
             <div className={`${styles.webpartHeader} ${headerClass}`}>
@@ -240,7 +243,7 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
 
     const getHeaderClass = (): string => {
         if (!props.showBackgroundBar) return '';
-        return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
+        return props.titleBarStyle === TITLE_STYLE_SOLID ? styles.solidBackground : styles.underlineBackground;
     };
 
     return (
@@ -258,12 +261,11 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
                     </div>
                 </div>
             )}
-            <section
+            <div
                 className={styles.bannerSlider}
                 onMouseEnter={stopTimer}
                 onMouseLeave={startTimer}
-                onFocus={stopTimer}
-                onBlur={startTimer}
+                role="region"
                 aria-label="Promotional Banners Carousel"
             >
                 <div
@@ -331,7 +333,7 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
                         </div>
                     </>
                 )}
-            </section>
-        </section>
+            </div>
+        </section >
     );
 };

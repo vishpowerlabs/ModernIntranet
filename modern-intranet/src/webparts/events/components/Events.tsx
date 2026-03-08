@@ -5,6 +5,9 @@
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+
+const TITLE_STYLE_SOLID = 'solid';
+const TITLE_STYLE_UNDERLINE = 'underline';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 import styles from './Events.module.scss';
@@ -170,7 +173,7 @@ export const Events: React.FC<IEventsProps> = (props) => {
 
   const getHeaderClass = (): string => {
     if (!props.showBackgroundBar) return '';
-    return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
+    return props.titleBarStyle === TITLE_STYLE_SOLID ? styles.solidBackground : styles.underlineBackground;
   };
 
   const renderHeader = (): JSX.Element | null => {
@@ -218,8 +221,9 @@ export const Events: React.FC<IEventsProps> = (props) => {
           }
 
           const colClass = `ms-sm12 ms-md${colSize} ms-lg${colSize}`;
+          const containerClass = `${styles.wpEventsCol} ${colClass}`;
           return (
-            <div key={item.id} className={`${styles.wpEventsCol} ${colClass}`}>
+            <div key={item.id} className={containerClass}>
               <EventCard
                 title={item.title}
                 date={item.date}

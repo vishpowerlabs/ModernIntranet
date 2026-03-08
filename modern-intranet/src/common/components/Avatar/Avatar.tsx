@@ -19,7 +19,8 @@ export const Avatar: React.FC<IAvatarProps> = ({ name, size = 36, color }) => {
         const parts = fullName.split(' ').filter(p => p.length > 0);
         if (parts.length === 0) return '';
         if (parts.length === 1) return parts[0].substring(0, 1).toUpperCase();
-        return (parts[0].substring(0, 1) + parts[parts.length - 1].substring(0, 1)).toUpperCase();
+        const lastPart = parts.at(-1) || ''; // Ensure lastPart is a string
+        return (parts[0].substring(0, 1) + lastPart.substring(0, 1)).toUpperCase();
     };
 
     const bgColor = color || stringToColor(name);

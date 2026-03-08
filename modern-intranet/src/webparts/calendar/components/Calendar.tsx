@@ -17,7 +17,10 @@ import CalendarDayView from './CalendarDayView';
 import CalendarWeekView from './CalendarWeekView';
 import CalendarYearView from './CalendarYearView';
 
-const Calendar: React.FC<ICalendarProps> = (props) => {
+const TITLE_STYLE_SOLID = 'solid';
+const TITLE_STYLE_UNDERLINE = 'underline';
+
+export const Calendar: React.FC<ICalendarProps> = (props) => {
     const {
         siteUrl, listId,
         titleColumn, dateColumn, endDateColumn, locationColumn,
@@ -71,6 +74,22 @@ const Calendar: React.FC<ICalendarProps> = (props) => {
         fetchEvents().catch(console.error);
     }, [fetchEvents]);
 
+    const getHeaderClass = (): string => {
+        if (!showBackgroundBar) return '';
+        return titleBarStyle === TITLE_STYLE_SOLID ? styles.solidBackground : styles.underlineBackground;
+    };
+
+    const renderView = (): JSX.Element => {
+        const viewProps = { currentDate, events, loading, yearViewType };
+        switch (view) {
+            case 'day': return <CalendarDayView {...viewProps} />;
+            case 'week': return <CalendarWeekView {...viewProps} />;
+            case 'month': return <CalendarMonthView {...viewProps} />;
+            case 'year': return <CalendarYearView {...viewProps} />;
+            default: return <CalendarMonthView {...viewProps} />;
+        }
+    };
+
     if (!siteUrl || !listId || !titleColumn || !dateColumn) {
         return (
             <div className={styles.calendar}>
@@ -88,7 +107,7 @@ const Calendar: React.FC<ICalendarProps> = (props) => {
         return (
             <div className={styles.calendar}>
                 {showTitle && title && (
-                    <div className={`${styles.webpartHeader} ${showBackgroundBar ? (titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground) : ''}`}>
+                    <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
                         <div className={styles.titleContainer}>
                             <h2>{title}</h2>
                         </div>
@@ -100,21 +119,6 @@ const Calendar: React.FC<ICalendarProps> = (props) => {
             </div>
         );
     }
-
-    const renderView = (): JSX.Element => {
-        const viewProps = { currentDate, events, loading, yearViewType };
-        switch (view) {
-            case 'day': return <CalendarDayView {...viewProps} />;
-            case 'week': return <CalendarWeekView {...viewProps} />;
-            case 'month': return <CalendarMonthView {...viewProps} />;
-            case 'year': return <CalendarYearView {...viewProps} />;
-        }
-    };
-
-    const getHeaderClass = (): string => {
-        if (!showBackgroundBar) return '';
-        return titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
-    };
 
     return (
         <div className={styles.calendar}>
