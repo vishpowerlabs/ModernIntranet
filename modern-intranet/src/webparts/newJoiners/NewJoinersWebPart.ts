@@ -46,7 +46,8 @@ export interface INewJoinersWebPartProps {
     source: 'spList' | 'graph';
     manualJoiners: any[];
     commonIntro: string;
-    webPartTitle: string;
+    showTitle: boolean;
+    title: string;
     showBackgroundBar: boolean;
     titleBarStyle: 'solid' | 'underline';
 }
@@ -214,8 +215,10 @@ export default class NewJoinersWebPart extends BaseClientSideWebPart<INewJoiners
                         {
                             groupName: strings.BasicGroupName,
                             groupFields: [
-                                PropertyPaneTextField('webPartTitle', {
-                                    label: 'Web Part Title'
+                                PropertyPaneToggle('showTitle', { label: strings.ShowTitleFieldLabel }),
+                                PropertyPaneTextField('title', {
+                                    label: strings.TitleFieldLabel,
+                                    disabled: !this.properties.showTitle
                                 }),
                                 PropertyPaneDropdown('layout', {
                                     label: 'Layout View',
@@ -247,17 +250,17 @@ export default class NewJoinersWebPart extends BaseClientSideWebPart<INewJoiners
                                     })
                                 ] : []),
                                 PropertyPaneToggle('showBackgroundBar', {
-                                    label: 'Show Accent Bar',
-                                    onText: 'Show',
-                                    offText: 'Hide'
+                                    label: strings.ShowBackgroundBarFieldLabel
                                 }),
-                                PropertyPaneChoiceGroup('titleBarStyle', {
-                                    label: 'Accent Bar Style',
-                                    options: [
-                                        { key: 'solid', text: 'Solid Background' },
-                                        { key: 'underline', text: 'Underline' }
-                                    ]
-                                })
+                                ...(this.properties.showBackgroundBar ? [
+                                    PropertyPaneChoiceGroup('titleBarStyle', {
+                                        label: strings.TitleBarStyleFieldLabel,
+                                        options: [
+                                            { key: 'solid', text: strings.TitleBarStyleSolidOption, iconProps: { officeFabricIconFontName: 'ChromeBack' } },
+                                            { key: 'underline', text: strings.TitleBarStyleUnderlineOption, iconProps: { officeFabricIconFontName: 'ChromeMinimize' } }
+                                        ]
+                                    })
+                                ] : [])
                             ]
                         }
                     ]

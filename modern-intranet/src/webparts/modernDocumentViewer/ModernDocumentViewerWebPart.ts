@@ -36,7 +36,8 @@ export interface IModernDocumentViewerWebPartProps {
     enableSubCategory: boolean;
     categoryDisplayType: 'side' | 'top';
     pageSize: number;
-    webPartTitle: string;
+    showTitle: boolean;
+    title: string;
     webPartTitleFontSize: string;
     webPartDescription: string;
     webPartDescriptionFontSize: string;
@@ -72,13 +73,14 @@ export default class ModernDocumentViewerWebPart extends BaseClientSideWebPart<I
                 enableSubCategory: this.properties.enableSubCategory ?? true,
                 categoryDisplayType: this.properties.categoryDisplayType || 'side',
                 pageSize: this.properties.pageSize || 10,
-                webPartTitle: this.properties.webPartTitle,
+                title: this.properties.title,
+                showTitle: this.properties.showTitle,
                 webPartTitleFontSize: this.properties.webPartTitleFontSize || '24px',
                 webPartDescription: this.properties.webPartDescription,
                 webPartDescriptionFontSize: this.properties.webPartDescriptionFontSize || '14px',
                 headerOpacity: this.properties.headerOpacity ?? 1,
                 showBackgroundBar: this.properties.showBackgroundBar ?? true,
-                titleBarStyle: this.properties.titleBarStyle || 'solid',
+                titleBarStyle: this.properties.titleBarStyle || 'underline',
                 context: this.context
             }
         );
@@ -196,8 +198,10 @@ export default class ModernDocumentViewerWebPart extends BaseClientSideWebPart<I
                         {
                             groupName: strings.BasicGroupName,
                             groupFields: [
-                                PropertyPaneTextField('webPartTitle', {
-                                    label: 'Web Part Title'
+                                PropertyPaneToggle('showTitle', { label: strings.ShowTitleFieldLabel }),
+                                PropertyPaneTextField('title', {
+                                    label: strings.TitleFieldLabel,
+                                    disabled: !this.properties.showTitle
                                 }),
                                 PropertyPaneDropdown('webPartTitleFontSize', {
                                     label: 'Title Font Size',
@@ -213,17 +217,17 @@ export default class ModernDocumentViewerWebPart extends BaseClientSideWebPart<I
                                     multiline: true
                                 }),
                                 PropertyPaneToggle('showBackgroundBar', {
-                                    label: 'Show Accent Bar',
-                                    onText: 'Show',
-                                    offText: 'Hide'
+                                    label: strings.ShowBackgroundBarFieldLabel
                                 }),
-                                PropertyPaneChoiceGroup('titleBarStyle', {
-                                    label: 'Accent Bar Style',
-                                    options: [
-                                        { key: 'solid', text: 'Solid Background' },
-                                        { key: 'underline', text: 'Underline' }
-                                    ]
-                                }),
+                                ...(this.properties.showBackgroundBar ? [
+                                    PropertyPaneChoiceGroup('titleBarStyle', {
+                                        label: strings.TitleBarStyleFieldLabel,
+                                        options: [
+                                            { key: 'solid', text: strings.TitleBarStyleSolidOption, iconProps: { officeFabricIconFontName: 'ChromeBack' } },
+                                            { key: 'underline', text: strings.TitleBarStyleUnderlineOption, iconProps: { officeFabricIconFontName: 'ChromeMinimize' } }
+                                        ]
+                                    })
+                                ] : []),
                                 PropertyPaneDropdown('webPartDescriptionFontSize', {
                                     label: 'Description Font Size',
                                     options: [

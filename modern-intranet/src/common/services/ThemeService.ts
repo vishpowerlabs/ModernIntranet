@@ -84,6 +84,7 @@ export class ThemeService {
     }
 
     public static getThemeCSS(): string {
+        const contrastColor = this.getContrastColor(this._tokens.themePrimary);
         return `
       --themePrimary: ${this._tokens.themePrimary};
       --themeDark: ${this._tokens.themeDark};
@@ -99,7 +100,22 @@ export class ThemeService {
       --neutralLighterAlt: ${this._tokens.neutralLighterAlt};
       --white: ${this._tokens.white};
       --black: ${this._tokens.black};
+      --headerContrastColor: ${contrastColor};
     `;
+    }
+
+    /**
+     * Calculates YIQ brightness to determine if white or black text is better
+     */
+    public static getContrastColor(hexcolor: string): string {
+        if (!hexcolor) return '#ffffff';
+        const hex = hexcolor.replace('#', '');
+        if (hex.length !== 6) return '#ffffff';
+        const r = Number.parseInt(hex.substring(0, 2), 16);
+        const g = Number.parseInt(hex.substring(2, 4), 16);
+        const b = Number.parseInt(hex.substring(4, 6), 16);
+        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        return (yiq >= 128) ? '#000000' : '#ffffff';
     }
 }
 

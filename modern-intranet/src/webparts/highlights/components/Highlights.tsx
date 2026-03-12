@@ -11,6 +11,7 @@ import styles from './Highlights.module.scss';
 import { IHighlightsProps } from './IHighlightsProps';
 import { HighlightCard } from './HighlightCard';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
+import { WebPartHeader } from '../../../common/components/WebPartHeader/WebPartHeader';
 
 interface ISharePointImageMetadata {
     fileName?: string;
@@ -146,9 +147,19 @@ export const Highlights: React.FC<IHighlightsProps> = (props) => {
         });
     }, [props.siteUrl, props.listId, props.titleColumn, props.descriptionColumn, props.bannerImageColumn, props.linkColumn, props.pinnedColumn, props.maxItems, props.siteId, props.webId]);
 
+    const renderHeader = (): JSX.Element => (
+        <WebPartHeader
+            title={props.title || ''}
+            showTitle={!!props.showTitle}
+            showBackgroundBar={!!props.showBackgroundBar}
+            titleBarStyle={props.titleBarStyle || 'underline'}
+        />
+    );
+
     if (loading) {
         return (
             <section className={styles.highlightsContainer}>
+                {renderHeader()}
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
                     <Spinner size={SpinnerSize.large} label="Loading highlights..." />
                 </div>
@@ -174,6 +185,7 @@ export const Highlights: React.FC<IHighlightsProps> = (props) => {
     if (items.length === 0) {
         return (
             <section className={styles.highlightsContainer}>
+                {renderHeader()}
                 <EmptyState
                     icon="Highlight"
                     title="No Highlights Found"
@@ -184,20 +196,9 @@ export const Highlights: React.FC<IHighlightsProps> = (props) => {
         );
     }
 
-    const getHeaderClass = (): string => {
-        if (!props.showBackgroundBar) return '';
-        return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
-    };
-
     return (
         <section className={styles.highlightsContainer}>
-            {props.showTitle && props.title && (
-                <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
-                    <div className={styles.titleContainer}>
-                        <h2>{props.title}</h2>
-                    </div>
-                </div>
-            )}
+            {renderHeader()}
             <div className={`${styles.highlightsGrid} ${props.columns === 2 ? styles.cols2 : styles.cols3}`}>
                 {items.map(item => {
                     const colSize = props.columns === 2 ? 6 : 4;

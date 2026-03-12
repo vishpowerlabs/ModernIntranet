@@ -14,6 +14,7 @@ export interface IEventsProps {
   imageColumn?: string;
   linkColumn?: string;
   locationColumn?: string;
+  descriptionColumn?: string;
   pinnedColumn?: string;
   maxItems: number;
   itemsPerRow: number;
@@ -23,6 +24,9 @@ export interface IEventsProps {
   showTitle: boolean;
   showBackgroundBar: boolean;
   titleBarStyle: 'solid' | 'underline';
+  layout: 'list' | 'grid' | 'compact';
+  showEventImage: boolean;
+  showPagination: boolean;
   siteId: string;
   webId: string;
   context: WebPartContext;

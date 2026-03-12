@@ -42,7 +42,8 @@ export interface IEmployeeSpotlightWebPartProps {
     maxItems: number;
     autoRotateInterval: number;
 
-    webPartTitle: string;
+    showTitle: boolean;
+    title: string;
     webPartTitleFontSize: string;
     showBackgroundBar: boolean;
     titleBarStyle: 'solid' | 'underline';
@@ -71,6 +72,7 @@ export default class EmployeeSpotlightWebPart extends BaseClientSideWebPart<IEmp
         const element: React.ReactElement<IEmployeeSpotlightProps> = React.createElement(
             EmployeeSpotlight,
             {
+                ...this.properties,
                 siteUrl: this.properties.siteUrl,
                 listId: this.properties.listId,
                 nameColumn: this.properties.nameColumn,
@@ -82,10 +84,11 @@ export default class EmployeeSpotlightWebPart extends BaseClientSideWebPart<IEmp
                 spotlightTextColumn: this.properties.spotlightTextColumn,
                 maxItems: this.properties.maxItems,
                 autoRotateInterval: this.properties.autoRotateInterval,
-                webPartTitle: this.properties.webPartTitle,
+                showTitle: this.properties.showTitle,
+                title: this.properties.title,
                 webPartTitleFontSize: this.properties.webPartTitleFontSize || '24px',
                 showBackgroundBar: this.properties.showBackgroundBar ?? true,
-                titleBarStyle: this.properties.titleBarStyle || 'solid',
+                titleBarStyle: this.properties.titleBarStyle || 'underline',
                 layoutMode: this.properties.layoutMode || 'standard',
                 source: this.properties.source || 'spList',
                 selectedUsers: this.properties.selectedUsers || [],
@@ -213,8 +216,10 @@ export default class EmployeeSpotlightWebPart extends BaseClientSideWebPart<IEmp
                         {
                             groupName: strings.BasicGroupName,
                             groupFields: [
-                                PropertyPaneTextField('webPartTitle', {
-                                    label: 'Web Part Title'
+                                PropertyPaneToggle('showTitle', { label: strings.ShowTitleFieldLabel }),
+                                PropertyPaneTextField('title', {
+                                    label: strings.TitleFieldLabel,
+                                    disabled: !this.properties.showTitle
                                 }),
                                 PropertyPaneDropdown('webPartTitleFontSize', {
                                     label: 'Title Font Size',
@@ -233,17 +238,17 @@ export default class EmployeeSpotlightWebPart extends BaseClientSideWebPart<IEmp
                                     ]
                                 }),
                                 PropertyPaneToggle('showBackgroundBar', {
-                                    label: 'Show Accent Bar',
-                                    onText: 'Show',
-                                    offText: 'Hide'
+                                    label: strings.ShowBackgroundBarFieldLabel
                                 }),
-                                PropertyPaneChoiceGroup('titleBarStyle', {
-                                    label: 'Accent Bar Style',
-                                    options: [
-                                        { key: 'solid', text: 'Solid Background' },
-                                        { key: 'underline', text: 'Underline' }
-                                    ]
-                                })
+                                ...(this.properties.showBackgroundBar ? [
+                                    PropertyPaneChoiceGroup('titleBarStyle', {
+                                        label: strings.TitleBarStyleFieldLabel,
+                                        options: [
+                                            { key: 'solid', text: strings.TitleBarStyleSolidOption, iconProps: { officeFabricIconFontName: 'ChromeBack' } },
+                                            { key: 'underline', text: strings.TitleBarStyleUnderlineOption, iconProps: { officeFabricIconFontName: 'ChromeMinimize' } }
+                                        ]
+                                    })
+                                ] : [])
                             ]
                         }
                     ]

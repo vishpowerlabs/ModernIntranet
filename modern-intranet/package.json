@@ -6,8 +6,9 @@
     "node": ">=22.14.0 < 23.0.0"
   },
   "scripts": {
-    "build": "heft test --clean --production && heft package-solution --production",
-    "start": "heft start --clean",
+    "set-version": "node update-version.js",
+    "build": "npm run set-version && heft test --clean --production && heft package-solution --production",
+    "start": "node update-version.js && heft start --clean",
     "clean": "heft clean",
     "eject-webpack": "heft eject-webpack"
   },

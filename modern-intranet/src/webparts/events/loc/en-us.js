@@ -12,16 +12,18 @@ define([], function () {
     "ImageColumnFieldLabel": "Image Column",
     "LinkColumnFieldLabel": "Link Column",
     "LocationColumnFieldLabel": "Location Column",
+    "DescriptionColumnFieldLabel": "Description Column",
     "PinnedColumnFieldLabel": "Pinned Column (Yes/No)",
     "MaxItemsFieldLabel": "Maximum Items",
     "ItemsPerRowFieldLabel": "Items Per Row",
     "ShowViewAllFieldLabel": "Show View All Link",
     "ViewAllUrlFieldLabel": "View All URL",
+    "ShowTitleFieldLabel": "Show Title",
     "TitleFieldLabel": "Web Part Title",
-    "ShowTitleFieldLabel": "Show Web Part Title",
-    "ShowBackgroundBarFieldLabel": "Show Background Bar",
+    "ShowBackgroundBarFieldLabel": "Show Accent Bar",
     "TitleBarStyleFieldLabel": "Accent Bar Style",
     "TitleBarStyleSolidOption": "Solid Background",
-    "TitleBarStyleUnderlineOption": "Underline"
+    "TitleBarStyleUnderlineOption": "Underline",
+    "ShowPaginationFieldLabel": "Show Pagination"
   }
 });

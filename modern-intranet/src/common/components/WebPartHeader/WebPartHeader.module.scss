@@ -1,0 +1,109 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
+.webpartHeader {
+    margin-bottom: 24px;
+    text-align: left;
+    position: relative;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    &.solidBackground {
+        background: var(--themePrimary);
+        color: var(--headerContrastColor);
+        padding: 12px 20px;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+        h2 {
+            color: var(--headerContrastColor) !important;
+        }
+
+        .descriptionContainer {
+            color: var(--headerContrastColor);
+            opacity: 0.9;
+        }
+    }
+
+    &.underlineBackground {
+        padding: 0 0 10px 0;
+        border-bottom: 3px solid var(--themePrimary);
+        background: transparent;
+        border-radius: 0;
+
+        h2 {
+            color: var(--neutralPrimary);
+        }
+
+        .descriptionContainer {
+            color: var(--neutralSecondary);
+        }
+    }
+
+    /* Standard/Default Look */
+    &:not(.solidBackground):not(.underlineBackground) {
+        padding: 0;
+        margin-bottom: 16px;
+
+        h2 {
+            color: var(--neutralPrimary);
+        }
+
+        .descriptionContainer {
+            color: var(--neutralSecondary);
+        }
+    }
+
+    .titleContainer {
+        display: flex;
+        align-items: center;
+
+        h2 {
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+    }
+
+    .actionContainer {
+        a, button {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--themePrimary);
+            text-decoration: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: all 0.2s;
+
+            &:hover {
+                text-decoration: underline;
+                opacity: 0.8;
+            }
+        }
+    }
+
+    &.solidBackground .actionContainer {
+        a, button {
+            color: var(--headerContrastColor);
+            opacity: 0.9;
+            &:hover { opacity: 1; }
+        }
+    }
+
+    .descriptionContainer {
+        margin-top: 6px;
+        line-height: 1.5;
+        max-width: 800px;
+        flex: 1 0 100%; /* Force new line for description */
+    }
+}

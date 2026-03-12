@@ -4,54 +4,6 @@
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     color: "[theme: neutralPrimary, default: #323130]";
 
-    .webpartHeader {
-        margin-bottom: 16px;
-        text-align: left;
-        position: relative;
-        padding: 12px 20px;
-        border-radius: 4px;
-
-        &.solidBackground {
-            background: "[theme: themePrimary, default: #0078d4]";
-            color: "[theme: white, default: #ffffff]";
-
-            h2 {
-                color: "[theme: white, default: #ffffff]";
-            }
-        }
-
-        &.underlineBackground {
-            padding: 0 0 8px 0;
-            border-bottom: 2px solid "[theme: themePrimary, default: #0078d4]";
-            background: transparent;
-            border-radius: 0;
-
-            h2 {
-                color: "[theme: neutralPrimary, default: #323130]";
-            }
-        }
-
-        &:not(.solidBackground):not(.underlineBackground) {
-            padding: 0;
-            background: transparent;
-
-            h2 {
-                color: "[theme: neutralPrimary, default: #323130]";
-            }
-        }
-
-        .titleContainer {
-            display: flex;
-            align-items: center;
-
-            h2 {
-                margin: 0;
-                padding: 0;
-                font-size: 24px;
-                font-weight: 600;
-            }
-        }
-    }
 
     .toolbar {
         display: flex;

@@ -3,53 +3,6 @@
     position: relative;
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
-    .webpartHeader {
-        margin-bottom: 16px;
-        position: relative;
-        padding: 12px 20px;
-        border-radius: 4px;
-
-        &.solidBackground {
-            background: var(--themePrimary);
-            color: var(--white);
-
-            h2 {
-                color: var(--white);
-            }
-        }
-
-        &.underlineBackground {
-            padding: 0 0 8px 0;
-            border-bottom: 2px solid var(--themePrimary);
-            background: transparent;
-            border-radius: 0;
-
-            h2 {
-                color: var(--neutralPrimary);
-            }
-        }
-
-        /* Fallback/default when no style or showBackgroundBar is false */
-        &:not(.solidBackground):not(.underlineBackground) {
-            padding: 0;
-            background: transparent;
-
-            h2 {
-                color: var(--neutralPrimary);
-            }
-        }
-
-        .titleContainer {
-            display: flex;
-            align-items: center;
-
-            h2 {
-                margin: 0;
-                padding: 0;
-                font-weight: 700;
-            }
-        }
-    }
 
     /* Compact Mode Styles */
     &.compact {

@@ -1,8 +1,19 @@
+/**
+ * DEVELOPER BY VISHPOWERLABS
+ * CONTACT : INFO@VISHPOWERLABS.COM
+ */
+
 define([], function () {
     return {
         "PropertyPaneDescription": "Configure Document Listing",
         "BasicGroupName": "Display Settings",
         "DescriptionFieldLabel": "Description Field",
+        "ShowTitleFieldLabel": "Show Title",
+        "TitleFieldLabel": "Web Part Title",
+        "ShowBackgroundBarFieldLabel": "Show Accent Bar",
+        "TitleBarStyleFieldLabel": "Accent Bar Style",
+        "TitleBarStyleSolidOption": "Solid Background",
+        "TitleBarStyleUnderlineOption": "Underline",
         "AppLocalEnvironmentSharePoint": "The app is running on your local environment as SharePoint web part",
         "AppSharePointEnvironment": "The app is running on SharePoint page",
         "AppLocalEnvironmentTeams": "The app is running on your local environment as Microsoft Teams app",

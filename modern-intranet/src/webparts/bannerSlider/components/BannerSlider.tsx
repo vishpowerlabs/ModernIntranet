@@ -11,9 +11,7 @@ import { IBannerSliderProps } from './IBannerSliderProps';
 import { Slide, ISlideProps } from './Slide';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
 import { SPHttpClient } from '@microsoft/sp-http';
-
-const TITLE_STYLE_SOLID = 'solid';
-const TITLE_STYLE_UNDERLINE = 'underline';
+import { WebPartHeader } from '../../../common/components/WebPartHeader/WebPartHeader';
 
 interface ISharePointImageMetadata {
     fileName?: string;
@@ -25,11 +23,10 @@ interface ISharePointImageMetadata {
 interface ISharePointRow {
     ID?: string;
     FileDirRef?: string;
-    [key: string]: string | number | boolean | undefined | null; // Improved over 'any'
+    [key: string]: string | number | boolean | undefined | null;
 }
 
 const getPreviewUrl = (fileName: string, siteUrl: string, siteId: string, webId: string): string => {
-    // Simplified regex to reduce SonarQube complexity
     const match = /([a-f\d-]{32,36})/i.exec(fileName);
     if (!match) return '';
 
@@ -47,9 +44,6 @@ const resolveImageObject = (rawValue: string | object): ISharePointImageMetadata
     return typeof rawValue === 'object' ? rawValue : null;
 };
 
-/**
- * Helper to extract image URL from various SharePoint Image column formats
- */
 const getImageUrl = (rowItem: ISharePointRow, imageColumn: string, siteUrl: string, siteId: string, webId: string): string => {
     const rawValue = rowItem[imageColumn];
     if (!rawValue) return '';
@@ -119,12 +113,9 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
 
             const apiUrl = `${props.siteUrl}/_api/web/lists(guid'${props.listId}')/renderListDataAsStream`;
 
-            // Construct the select columns
-            // (selectColumns is logged via data.Row structure in renderListDataAsStream)
-
             const body = {
                 parameters: {
-                    RenderOptions: 2, // ListData
+                    RenderOptions: 2,
                     ViewXml: `<View><Query><OrderBy><FieldRef Name="Title" Ascending="TRUE"/></OrderBy></Query></View>`
                 }
             };
@@ -134,8 +125,8 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
             });
 
             if (!response.ok) {
-                const error = await response.text();
-                throw new Error(`Error fetching data: ${response.status} - ${error}`);
+                const errorText = await response.text();
+                throw new Error(`Error fetching data: ${response.status} - ${errorText}`);
             }
 
             const data = await response.json();
@@ -172,22 +163,16 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
         return () => stopTimer();
     }, [currentIndex, slides.length, props.autoRotateInterval, startTimer, stopTimer]);
 
-    const getHeader = (): JSX.Element | null => {
-        if (!props.showTitle || !props.title) return null;
-        let headerClass = '';
-        if (props.showBackgroundBar) {
-            headerClass = props.titleBarStyle === TITLE_STYLE_SOLID ? styles.solidBackground : styles.underlineBackground;
-        }
-        return (
-            <div className={`${styles.webpartHeader} ${headerClass}`}>
-                <div className={styles.titleContainer}>
-                    <h2>{props.title}</h2>
-                </div>
-            </div>
-        );
-    };
-
     const isConfigured = props.siteUrl && props.listId && props.titleColumn && props.imageColumn;
+
+    const renderHeader = (): JSX.Element => (
+        <WebPartHeader
+            title={props.title || ''}
+            showTitle={!!props.showTitle}
+            showBackgroundBar={!!props.showBackgroundBar}
+            titleBarStyle={props.titleBarStyle || 'underline'}
+        />
+    );
 
     if (!isConfigured) {
         return (
@@ -205,7 +190,7 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
     if (loading) {
         return (
             <div className={styles.bannerSliderContainer}>
-                {getHeader()}
+                {renderHeader()}
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
                     <Spinner size={SpinnerSize.large} label="Loading promotional banners..." />
                 </div>
@@ -216,7 +201,7 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
     if (error) {
         return (
             <div className={styles.bannerSliderContainer}>
-                {getHeader()}
+                {renderHeader()}
                 <EmptyState
                     icon="Error"
                     title="Error Loading Banners"
@@ -230,7 +215,7 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
     if (!slides || slides.length === 0) {
         return (
             <section className={styles.bannerSliderContainer}>
-                {getHeader()}
+                {renderHeader()}
                 <EmptyState
                     icon="PhotoCollection"
                     title="No Slides Found"
@@ -241,26 +226,13 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
         );
     }
 
-    const getHeaderClass = (): string => {
-        if (!props.showBackgroundBar) return '';
-        return props.titleBarStyle === TITLE_STYLE_SOLID ? styles.solidBackground : styles.underlineBackground;
-    };
-
     return (
         <section
             className={styles.bannerSliderContainer}
             aria-roledescription="carousel"
             aria-label="Promotional Banners"
         >
-            {props.showTitle && props.title && (
-                <div
-                    className={`${styles.webpartHeader} ${getHeaderClass()}`}
-                >
-                    <div className={styles.titleContainer}>
-                        <h2>{props.title}</h2>
-                    </div>
-                </div>
-            )}
+            {renderHeader()}
             <div
                 className={styles.bannerSlider}
                 onMouseEnter={stopTimer}
@@ -276,12 +248,7 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
                     }}
                 >
                     {slides.map((slide, index) => {
-                        // Fix for server relative URLs and origin
                         let finalImageUrl = slide.imageUrl;
-                        if (finalImageUrl?.startsWith('/')) {
-                            const origin = globalThis.location.origin;
-                            finalImageUrl = `${origin}${finalImageUrl}`;
-                        }
                         if (finalImageUrl?.startsWith('/')) {
                             const origin = globalThis.location.origin;
                             finalImageUrl = `${origin}${finalImageUrl}`;
@@ -319,11 +286,10 @@ export const BannerSlider: React.FC<IBannerSliderProps> = (props) => {
                         </button>
 
                         <div className={styles.dotsContainer}>
-                            {slides.map((slide, index) => {
-                                const dotKey = slide.imageUrl ? `dot-${slide.title}-${slide.imageUrl}` : `dot-${index}`;
+                            {slides.map((_slide, index) => {
                                 return (
                                     <button
-                                        key={dotKey as React.Key}
+                                        key={`dot-${index}`}
                                         className={`${styles.dot} ${index === currentIndex ? styles.active : ''}`}
                                         onClick={() => goToSlide(index)}
                                         aria-label={`Go to slide ${index + 1}`}

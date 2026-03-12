@@ -4,6 +4,12 @@ declare interface IEmployeeSpotlightWebPartStrings {
     DataSourceGroupName: string;
     ColumnMappingGroupName: string;
     DisplayGroupName: string;
+    ShowTitleFieldLabel: string;
+    TitleFieldLabel: string;
+    ShowBackgroundBarFieldLabel: string;
+    TitleBarStyleFieldLabel: string;
+    TitleBarStyleSolidOption: string;
+    TitleBarStyleUnderlineOption: string;
 }
 
 declare module 'EmployeeSpotlightWebPartStrings' {

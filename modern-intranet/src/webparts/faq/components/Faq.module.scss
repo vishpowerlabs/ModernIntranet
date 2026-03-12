@@ -31,43 +31,6 @@
         margin-top: 2px;
     }
 
-    .webpartHeader {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 8px;
-        position: relative;
-
-        &.solidBackground {
-            background-color: var(--themePrimary);
-            padding: 10px 15px;
-            border-radius: 4px;
-            margin-bottom: 25px;
-
-            h2 {
-                color: var(--white);
-                margin: 0;
-            }
-        }
-
-        &.underlineBackground {
-            border-bottom: 2px solid var(--themePrimary);
-            margin-bottom: 25px;
-
-            h2 {
-                color: var(--neutralPrimary);
-                margin: 0;
-            }
-        }
-
-        .titleContainer {
-            h2 {
-                font-size: 18px;
-                font-weight: 600;
-                margin: 0;
-            }
-        }
-    }
 
     .searchBox {
         display: flex;

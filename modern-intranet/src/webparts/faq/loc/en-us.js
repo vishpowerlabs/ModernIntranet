@@ -1,29 +1,29 @@
 define([], function () {
     return {
-        "PropertyPaneDescription": "Configure the FAQ web part to display an accordion of questions and answers.",
-        "BasicGroupName": "Header Settings",
+        "PropertyPaneDescription": "Configure the FAQ list source and display options.",
+        "BasicGroupName": "Display Settings",
         "DataSourceGroupName": "Data Source",
         "ColumnMappingsGroupName": "Column Mapping",
-        "DisplaySettingsGroupName": "Display Settings",
+        "DisplaySettingsGroupName": "FAQ Behavior",
 
-        "ShowTitleFieldLabel": "Show Web Part Title",
-        "TitleFieldLabel": "Title Text",
-        "ShowBackgroundBarFieldLabel": "Show Background Bar",
-        "TitleBarStyleFieldLabel": "Title Bar Style",
-        "TitleBarStyleSolidOption": "Solid",
+        "ShowTitleFieldLabel": "Show Title",
+        "TitleFieldLabel": "Web Part Title",
+        "ShowBackgroundBarFieldLabel": "Show Accent Bar",
+        "TitleBarStyleFieldLabel": "Accent Bar Style",
+        "TitleBarStyleSolidOption": "Solid Background",
         "TitleBarStyleUnderlineOption": "Underline",
 
         "SiteUrlFieldLabel": "Site URL",
-        "ListIdFieldLabel": "Choose FAQ List",
+        "ListIdFieldLabel": "List Name",
 
         "QuestionColumnFieldLabel": "Question Column",
         "AnswerColumnFieldLabel": "Answer Column",
         "CategoryColumnFieldLabel": "Category Column",
-        "OrderColumnFieldLabel": "Sort Order Column",
+        "OrderColumnFieldLabel": "Order Column",
 
         "ShowSearchFieldLabel": "Show Search",
         "ShowCategoryFilterFieldLabel": "Show Category Filter",
-        "AllowMultipleOpenFieldLabel": "Allow multiple answers open at once",
-        "ExpandFirstItemFieldLabel": "Auto-expand first item on load"
+        "AllowMultipleOpenFieldLabel": "Allow Multiple Expand",
+        "ExpandFirstItemFieldLabel": "Expand First Item"
     }
 });

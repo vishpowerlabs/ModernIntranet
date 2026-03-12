@@ -32,6 +32,7 @@ export interface IEventsWebPartProps {
   imageColumn: string;
   linkColumn: string;
   locationColumn: string;
+  descriptionColumn: string;
   pinnedColumn: string;
   maxItems: number;
   itemsPerRow: number;
@@ -41,6 +42,9 @@ export interface IEventsWebPartProps {
   title: string;
   showBackgroundBar: boolean;
   titleBarStyle: 'solid' | 'underline';
+  layout: 'list' | 'grid' | 'compact';
+  showEventImage: boolean;
+  showPagination: boolean;
 }
 
 export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartProps> {
@@ -68,6 +72,7 @@ export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartP
         imageColumn: this.properties.imageColumn,
         linkColumn: this.properties.linkColumn,
         locationColumn: this.properties.locationColumn,
+        descriptionColumn: this.properties.descriptionColumn,
         activeColumn: this.properties.activeColumn,
         pinnedColumn: this.properties.pinnedColumn,
         maxItems: this.properties.maxItems,
@@ -78,6 +83,9 @@ export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartP
         title: this.properties.title,
         showBackgroundBar: this.properties.showBackgroundBar,
         titleBarStyle: this.properties.titleBarStyle || 'underline',
+        layout: this.properties.layout || 'grid',
+        showEventImage: this.properties.showEventImage !== false,
+        showPagination: !!this.properties.showPagination,
         siteId: this.context.pageContext.site.id.toString(),
         webId: this.context.pageContext.web.id.toString(),
         context: this.context
@@ -178,30 +186,6 @@ export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartP
                   key: 'pinnedColumnPicker',
                   disabled: !this.properties.listId
                 }),
-                PropertyFieldColumnPicker('imageColumn', {
-                  label: strings.ImageColumnFieldLabel,
-                  siteUrl: this.properties.siteUrl,
-                  listId: this.properties.listId,
-                  typeFilter: 'Thumbnail',
-                  siteListService: this._siteListService,
-                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
-                  properties: this.properties,
-                  wpContext: this.context,
-                  key: 'imageColumnPicker',
-                  disabled: !this.properties.listId
-                }),
-                PropertyFieldColumnPicker('linkColumn', {
-                  label: strings.LinkColumnFieldLabel,
-                  siteUrl: this.properties.siteUrl,
-                  listId: this.properties.listId,
-                  typeFilter: 'URL',
-                  siteListService: this._siteListService,
-                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
-                  properties: this.properties,
-                  wpContext: this.context,
-                  key: 'linkColumnPicker',
-                  disabled: !this.properties.listId
-                }),
                 PropertyFieldColumnPicker('locationColumn', {
                   label: strings.LocationColumnFieldLabel,
                   siteUrl: this.properties.siteUrl,
@@ -212,6 +196,18 @@ export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartP
                   properties: this.properties,
                   wpContext: this.context,
                   key: 'locationColumnPicker',
+                  disabled: !this.properties.listId
+                }),
+                PropertyFieldColumnPicker('descriptionColumn', {
+                  label: strings.DescriptionColumnFieldLabel,
+                  siteUrl: this.properties.siteUrl,
+                  listId: this.properties.listId,
+                  typeFilter: 'Note,Text',
+                  siteListService: this._siteListService,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  wpContext: this.context,
+                  key: 'descriptionColumnPicker',
                   disabled: !this.properties.listId
                 })
               ]
@@ -256,6 +252,17 @@ export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartP
                 PropertyPaneTextField('viewAllUrl', {
                   label: strings.ViewAllUrlFieldLabel,
                   disabled: !this.properties.showViewAll
+                }),
+                PropertyPaneChoiceGroup('layout', {
+                  label: 'Layout',
+                  options: [
+                    { key: 'grid', text: 'Grid View', iconProps: { officeFabricIconFontName: 'GridViewSmall' } },
+                    { key: 'list', text: 'List View', iconProps: { officeFabricIconFontName: 'List' } },
+                    { key: 'compact', text: 'Compact View', iconProps: { officeFabricIconFontName: 'TwelvePointStar' } }
+                  ]
+                }),
+                PropertyPaneToggle('showPagination', {
+                  label: strings.ShowPaginationFieldLabel
                 })
               ]
             }

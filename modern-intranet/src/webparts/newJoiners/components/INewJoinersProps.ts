@@ -22,7 +22,8 @@ export interface INewJoinersProps {
     manualJoiners: any[];
     commonIntro: string;
     autoRotateInterval?: number;
-    webPartTitle: string;
+    showTitle: boolean;
+    title: string;
     showBackgroundBar: boolean;
     titleBarStyle: 'solid' | 'underline';
     context: WebPartContext;

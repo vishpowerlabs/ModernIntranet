@@ -14,7 +14,7 @@ define([], function () {
         "YearViewTypeFieldLabel": "Year View Layout",
         "YearViewTypeGrid": "Grid (12 Months)",
         "YearViewTypeTimeline": "Timeline (Gantt-like)",
-        "ShowTitleFieldLabel": "Show Web Part Title",
+        "ShowTitleFieldLabel": "Show Title",
         "TitleFieldLabel": "Web Part Title",
         "ShowBackgroundBarFieldLabel": "Show Accent Bar",
         "TitleBarStyleFieldLabel": "Accent Bar Style",

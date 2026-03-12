@@ -15,7 +15,8 @@ export interface IModernDocumentViewerProps {
     enableSubCategory: boolean;
     categoryDisplayType: 'side' | 'top';
     pageSize: number;
-    webPartTitle: string;
+    showTitle: boolean;
+    title: string;
     webPartTitleFontSize: string;
     webPartDescription: string;
     webPartDescriptionFontSize: string;

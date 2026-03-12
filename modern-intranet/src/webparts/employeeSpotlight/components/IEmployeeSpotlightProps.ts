@@ -28,7 +28,8 @@ export interface IEmployeeSpotlightProps {
     autoRotateInterval: number;
 
     // Header Settings
-    webPartTitle: string;
+    showTitle: boolean;
+    title: string;
     webPartTitleFontSize: string;
     showBackgroundBar: boolean;
     titleBarStyle: 'solid' | 'underline';

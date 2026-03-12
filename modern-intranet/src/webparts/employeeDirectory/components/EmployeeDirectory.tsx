@@ -8,6 +8,7 @@ import PaginationBar from './PaginationBar';
 import { Panel, PanelType } from '@fluentui/react/lib/Panel';
 import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
+import { WebPartHeader } from '../../../common/components/WebPartHeader/WebPartHeader';
 
 const EmployeeDirectory: React.FC<IEmployeeDirectoryProps> = (props): JSX.Element => {
     const {
@@ -92,22 +93,14 @@ const EmployeeDirectory: React.FC<IEmployeeDirectoryProps> = (props): JSX.Elemen
         setSearchQuery(e.target.value);
     };
 
-    const getHeaderClass = (): string => {
-        if (!showBackgroundBar) return '';
-        return titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
-    };
-
-    const renderHeader = (): JSX.Element | null => {
-        if (!showTitle || !title) return null;
-
-        return (
-            <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
-                <div className={styles.titleContainer}>
-                    <h2>{title}</h2>
-                </div>
-            </div>
-        );
-    };
+    const renderHeader = (): JSX.Element => (
+        <WebPartHeader
+            title={title || ''}
+            showTitle={!!showTitle}
+            showBackgroundBar={!!showBackgroundBar}
+            titleBarStyle={titleBarStyle || 'underline'}
+        />
+    );
 
     if (props.source === 'spList' && (!props.siteUrl || !props.listId || !props.nameColumn)) {
         return (

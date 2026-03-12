@@ -14,7 +14,12 @@ declare interface INewJoinersWebPartStrings {
     NewJoinerTextColumnFieldLabel: string;
     MaxItemsFieldLabel: string;
     LayoutFieldLabel: string;
-    WebPartTitleFieldLabel: string;
+    ShowTitleFieldLabel: string;
+    TitleFieldLabel: string;
+    ShowBackgroundBarFieldLabel: string;
+    TitleBarStyleFieldLabel: string;
+    TitleBarStyleSolidOption: string;
+    TitleBarStyleUnderlineOption: string;
 }
 
 declare module 'NewJoinersWebPartStrings' {

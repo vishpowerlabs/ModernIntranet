@@ -15,6 +15,11 @@ define([], function () {
         "NewJoinerTextColumnFieldLabel": "Welcome Message Column",
         "MaxItemsFieldLabel": "Maximum items to display",
         "LayoutFieldLabel": "Layout View",
-        "WebPartTitleFieldLabel": "Web Part Title"
+        "ShowTitleFieldLabel": "Show Title",
+        "TitleFieldLabel": "Web Part Title",
+        "ShowBackgroundBarFieldLabel": "Show Accent Bar",
+        "TitleBarStyleFieldLabel": "Accent Bar Style",
+        "TitleBarStyleSolidOption": "Solid Background",
+        "TitleBarStyleUnderlineOption": "Underline"
     }
 });

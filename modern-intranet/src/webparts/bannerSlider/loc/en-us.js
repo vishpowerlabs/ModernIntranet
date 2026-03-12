@@ -14,9 +14,9 @@ define([], function () {
         "DisplaySettingsGroupName": "Display Settings",
         "AutoRotateIntervalFieldLabel": "Auto-rotate seconds",
         "ShowCtaFieldLabel": "Show CTA Button",
-        "ShowTitleFieldLabel": "Webpart Title show",
-        "TitleFieldLabel": "Webpart Tile Text",
-        "ShowBackgroundBarFieldLabel": "Webpart title bar",
+        "ShowTitleFieldLabel": "Show Title",
+        "TitleFieldLabel": "Web Part Title",
+        "ShowBackgroundBarFieldLabel": "Show Accent Bar",
         "TitleBarStyleFieldLabel": "Accent Bar Style",
         "TitleBarStyleSolidOption": "Solid Background",
         "TitleBarStyleUnderlineOption": "Underline"

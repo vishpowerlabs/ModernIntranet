@@ -34,7 +34,7 @@ define([], function () {
         "ShowPaginationFieldLabel": "Show Pagination Control",
 
         "BasicGroupName": "General",
-        "ShowTitleFieldLabel": "Show Web Part Title",
+        "ShowTitleFieldLabel": "Show Title",
         "TitleFieldLabel": "Web Part Title",
         "ShowBackgroundBarFieldLabel": "Show Accent Bar",
         "TitleBarStyleFieldLabel": "Accent Bar Style",

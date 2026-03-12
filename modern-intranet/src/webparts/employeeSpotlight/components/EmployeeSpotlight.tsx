@@ -11,6 +11,7 @@ import { IEmployeeSpotlightProps } from './IEmployeeSpotlightProps';
 import { SpotlightCard, ISpotlightItem } from './SpotlightCard';
 import styles from './EmployeeSpotlight.module.scss';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
+import { WebPartHeader } from '../../../common/components/WebPartHeader/WebPartHeader';
 
 const EmployeeSpotlight: React.FC<IEmployeeSpotlightProps> = (props) => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -52,7 +53,6 @@ const EmployeeSpotlight: React.FC<IEmployeeSpotlightProps> = (props) => {
             return;
         }
 
-        // Construct select and expand conditionally
         let selectFields = `Id,${props.nameColumn},${props.jobTitleColumn},${props.departmentColumn},${props.spotlightColumn},${props.spotlightTextColumn}`;
         let expandFields = '';
 
@@ -61,7 +61,6 @@ const EmployeeSpotlight: React.FC<IEmployeeSpotlightProps> = (props) => {
         }
 
         if (props.emailColumn) {
-            // Expanding Person fields via SP REST
             selectFields += `,${props.emailColumn}/Title,${props.emailColumn}/EMail`;
             expandFields = `&$expand=${props.emailColumn}`;
         }
@@ -86,7 +85,6 @@ const EmployeeSpotlight: React.FC<IEmployeeSpotlightProps> = (props) => {
                     const photoObj = JSON.parse(item[props.photoColumn]);
                     photoUrl = photoObj.serverRelativeUrl;
                 } catch {
-                    // Fallback structure if strict SP url
                     photoUrl = item[props.photoColumn];
                 }
             }
@@ -127,14 +125,12 @@ const EmployeeSpotlight: React.FC<IEmployeeSpotlightProps> = (props) => {
         setCurrentSlide(index);
     };
 
-    // Fetch Spotlight Data configuration
     useEffect(() => {
         loadData().catch((err) => {
             console.error('Error in EmployeeSpotlight loadData:', err);
         });
     }, [props.source, props.siteUrl, props.listId, props.maxItems, props.spotlightColumn, props.selectedUsers, props.commonDescription, props.layoutMode]);
 
-    // Slider Mechanics using effect autoRotate
     useEffect(() => {
         if (spotlights.length > 1 && !isHovering) {
             timerRef.current = globalThis.setTimeout(() => {
@@ -151,6 +147,15 @@ const EmployeeSpotlight: React.FC<IEmployeeSpotlightProps> = (props) => {
     const isConfigured = props.source === 'graph'
         ? (props.selectedUsers && props.selectedUsers.length > 0)
         : (props.siteUrl && props.listId && props.nameColumn && props.jobTitleColumn && props.departmentColumn && props.spotlightColumn && props.spotlightTextColumn);
+
+    const renderHeader = (): JSX.Element => (
+        <WebPartHeader
+            title={props.title || ''}
+            showTitle={props.showTitle}
+            showBackgroundBar={!!props.showBackgroundBar}
+            titleBarStyle={props.titleBarStyle || 'underline'}
+        />
+    );
 
     if (!isConfigured) {
         return (
@@ -197,25 +202,6 @@ const EmployeeSpotlight: React.FC<IEmployeeSpotlightProps> = (props) => {
         );
     }
 
-    function renderHeader(): JSX.Element | null {
-        if (!props.webPartTitle) return null;
-
-        let headerClass = '';
-        if (props.showBackgroundBar) {
-            headerClass = props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
-        }
-
-        return (
-            <div className={`${styles.webpartHeader} ${headerClass}`}>
-                <div className={styles.titleContainer}>
-                    <h2 style={{ fontSize: props.webPartTitleFontSize }}>
-                        {props.webPartTitle}
-                    </h2>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className={`${styles.spotlightContainer} ${props.layoutMode === 'compact' ? styles.compact : ''}`}>
             {renderHeader()}
@@ -241,7 +227,6 @@ const EmployeeSpotlight: React.FC<IEmployeeSpotlightProps> = (props) => {
                             type="button"
                             className={`${styles.wpSpotlightArrow} ${styles.left}`}
                             onClick={(e) => { e.preventDefault(); handleSlide(-1); }}
-                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSlide(-1); } }}
                             aria-label="Previous Highlight"
                         >
                             <svg viewBox="0 0 24 24">
@@ -252,7 +237,6 @@ const EmployeeSpotlight: React.FC<IEmployeeSpotlightProps> = (props) => {
                             type="button"
                             className={`${styles.wpSpotlightArrow} ${styles.right}`}
                             onClick={(e) => { e.preventDefault(); handleSlide(1); }}
-                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSlide(1); } }}
                             aria-label="Next Highlight"
                         >
                             <svg viewBox="0 0 24 24">
@@ -262,11 +246,10 @@ const EmployeeSpotlight: React.FC<IEmployeeSpotlightProps> = (props) => {
                         <div className={styles.wpSpotlightDots}>
                             {spotlights.map((_, index) => (
                                 <button
-                                    key={spotlights[index].Id} // use stable ID instead of array index
+                                    key={spotlights[index].Id}
                                     type="button"
                                     className={`${styles.wpSpotlightDot} ${index === currentSlide ? styles.active : ''}`}
                                     onClick={() => goToSlide(index)}
-                                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') goToSlide(index); }}
                                     aria-label={`Go to item ${index + 1}`}
                                 />
                             ))}

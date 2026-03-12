@@ -8,49 +8,83 @@ import styles from './Events.module.scss';
 import { Icon } from '@fluentui/react/lib/Icon';
 
 export interface IEventCardProps {
+  id: string;
   title: string;
   date: Date;
-  imageUrl?: string;
   location?: string;
+  description?: string;
   linkUrl?: string;
+  layout: 'list' | 'grid' | 'compact';
+  onInfoClick?: (event: React.MouseEvent<HTMLElement>, id: string) => void;
 }
 
-export const EventCard: React.FC<IEventCardProps> = ({ title, date, imageUrl, location, linkUrl }) => {
+export const EventCard: React.FC<IEventCardProps> = ({ 
+  id, 
+  title, 
+  date, 
+  location, 
+  description, 
+  linkUrl, 
+  layout, 
+  onInfoClick 
+}) => {
   const day = date.getDate();
   const month = date.toLocaleString('default', { month: 'short' });
-  const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const year = date.getFullYear();
 
-  // Fallback icon name if image missing
-  const cardStyle = imageUrl ? { backgroundImage: `url('${imageUrl}')` } : {};
+  const handleInfoClick = (e: React.MouseEvent<HTMLElement>): void => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onInfoClick) {
+      onInfoClick(e, id);
+    }
+  };
 
-  return (
-    <a
-      href={linkUrl || '#'}
-      className={styles.eventCard}
-      target={linkUrl ? "_blank" : "_self"}
-      rel="noopener noreferrer"
-    >
-      <div className={styles.imageArea} style={cardStyle}>
+  const pinSVG = <Icon iconName="MapPin" className={styles.icon} />;
+  const infoSVG = <Icon iconName="Info" />;
+
+  if (layout === 'list') {
+    return (
+      <div className={styles.eventListItem} onClick={(e) => onInfoClick?.(e, id)}>
         <div className={styles.dateBadge}>
-          <span className={styles.day}>{day}</span>
           <span className={styles.month}>{month}</span>
+          <span className={styles.day}>{day}</span>
+        </div>
+        <div className={styles.listInfo}>
+          <div className={styles.eventListTitle}>{title}</div>
+          <div className={styles.eventListLoc}>{pinSVG} {location || 'No location'}</div>
+        </div>
+        <button className={styles.infoBtn} onClick={handleInfoClick}>{infoSVG}</button>
+      </div>
+    );
+  }
+
+  if (layout === 'grid') {
+    return (
+      <div className={styles.eventCard} onClick={(e) => onInfoClick?.(e, id)}>
+        <div className={styles.cardTop}>
+          <button className={styles.cardInfoBtn} onClick={handleInfoClick}>{infoSVG}</button>
+          <div className={styles.monthLbl}>{month} {year}</div>
+          <div className={styles.dayLbl}>{day}</div>
+        </div>
+        <div className={styles.cardBody}>
+          <div className={styles.cardTitle}>{title}</div>
+          <div className={styles.cardLoc}>{pinSVG} {location || 'No location'}</div>
+          {description && <div className={styles.cardDesc}>{description}</div>}
         </div>
       </div>
-      <div className={styles.contentArea}>
-        <h3 className={styles.title}>{title}</h3>
-        <div className={styles.metaInfo}>
-          <div className={styles.infoItem}>
-            <Icon iconName="Clock" className={styles.icon} />
-            <span>{time}</span>
-          </div>
-          {location && (
-            <div className={styles.infoItem}>
-              <Icon iconName="MapPin" className={styles.icon} />
-              <span>{location}</span>
-            </div>
-          )}
-        </div>
+    );
+  }
+
+  // Compact Layout
+  return (
+    <div className={styles.eventCompactItem} onClick={(e) => onInfoClick?.(e, id)}>
+      <div className={styles.compactPill}>{month} {day}</div>
+      <div className={styles.compactInfo}>
+        <div className={styles.compactTitle}>{title}</div>
+        <div className={styles.compactLoc}>{location || 'No location'}</div>
       </div>
-    </a>
+      <button className={styles.infoBtn} onClick={handleInfoClick}>{infoSVG}</button>
+    </div>
   );
 };

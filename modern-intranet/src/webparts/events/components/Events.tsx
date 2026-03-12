@@ -5,26 +5,18 @@
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-
-const TITLE_STYLE_SOLID = 'solid';
-const TITLE_STYLE_UNDERLINE = 'underline';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
+import { Callout, DirectionalHint } from '@fluentui/react/lib/Callout';
+import { Icon } from '@fluentui/react/lib/Icon';
 import styles from './Events.module.scss';
 import { IEventsProps } from './IEventsProps';
 import { EventCard } from './EventCard';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
-
-interface ISharePointImageMetadata {
-  fileName?: string;
-  serverRelativeUrl?: string;
-  serverUrl?: string;
-  Url?: string;
-}
+import { WebPartHeader } from '../../../common/components/WebPartHeader/WebPartHeader';
 
 interface ISharePointRow {
   Id?: string;
-  FileDirRef?: string;
   [key: string]: string | number | boolean | undefined | null;
 }
 
@@ -32,44 +24,18 @@ interface IEventItem {
   id: string;
   title: string;
   date: Date;
-  imageUrl: string;
   location: string;
+  description: string;
   linkUrl: string;
   pinned: boolean;
 }
 
-const resolveImageObject = (rawValue: string | object): ISharePointImageMetadata | null => {
-  if (typeof rawValue === 'string' && rawValue.startsWith('{')) {
-    try { return JSON.parse(rawValue); } catch { return null; }
-  }
-  return typeof rawValue === 'object' ? rawValue : null;
-};
-
-const getImageUrl = (rowItem: ISharePointRow, imageColumn: string, siteUrl: string, siteId: string, webId: string): string => {
-  const rawValue = rowItem[imageColumn];
-  if (!rawValue) return '';
-
-  const imageObj = resolveImageObject(rawValue as string | object);
-  if (!imageObj) return typeof rawValue === 'string' ? rawValue : '';
-
-  const url = imageObj.serverRelativeUrl || imageObj.serverUrl || imageObj.Url;
-  if (url) {
-    return (!url.startsWith('http') && url.startsWith('/'))
-      ? `${new URL(siteUrl).origin}${url}`
-      : url;
-  }
-
-  if (imageObj.fileName && rowItem.FileDirRef && rowItem.Id) {
-    const origin = new URL(siteUrl).origin;
-    return `${origin}${rowItem.FileDirRef}/Attachments/${rowItem.Id}/${imageObj.fileName}`;
-  }
-
-  return '';
-};
-
 export const Events: React.FC<IEventsProps> = (props) => {
   const [items, setItems] = useState<IEventItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [activePopoverId, setActivePopoverId] = useState<string | null>(null);
+  const [popoverTarget, setPopoverTarget] = useState<HTMLElement | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
     const fetchItems = async (): Promise<void> => {
@@ -87,11 +53,10 @@ export const Events: React.FC<IEventsProps> = (props) => {
           props.dateColumn,
           props.activeColumn,
           props.pinnedColumn,
-          props.imageColumn,
           props.linkColumn,
           props.locationColumn,
-          'Id',
-          'FileDirRef'
+          props.descriptionColumn,
+          'Id'
         ].filter(v => !!v).join(',');
 
         let filter = `${props.dateColumn} ge datetime'${today}'`;
@@ -99,7 +64,8 @@ export const Events: React.FC<IEventsProps> = (props) => {
           filter += ` and ${props.activeColumn} eq 1`;
         }
 
-        const listUrl = `${props.siteUrl}/_api/web/lists(guid'${props.listId}')/items?$select=${selectCols}&$filter=${filter}&$orderby=${props.dateColumn} asc&$top=${props.maxItems}`;
+        const topCount = props.showPagination ? 100 : props.maxItems;
+        const listUrl = `${props.siteUrl}/_api/web/lists(guid'${props.listId}')/items?$select=${selectCols}&$filter=${filter}&$orderby=${props.dateColumn} asc&$top=${topCount}`;
 
         const response: SPHttpClientResponse = await props.context.spHttpClient.get(
           listUrl,
@@ -108,31 +74,31 @@ export const Events: React.FC<IEventsProps> = (props) => {
 
         if (response.ok) {
           const data = await response.json();
-          const formattedItems: IEventItem[] = data.value.map((row: ISharePointRow) => {
-            const imageUrl = props.imageColumn ? getImageUrl(row, props.imageColumn, props.siteUrl, props.siteId, props.webId) : '';
-
+          const formattedItems: IEventItem[] = (data.value || []).map((row: ISharePointRow) => {
             const linkData = props.linkColumn ? row[props.linkColumn] : '';
             let linkUrl = '';
             if (linkData) {
               linkUrl = (linkData as { Url?: string }).Url || String(linkData);
             }
 
+            const rawPinned = props.pinnedColumn ? row[props.pinnedColumn] : null;
+            const isPinned = rawPinned === true || rawPinned === 1 || String(rawPinned).toLowerCase() === 'true' || String(rawPinned) === '1';
+
             return {
               id: String(row.Id),
               title: String(row[props.titleColumn] || ''),
               date: new Date(String(row[props.dateColumn])),
-              imageUrl,
               location: props.locationColumn ? String(row[props.locationColumn] || '') : '',
+              description: props.descriptionColumn ? String(row[props.descriptionColumn] || '') : '',
               linkUrl,
-              pinned: props.pinnedColumn ? !!row[props.pinnedColumn] : false
+              pinned: isPinned
             };
           }).sort((a: IEventItem, b: IEventItem) => {
-            if (a.pinned !== b.pinned) {
-              return a.pinned ? -1 : 1;
-            }
+            if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
             return a.date.getTime() - b.date.getTime();
           });
           setItems(formattedItems);
+          setCurrentPage(1);
         }
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -144,12 +110,22 @@ export const Events: React.FC<IEventsProps> = (props) => {
     fetchItems().catch(err => {
       console.error("Error in fetchItems:", err);
     });
-  }, [props.siteUrl, props.listId, props.titleColumn, props.dateColumn, props.activeColumn, props.pinnedColumn, props.imageColumn, props.linkColumn, props.locationColumn, props.maxItems, props.siteId, props.webId]);
+  }, [props.siteUrl, props.listId, props.titleColumn, props.dateColumn, props.activeColumn, props.pinnedColumn, props.linkColumn, props.locationColumn, props.descriptionColumn, props.maxItems, props.showPagination]);
+
+  const handleInfoClick = (event: React.MouseEvent<HTMLElement>, id: string): void => {
+    setPopoverTarget(event.currentTarget);
+    setActivePopoverId(id);
+  };
+
+  const handlePopoverDismiss = (): void => {
+    setActivePopoverId(null);
+    setPopoverTarget(null);
+  };
 
   if (loading) {
     return (
       <section className={styles.eventsContainer}>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '150px' }}>
           <Spinner size={SpinnerSize.large} label="Loading events..." />
         </div>
       </section>
@@ -165,32 +141,112 @@ export const Events: React.FC<IEventsProps> = (props) => {
           icon="Calendar"
           title="Events - Configuration Required"
           message="Please complete the web part configuration to display events."
-          description="You need to specify the Site URL, List ID, and map the required columns (Title and Date) in the property pane."
+          description="Map the required columns (Title and Date) in the property pane."
         />
       </section>
     );
   }
 
-  const getHeaderClass = (): string => {
-    if (!props.showBackgroundBar) return '';
-    return props.titleBarStyle === TITLE_STYLE_SOLID ? styles.solidBackground : styles.underlineBackground;
+  const renderHeader = (): JSX.Element | null => {
+    return (
+      <WebPartHeader
+        title={props.title}
+        showTitle={props.showTitle}
+        showBackgroundBar={props.showBackgroundBar}
+        titleBarStyle={props.titleBarStyle}
+        actionTitle={props.showViewAll ? "View All" : undefined}
+        actionUrl={props.viewAllUrl}
+      />
+    );
   };
 
-  const renderHeader = (): JSX.Element | null => {
-    if (!props.title && !props.viewAllUrl) return null;
+  const renderPopover = (): JSX.Element | null => {
+    if (!activePopoverId || !popoverTarget) return null;
+
+    const item = items.find(i => i.id === activePopoverId);
+    if (!item) return null;
+
+    const day = item.date.getDate();
+    const month = item.date.toLocaleString('default', { month: 'short' });
+    const year = item.date.getFullYear();
+    const fullDate = item.date.toLocaleDateString('default', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const time = item.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     return (
-      <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
-        {props.showTitle && props.title && (
-          <div className={styles.titleContainer}>
-            <h2>{props.title}</h2>
+      <Callout
+        target={popoverTarget}
+        onDismiss={handlePopoverDismiss}
+        setInitialFocus
+        directionalHint={DirectionalHint.rightTopEdge}
+        isBeakVisible={true}
+        beakWidth={10}
+        gapSpace={10}
+        layerProps={{ eventBubblingEnabled: true }}
+      >
+        <div className={styles.popover}>
+          <div className={styles.popTop}>
+            <div className={styles.popDateLbl}>{month} {day}, {year}</div>
+            <div className={styles.popTitle}>{item.title}</div>
           </div>
-        )}
-        {props.showViewAll && props.viewAllUrl && (
-          <a href={props.viewAllUrl} className={styles.viewAll} target="_blank" rel="noopener noreferrer">
-            View All
-          </a>
-        )}
+          <div className={styles.popBody}>
+            <div className={styles.popRow}>
+              <Icon iconName="MapPin" className={styles.icon} />
+              <div className={styles.rowContent}>
+                <strong>Location</strong>
+                <span>{item.location || 'No location provided'}</span>
+              </div>
+            </div>
+            <div className={styles.popRow}>
+              <Icon iconName="Calendar" className={styles.icon} />
+              <div className={styles.rowContent}>
+                <strong>Date & Time</strong>
+                <span>{fullDate} at {time}</span>
+              </div>
+            </div>
+            {item.description && (
+              <div className={styles.popRow}>
+                <Icon iconName="Info" className={styles.icon} />
+                <div className={styles.rowContent}>
+                  <strong>Description</strong>
+                  <span>{item.description}</span>
+                </div>
+              </div>
+            )}
+            {item.linkUrl && (
+              <a href={item.linkUrl} target="_blank" rel="noopener noreferrer" className={styles.popoverLink}>
+                View Event Details
+              </a>
+            )}
+          </div>
+        </div>
+      </Callout>
+    );
+  };
+
+  const renderPagination = (totalPages: number): JSX.Element | null => {
+    if (!props.showPagination || totalPages <= 1) return null;
+
+    return (
+      <div className={styles.pagination}>
+        <button 
+          className={styles.pageBtn} 
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          type="button"
+        >
+          <Icon iconName="ChevronLeft" />
+        </button>
+        <span className={styles.pageInfo}>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button 
+          className={styles.pageBtn} 
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          type="button"
+        >
+          <Icon iconName="ChevronRight" />
+        </button>
       </div>
     );
   };
@@ -202,39 +258,85 @@ export const Events: React.FC<IEventsProps> = (props) => {
           icon="Calendar"
           title="No Upcoming Events"
           message="There are no upcoming events to display."
-          description="Check your SharePoint list for future events or verify your filter settings."
         />
       );
     }
 
-    const itemsPerRow = props.itemsPerRow || 3;
-    const columnsClass = styles[`cols${itemsPerRow}` as keyof typeof styles] || '';
+    const maxItems = props.maxItems || 6;
+    const totalPages = Math.ceil(items.length / maxItems);
+    
+    const currentItems = props.showPagination 
+      ? items.slice((currentPage - 1) * maxItems, currentPage * maxItems)
+      : items;
+
+    const layout = props.layout || 'grid';
+    
+    let content: JSX.Element;
+
+    if (layout === 'list') {
+      content = (
+        <div className={styles.eventsList}>
+          {currentItems.map(item => (
+            <EventCard
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              date={item.date}
+              location={item.location}
+              description={item.description}
+              linkUrl={item.linkUrl}
+              layout="list"
+              onInfoClick={handleInfoClick}
+            />
+          ))}
+        </div>
+      );
+    } else if (layout === 'compact') {
+      content = (
+        <div className={styles.eventsCompact}>
+          {currentItems.map(item => (
+            <EventCard
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              date={item.date}
+              location={item.location}
+              description={item.description}
+              linkUrl={item.linkUrl}
+              layout="compact"
+              onInfoClick={handleInfoClick}
+            />
+          ))}
+        </div>
+      );
+    } else {
+      const itemsPerRow = props.itemsPerRow || 3;
+      const gridClasses = `${styles.eventsGrid} ${styles[`cols${itemsPerRow}` as keyof typeof styles] || ''}`;
+
+      content = (
+        <div className={gridClasses}>
+          {currentItems.map(item => (
+            <EventCard
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              date={item.date}
+              location={item.location}
+              description={item.description}
+              linkUrl={item.linkUrl}
+              layout="grid"
+              onInfoClick={handleInfoClick}
+            />
+          ))}
+        </div>
+      );
+    }
 
     return (
-      <div className={`${styles.eventsGrid} ${columnsClass}`}>
-        {items.map(item => {
-          let colSize = 3;
-          if (itemsPerRow === 2) {
-            colSize = 6;
-          } else if (itemsPerRow === 3) {
-            colSize = 4;
-          }
-
-          const colClass = `ms-sm12 ms-md${colSize} ms-lg${colSize}`;
-          const containerClass = `${styles.wpEventsCol} ${colClass}`;
-          return (
-            <div key={item.id} className={containerClass}>
-              <EventCard
-                title={item.title}
-                date={item.date}
-                imageUrl={item.imageUrl}
-                location={item.location}
-                linkUrl={item.linkUrl}
-              />
-            </div>
-          );
-        })}
-      </div>
+      <>
+        {content}
+        {renderPagination(totalPages)}
+      </>
     );
   };
 
@@ -242,6 +344,7 @@ export const Events: React.FC<IEventsProps> = (props) => {
     <section className={styles.eventsContainer}>
       {renderHeader()}
       {renderEvents()}
+      {renderPopover()}
     </section>
   );
 };

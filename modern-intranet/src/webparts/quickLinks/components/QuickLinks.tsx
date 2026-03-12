@@ -10,6 +10,7 @@ import { LinkTile } from './LinkTile';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
 import styles from './QuickLinks.module.scss';
 import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
+import { WebPartHeader } from '../../../common/components/WebPartHeader/WebPartHeader';
 
 interface ISharePointLinkValue {
     Url?: string;
@@ -110,6 +111,15 @@ export const QuickLinks: React.FC<IQuickLinksProps> = (props) => {
 
     const isConfigured = props.siteUrl && props.listId && props.titleColumn && props.linkColumn;
 
+    const renderHeader = (): JSX.Element => (
+        <WebPartHeader
+            title={props.title || ''}
+            showTitle={!!props.showTitle}
+            showBackgroundBar={!!props.showBackgroundBar}
+            titleBarStyle={props.titleBarStyle || 'underline'}
+        />
+    );
+
     if (!isConfigured) {
         return (
             <div className={styles.quickLinks}>
@@ -126,19 +136,16 @@ export const QuickLinks: React.FC<IQuickLinksProps> = (props) => {
     if (error) {
         return (
             <div className={styles.quickLinks}>
+                {renderHeader()}
                 <EmptyState icon="Error" message={error} />
             </div>
         );
     }
 
-    const getHeaderClass = (): string => {
-        if (!props.showBackgroundBar) return '';
-        return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
-    };
-
     if (loading) {
         return (
             <div className={styles.quickLinks}>
+                {renderHeader()}
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
                     <Spinner size={SpinnerSize.large} label="Loading links..." />
                 </div>
@@ -149,6 +156,7 @@ export const QuickLinks: React.FC<IQuickLinksProps> = (props) => {
     if (items.length === 0) {
         return (
             <div className={styles.quickLinks}>
+                {renderHeader()}
                 <EmptyState
                     icon="SearchIssue"
                     title="No Quick Links Found"
@@ -170,13 +178,7 @@ export const QuickLinks: React.FC<IQuickLinksProps> = (props) => {
 
     return (
         <div className={styles.quickLinks}>
-            {props.showTitle && props.title && (
-                <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
-                    <div className={styles.titleContainer}>
-                        <h2>{props.title}</h2>
-                    </div>
-                </div>
-            )}
+            {renderHeader()}
             <div className={`${styles.grid} ${columnsClass}`}>
                 {items.map(item => (
                     <LinkTile

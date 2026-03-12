@@ -19,6 +19,8 @@ import { TopTabs } from './TopTabs';
 import { DataTable } from './DataTable';
 import { IDocument } from '../../../common/models';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
+import { WebPartHeader } from '../../../common/components/WebPartHeader/WebPartHeader';
+import { BUILD_ID } from '../../../common/version';
 
 export const ModernDocumentViewer: React.FunctionComponent<IModernDocumentViewerProps> = (props) => {
     const {
@@ -31,8 +33,8 @@ export const ModernDocumentViewer: React.FunctionComponent<IModernDocumentViewer
         pinnedField,
         enableSubCategory,
         categoryDisplayType,
-        webPartTitle,
-        webPartTitleFontSize,
+        title,
+        showTitle,
         webPartDescription,
         webPartDescriptionFontSize,
         pageSize
@@ -69,6 +71,7 @@ export const ModernDocumentViewer: React.FunctionComponent<IModernDocumentViewer
                     pinnedField
                 );
 
+                console.log(`ModernDocumentViewer: Fetched ${docs.length} documents. Sample Category: ${docs[0]?.Category}`);
                 setItems(docs);
 
                 const docsCopy = [...docs];
@@ -112,6 +115,17 @@ export const ModernDocumentViewer: React.FunctionComponent<IModernDocumentViewer
         setFilteredItems(filtered);
     }, [items, selectedCategory, selectedSubCategory, searchText]);
 
+    const renderHeader = (): JSX.Element => (
+        <WebPartHeader
+            title={title || ''}
+            showTitle={showTitle}
+            showBackgroundBar={!!props.showBackgroundBar}
+            titleBarStyle={props.titleBarStyle || 'underline'}
+            description={webPartDescription}
+            descriptionFontSize={webPartDescriptionFontSize}
+        />
+    );
+
     if (!listId) {
         return (
             <section className={styles.documentListingV2}>
@@ -125,29 +139,14 @@ export const ModernDocumentViewer: React.FunctionComponent<IModernDocumentViewer
         );
     }
 
-    const getHeaderClass = (): string => {
-        if (!props.showBackgroundBar) return '';
-        return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
-    };
-
     return (
         <div className={styles.documentListingV2}>
-            {(webPartTitle || webPartDescription) && (
-                <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
-                    <div className={styles.titleContainer}>
-                        {webPartTitle && (
-                            <h2 style={{ fontSize: webPartTitleFontSize }}>
-                                {webPartTitle}
-                            </h2>
-                        )}
-                    </div>
-                    {webPartDescription && (
-                        <div className={styles.headerDescription} style={{ fontSize: webPartDescriptionFontSize }}>
-                            {webPartDescription}
-                        </div>
-                    )}
-                </div>
-            )}
+            {/* Build Version Indicator (Definitive verification) */}
+            <div style={{ fontSize: '9px', color: '#999', textAlign: 'right', padding: '2px 10px', background: '#f4f4f4', borderBottom: '1px solid #eee' }}>
+                Version: {BUILD_ID}
+            </div>
+
+            {renderHeader()}
 
             {loading && (
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>

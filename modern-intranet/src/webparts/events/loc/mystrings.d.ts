@@ -16,17 +16,19 @@ declare interface IEventsWebPartStrings {
   ImageColumnFieldLabel: string;
   LinkColumnFieldLabel: string;
   LocationColumnFieldLabel: string;
+  DescriptionColumnFieldLabel: string;
   PinnedColumnFieldLabel: string;
   MaxItemsFieldLabel: string;
   ItemsPerRowFieldLabel: string;
   ShowViewAllFieldLabel: string;
   ViewAllUrlFieldLabel: string;
-  TitleFieldLabel: string;
   ShowTitleFieldLabel: string;
+  TitleFieldLabel: string;
   ShowBackgroundBarFieldLabel: string;
   TitleBarStyleFieldLabel: string;
   TitleBarStyleSolidOption: string;
   TitleBarStyleUnderlineOption: string;
+  ShowPaginationFieldLabel: string;
 }
 
 declare module 'EventsWebPartStrings' {

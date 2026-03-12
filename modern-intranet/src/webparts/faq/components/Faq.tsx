@@ -6,6 +6,7 @@ import { Spinner, SpinnerSize } from '@fluentui/react';
 import FaqAccordion from './FaqAccordion';
 import { ThemeService } from '../../../common/services/ThemeService';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
+import { WebPartHeader } from '../../../common/components/WebPartHeader/WebPartHeader';
 
 const Faq: React.FC<IFaqProps> = (props) => {
     const [items, setItems] = React.useState<IFaqItem[]>([]);
@@ -118,22 +119,14 @@ const Faq: React.FC<IFaqProps> = (props) => {
         });
     };
 
-    const getHeaderClass = (): string => {
-        if (!props.showBackgroundBar) return '';
-        return props.titleBarStyle === 'solid' ? styles.solidBackground : styles.underlineBackground;
-    };
-
-    const renderHeader = (): JSX.Element | null => {
-        if (!props.showTitle || !props.title) return null;
-
-        return (
-            <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
-                <div className={styles.titleContainer}>
-                    <h2>{props.title}</h2>
-                </div>
-            </div>
-        );
-    };
+    const renderHeader = (): JSX.Element => (
+        <WebPartHeader
+            title={props.title || ''}
+            showTitle={!!props.showTitle}
+            showBackgroundBar={!!props.showBackgroundBar}
+            titleBarStyle={props.titleBarStyle || 'underline'}
+        />
+    );
 
     if (loading) {
         return <Spinner size={SpinnerSize.large} label="Loading FAQs..." />;

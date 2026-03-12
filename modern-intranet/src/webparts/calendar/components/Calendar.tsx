@@ -11,14 +11,12 @@ import { useCalendarNavigation } from './useCalendarNavigation';
 import { CalendarService } from './CalendarService';
 import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 import { EmptyState } from '../../../common/components/EmptyState/EmptyState';
+import { WebPartHeader } from '../../../common/components/WebPartHeader/WebPartHeader';
 
 import CalendarMonthView from './CalendarMonthView';
 import CalendarDayView from './CalendarDayView';
 import CalendarWeekView from './CalendarWeekView';
 import CalendarYearView from './CalendarYearView';
-
-const TITLE_STYLE_SOLID = 'solid';
-const TITLE_STYLE_UNDERLINE = 'underline';
 
 export const Calendar: React.FC<ICalendarProps> = (props) => {
     const {
@@ -74,10 +72,14 @@ export const Calendar: React.FC<ICalendarProps> = (props) => {
         fetchEvents().catch(console.error);
     }, [fetchEvents]);
 
-    const getHeaderClass = (): string => {
-        if (!showBackgroundBar) return '';
-        return titleBarStyle === TITLE_STYLE_SOLID ? styles.solidBackground : styles.underlineBackground;
-    };
+    const renderHeader = (): JSX.Element => (
+        <WebPartHeader
+            title={title || ''}
+            showTitle={!!showTitle}
+            showBackgroundBar={!!showBackgroundBar}
+            titleBarStyle={titleBarStyle || 'underline'}
+        />
+    );
 
     const renderView = (): JSX.Element => {
         const viewProps = { currentDate, events, loading, yearViewType };
@@ -106,13 +108,7 @@ export const Calendar: React.FC<ICalendarProps> = (props) => {
     if (loading) {
         return (
             <div className={styles.calendar}>
-                {showTitle && title && (
-                    <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
-                        <div className={styles.titleContainer}>
-                            <h2>{title}</h2>
-                        </div>
-                    </div>
-                )}
+                {renderHeader()}
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
                     <Spinner size={SpinnerSize.large} label="Loading calendar events..." />
                 </div>
@@ -122,13 +118,7 @@ export const Calendar: React.FC<ICalendarProps> = (props) => {
 
     return (
         <div className={styles.calendar}>
-            {showTitle && title && (
-                <div className={`${styles.webpartHeader} ${getHeaderClass()}`}>
-                    <div className={styles.titleContainer}>
-                        <h2>{title}</h2>
-                    </div>
-                </div>
-            )}
+            {renderHeader()}
             <CalendarHeader
                 currentDate={currentDate}
                 view={view}
