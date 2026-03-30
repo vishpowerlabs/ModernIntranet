@@ -1,5 +1,13 @@
 # Mockups
-intranet-webparts-mockup.html
+*.html
+
+# Scripts
+*.ps1
+
+# Markdown files
+*.md
+!README.md
+!modern-intranet/README.md
 
 # OSX
 .DS_Store
