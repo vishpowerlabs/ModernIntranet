@@ -1,6 +1,8 @@
 # 🚀 Modern Intranet Kit — SPFx Web Parts
 
-Build a high-impact, modern intranet experience in SharePoint using a **modular SPFx web part suite** designed for performance, scalability, and seamless Microsoft 365 integration. If you find this useful star this repo
+Modern intranet experience in SharePoint using a **modular SPFx web part suite** designed for performance, scalability, and seamless Microsoft 365 integration. 
+
+👉 **Dont Just download , leave feedback or star and give suggestion for new features in the discussion:**  
 
 👉 **Full details, demo & setup:**  
 https://www.wrvishnu.com/sharepoint-framework-intranet-web-parts/
@@ -23,17 +25,7 @@ Designed for real-world enterprise use, it enables teams to create engaging, bra
 - 🔗 **Cross-Site Data** — Aggregate content across your tenant  
 - 📌 **Smart Content Prioritisation** — Highlight important updates with built-in logic  
 
----
 
-## 🛠️ Tech Stack
-
-- **SPFx** 1.22  
-- **React** 17 + TypeScript  
-- **Fluent UI**  
-- **Microsoft Graph + SharePoint REST API**  
-- **Node.js + Heft + Webpack**  
-
----
 
 ## 💡 Why It Matters
 
@@ -43,7 +35,7 @@ This kit helps standardise intranet experiences while giving content authors **f
 
 ## 🔗 Explore More
 
-👉 See full breakdown of web parts, architecture, and implementation:  
+👉 More details check out the blog :  
 https://www.wrvishnu.com/sharepoint-framework-intranet-web-parts/
 
 ---
